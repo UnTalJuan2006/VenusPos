@@ -1,0 +1,991 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VenusMascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Index.css">
+</head>
+
+<style>
+    nav ul li a {
+        text-decoration: none !important;
+        color: inherit !important;
+    }
+</style>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="Admin/Login.html" class="logo-wrap">
+                <div class="logo-circle">
+                    <img src="img/logoVenus.png" alt="Logo Venus Mascotas">
+                </div>
+            </a>
+            <nav>
+                <ul>
+                    <li class="active"><a href="Index.html">Inicio</a></li>
+                    <li><a href="QuienesSomos.html">Quiénes Somos</a></li>
+                    <li><a href="Servicios.html">Servicios</a></li>
+                    <li>Instalaciónes</li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="#citas" class="btn-header-primary">Agenda tu Cita</a>
+                <a href="#contacto" class="btn-header-link">Contacto</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- INICIO -->
+    <section id="inicio" class="hero-section">
+        <div class="hero-inner">
+            <div class="hero-left anim-left">
+                <div class="badge anim-up anim-delay-1">
+                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--purple)">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35" />
+                    </svg>
+                    Spa Canino Profesional
+                </div>
+                <h1 class="hero-title">
+                    <span class="t-purple">Cuidado</span>
+                    <span class="t-purple">Premium</span>
+                    <span class="t-dark">para tu Mejor</span>
+                    <span class="t-purple">Amigo</span>
+                </h1>
+                <p class="hero-desc">En VenusMascotas brindamos servicios profesionales de spa y baño para perros con productos premium, atención personalizada y todo el amor que tu mascota merece.</p>
+                <div class="hero-cta">
+                    <a href="#citas" class="btn-cta-primary">
+                        Agenda Ahora
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <path d="M16 2v4M8 2v4M3 10h18" />
+                        </svg>
+                    </a>
+                    <a href="#servicios" class="btn-cta-outline">
+                        Ver Servicios
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path d="M12 5v14M5 12l7 7 7-7" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div><div class="stat-num">+500</div><div class="stat-label">Clientes Felices</div></div>
+                    <div><div class="stat-num">100%</div><div class="stat-label">Productos Premium</div></div>
+                    <div><div class="stat-num">5★</div><div class="stat-label">Calificación</div></div>
+                </div>
+            </div>
+            <div class="hero-right anim-right">
+                <div class="hero-img-container">
+                    <img src="img/KiraBañada.png" alt="Inicio">
+                    <div class="float-badge-tr">
+                        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        Profesionales<br>Certificados
+                    </div>
+                    <div class="float-badge-bl">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                        Amor y Cuidado
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIÉNES SOMOS -->
+    <section id="quienes-somos" class="about-section">
+        <div class="about-inner">
+            <div class="about-images anim-left">
+                <span class="paw-deco paw-tl">🐾</span>
+                <span class="paw-deco paw-br">🐾</span>
+                <div class="about-img-back"><img src="img/Atendinedo.jpeg" alt="Perro siendo atendido"></div>
+                <div class="about-img-mid"><img src="img/spa.jpeg" alt="Perro feliz"></div>
+                <div class="about-img-front"><img src="img/pug.jpeg" alt="Perro en spa"></div>
+                <div class="about-year-badge">
+                    <span class="year-label">Desde</span>
+                    <span class="year-num">2020</span>
+                </div>
+            </div>
+            <div class="about-content anim-right">
+                <div class="badge">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--purple)">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    Nuestra Historia
+                </div>
+                <h2 class="about-title">Amor y<br>Profesionalismo</h2>
+                <div class="about-title-line"></div>
+                <p class="about-desc">En <strong>VenusMascotas</strong>, nacimos del amor profundo por los animales y la pasión por brindarles el mejor cuidado posible. Desde 2020, nos hemos dedicado a ofrecer servicios profesionales de spa canino con los más altos estándares de calidad.</p>
+                <p class="about-desc">Nuestro equipo está conformado por profesionales certificados que entienden las necesidades únicas de cada mascota. Utilizamos productos premium especialmente formulados para el cuidado de la piel y el pelaje de tu mejor amigo.</p>
+                <p class="about-desc">Creemos que cada perro merece ser tratado con amor, respeto y dedicación. Por eso, cada servicio que ofrecemos está diseñado para garantizar no solo la higiene, sino también el bienestar y la felicidad de tu mascota.</p>
+                <div class="about-values">
+                    <div class="value-item">
+                        <div class="value-icon value-icon--heart">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                        </div>
+                        <div><p class="value-title">Amor por los Animales</p><p class="value-desc">Tratamos a cada mascota como si fuera nuestra, con cariño y paciencia.</p></div>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon value-icon--shield">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        </div>
+                        <div><p class="value-title">Profesionalismo</p><p class="value-desc">Equipo certificado con años de experiencia en cuidado canino.</p></div>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon value-icon--star">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                        </div>
+                        <div><p class="value-title">Productos Premium</p><p class="value-desc">Utilizamos solo los mejores productos para el cuidado de tu mascota.</p></div>
+                    </div>
+                </div>
+                <a href="#" class="about-link">
+                    Conoce más sobre nosotros
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios" class="services-section">
+        <div class="services-inner">
+
+            <div class="services-header anim-up">
+                <div class="badge">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--purple)">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    Servicios Premium
+                </div>
+                <h2 class="services-title">Todo lo que tu Mascota<br>Necesita</h2>
+                <p class="services-subtitle">Ofrecemos un servicio completo de spa canino con atención<br>personalizada y productos de la más alta calidad</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card anim-up anim-delay-1">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #38bdf8, #0ea5e9);">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                    </div>
+                    <h3 class="service-name">Limpieza Dental</h3>
+                    <p class="service-desc">Cuidado completo de la salud bucal de tu mascota</p>
+                </div>
+                <div class="service-card anim-up anim-delay-2">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #a78bfa, #8B3CF7);">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4M12 4a7 7 0 017 7" /></svg>
+                    </div>
+                    <h3 class="service-name">Limpieza de Oídos</h3>
+                    <p class="service-desc">Higiene profunda y prevención de infecciones</p>
+                </div>
+                <div class="service-card anim-up anim-delay-3">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #c084fc, #8B3CF7);">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 0L4 4m5.121 5.121L4 14.243" /></svg>
+                    </div>
+                    <h3 class="service-name">Corte de Uñas</h3>
+                    <p class="service-desc">Corte profesional y seguro para su comodidad</p>
+                </div>
+                <div class="service-card anim-up anim-delay-4">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #22d3ee, #0891b2);">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                    </div>
+                    <h3 class="service-name">Champú Desengrasante</h3>
+                    <p class="service-desc">Eliminación profunda de suciedad y grasa</p>
+                </div>
+                <div class="service-card anim-up anim-delay-5">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #38bdf8, #6366f1);">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                    </div>
+                    <h3 class="service-name">Champú Hidratante</h3>
+                    <p class="service-desc">Hidratación profunda para un pelaje saludable</p>
+                </div>
+                <div class="service-card anim-up anim-delay-6">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #8B3CF7, #6D28D9);">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.78 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                    </div>
+                    <h3 class="service-name">Perfume</h3>
+                    <p class="service-desc">Fragancias suaves y seguras para mascotas</p>
+                </div>
+                <div class="service-card anim-up anim-delay-1">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #f472b6, #c084fc);">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M12 8v13m0-13V6a4 4 0 014-4h1M12 8H5.5a2.5 2.5 0 000 5H12m0-5h6.5a2.5 2.5 0 010 5H12" /></svg>
+                    </div>
+                    <h3 class="service-name">Accesorios</h3>
+                    <p class="service-desc">Pañoleta o moños para lucir hermoso</p>
+                </div>
+                <div class="service-card anim-up anim-delay-2">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #2dd4bf, #0d9488);">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    </div>
+                    <h3 class="service-name">Baño Completo</h3>
+                    <p class="service-desc">Servicio integral con todos los cuidados</p>
+                </div>
+            </div>
+
+            <!-- TARJETA TRANSPORTE -->
+            <div class="transport-card anim-up anim-delay-1">
+
+                <!-- Imagen izquierda -->
+                <div class="transport-img">
+                    <!-- Reemplaza con: <img src="img/transporte.jpg" alt="Transporte de mascotas"> -->
+                </div>
+
+                <!-- Contenido derecho -->
+                <div class="transport-content">
+
+                    <div class="badge badge--white">
+                        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                            <path d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2 1h8zM13 6h2l3 5v4h-5V6z" />
+                        </svg>
+                        Servicio Adicional
+                    </div>
+
+                    <h2 class="transport-title">Recogemos y Llevamos a<br>tu Peludo</h2>
+
+                    <p class="transport-desc">¿No tienes tiempo? No te preocupes. Nosotros recogemos a tu mascota en tu domicilio y la llevamos de vuelta después del servicio, completamente consentida y hermosa.</p>
+
+                    <ul class="transport-list">
+                        <li>
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            Transporte seguro y cómodo para tu mascota
+                        </li>
+                        <li>
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            Personal capacitado en manejo de mascotas
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <!-- Botón centrado -->
+            <div class="button-services">
+                <a href="#servicios" class="btn-cta-outline">
+                    Ver todos los Servicios
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INSTALACIONES -->
+    <section id="instalaciones" class="installations-section">
+        <div class="installations-inner">
+
+            <div class="installations-header anim-up">
+                <div class="badge">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--purple)">
+                        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    Nuestras Instalaciones
+                </div>
+                <h2 class="installations-title">Espacios Diseñados para el <span class="t-purple-inline">Bienestar</span></h2>
+                <p class="services-subtitle">Contamos con instalaciones comodas y herramientas profesionales<br> para garantizar la comodidad y seguridad de tu mascota</p>
+            </div>
+
+            <div class="installations-grid">
+
+                <div class="install-card anim-left anim-delay-1">
+                    <div class="install-img">
+                        <img src="img/bano-spa.jpg" alt="Área de Baño y Spa">
+                        <div class="install-icon" style="background: linear-gradient(135deg, #38bdf8, #0ea5e9);">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
+                                <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="install-body">
+                        <h3 class="install-title">Área de Baño y Spa</h3>
+                        <p class="install-desc">Tinas amplias con temperatura controlada para la comodidad, asegurando el máximo confort de tu mascota.</p>
+                    </div>
+                </div>
+
+                <div class="install-card anim-right anim-delay-2">
+                    <div class="install-img">
+                        <img src="img/secado.jpg" alt="Zona de Secado">
+                        <div class="install-icon" style="background: linear-gradient(135deg, #8B3CF7, #6D28D9);">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
+                                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="install-body">
+                        <h3 class="install-title">Zona de Secado</h3>
+                        <p class="install-desc">Equipos de secado profesional que cuidan el pelaje de tu peludito.</p>
+                    </div>
+                </div>
+
+                <div class="install-card anim-left anim-delay-3">
+                    <div class="install-img">
+                        <img src="img/estilizado.jpg" alt="Sala de Estilizado">
+                        <div class="install-icon" style="background: linear-gradient(135deg, #c084fc, #8B3CF7);">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
+                                <path d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 0L4 4m5.121 5.121L4 14.243" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="install-body">
+                        <h3 class="install-title">Sala de Estilizado</h3>
+                        <p class="install-desc">Mesas ergonómicas y herramientas profesionales para cortes precisos y estilizados personalizados.</p>
+                    </div>
+                </div>
+
+                <div class="install-card anim-right anim-delay-4">
+                    <div class="install-img">
+                        <img src="img/espera.jpg" alt="Área de Espera">
+                        <div class="install-icon" style="background: linear-gradient(135deg, #f472b6, #c084fc);">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
+                                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="install-body">
+                        <h3 class="install-title">Área de Espera</h3>
+                        <p class="install-desc"></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CARACTERÍSTICAS DE INSTALACIONES -->
+            <div class="features-wrapper anim-up">
+                <h3 class="features-title">Características de Nuestras Instalaciones</h3>
+                <div class="features-grid">
+
+                    <div class="feature-item">
+                        <div class="feature-icon" style="background: rgba(139,60,247,0.10); color: var(--purple);">
+                            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="feature-name">Seguridad Total</p>
+                            <p class="feature-desc">Áreas monitoreadas y protocolos de seguridad estrictos</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon" style="background: rgba(56,189,248,0.10); color: #0ea5e9;">
+                            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="feature-name">Clima Controlado</p>
+                            <p class="feature-desc">Temperatura y ventilación óptimas todo el año</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon" style="background: rgba(16,185,129,0.10); color: #10b981;">
+                            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="feature-name">Higiene Impecable</p>
+                            <p class="feature-desc">Limpieza y desinfección constante de todas las áreas</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon" style="background: rgba(244,114,182,0.10); color: #f472b6;">
+                            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="feature-name">Ambiente Relajante</p>
+                            <p class="feature-desc">Música suave y aromaterapia para reducir el estrés</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon" style="background: rgba(245,158,11,0.10); color: #f59e0b;">
+                            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 0L4 4m5.121 5.121L4 14.243" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="feature-name">Equipos Profesionales</p>
+                            <p class="feature-desc">Herramientas modernas , de las mas aptas condiciones</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon" style="background: rgba(99,102,241,0.10); color: #6366f1;">
+                            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="feature-name">Accesibilidad</p>
+                            <p class="feature-desc">Instalaciones accesibles para todas las mascotas</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CTA Visítanos -->
+            <div class="features-cta anim-up anim-delay-2">
+                <p class="features-cta-text">¿Quieres conocer nuestras instalaciones en persona?</p>
+                <a href="#contacto" class="btn-visitanos">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Visítanos
+                </a>
+            </div>
+
+        </div>
+    </section>
+    <section id="transformaciones" class="beforeafter-section">
+        <div class="beforeafter-inner">
+
+            <!-- Encabezado -->
+            <div class="beforeafter-header anim-up">
+                <div class="badge">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--purple)">
+                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Transformaciones
+                </div>
+                <h2 class="beforeafter-title">Antes y <span class="t-purple-inline">Después</span></h2>
+                <p class="services-subtitle">Mira las increíbles transformaciones de nuestros clientes peludos. Cada<br>uno recibe un tratamiento personalizado con amor y profesionalismo.</p>
+            </div>
+
+            <!-- Slider principal -->
+            <div class="ba-slider-wrapper anim-up anim-delay-2">
+                <button class="ba-arrow ba-arrow--prev" id="baPrev">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M15 19l-7-7 7-7" /></svg>
+                </button>
+
+                <div class="ba-slides" id="baSlides">
+
+                    <!-- Slide 1 — Max -->
+                    <div class="ba-slide active">
+                        <div class="ba-compare" id="baCompare0">
+                            <div class="ba-before">
+                                <img src="img/max-antes.jpg" alt="Max antes">
+                                <span class="ba-label ba-label--before">● ANTES</span>
+                                <span class="ba-caption">Pelaje enredado y sucio</span>
+                            </div>
+                            <div class="ba-after">
+                                <img src="img/max-despues.jpg" alt="Max después">
+                                <span class="ba-label ba-label--after">DESPUÉS</span>
+                                <span class="ba-caption">¡Limpio, feliz y hermoso!</span>
+                            </div>
+                            <div class="ba-divider" id="baDivider0">
+                                <div class="ba-handle">
+                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M8 7l-4 5 4 5M16 7l4 5-4 5" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ba-pet-info">
+                            <div class="ba-pet-avatar" style="background: linear-gradient(135deg, #c084fc, #8B3CF7);">
+                                <svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                            </div>
+                            <div>
+                                <p class="ba-pet-name">Max</p>
+                                <p class="ba-pet-breed">Golden Retriever</p>
+                            </div>
+                            <div class="ba-services">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z" /></svg>
+                                Baño Completo + Corte
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 — Susie -->
+                    <div class="ba-slide">
+                        <div class="ba-compare" id="baCompare1">
+                            <div class="ba-before">
+                                <img src="img/susie-antes.jpg" alt="Susie antes">
+                                <span class="ba-label ba-label--before">● ANTES</span>
+                                <span class="ba-caption">Pelaje opaco y sin vida</span>
+                            </div>
+                            <div class="ba-after">
+                                <img src="img/susie-despues.jpg" alt="Susie después">
+                                <span class="ba-label ba-label--after">DESPUÉS</span>
+                                <span class="ba-caption">¡Brillante y adorable!</span>
+                            </div>
+                            <div class="ba-divider" id="baDivider1">
+                                <div class="ba-handle">
+                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M8 7l-4 5 4 5M16 7l4 5-4 5" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ba-pet-info">
+                            <div class="ba-pet-avatar" style="background: linear-gradient(135deg, #f472b6, #c084fc);">
+                                <svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                            </div>
+                            <div>
+                                <p class="ba-pet-name">Susie</p>
+                                <p class="ba-pet-breed">Maltés</p>
+                            </div>
+                            <div class="ba-services">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z" /></svg>
+                                Baño + Champú Hidratante
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 — Rocky -->
+                    <div class="ba-slide">
+                        <div class="ba-compare" id="baCompare2">
+                            <div class="ba-before">
+                                <img src="img/rocky-antes.jpg" alt="Rocky antes">
+                                <span class="ba-label ba-label--before">● ANTES</span>
+                                <span class="ba-caption">Muy sucio tras el parque</span>
+                            </div>
+                            <div class="ba-after">
+                                <img src="img/rocky-despues.jpg" alt="Rocky después">
+                                <span class="ba-label ba-label--after">DESPUÉS</span>
+                                <span class="ba-caption">¡Listo para presumir!</span>
+                            </div>
+                            <div class="ba-divider" id="baDivider2">
+                                <div class="ba-handle">
+                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M8 7l-4 5 4 5M16 7l4 5-4 5" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ba-pet-info">
+                            <div class="ba-pet-avatar" style="background: linear-gradient(135deg, #38bdf8, #0ea5e9);">
+                                <svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                            </div>
+                            <div>
+                                <p class="ba-pet-name">Rocky</p>
+                                <p class="ba-pet-breed">Bulldog Francés</p>
+                            </div>
+                            <div class="ba-services">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z" /></svg>
+                                Baño Completo + Perfume
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4 — Cuca -->
+                    <div class="ba-slide">
+                        <div class="ba-compare" id="baCompare3">
+                            <div class="ba-before">
+                                <img src="img/cuca-antes.jpg" alt="Cuca antes">
+                                <span class="ba-label ba-label--before">● ANTES</span>
+                                <span class="ba-caption">Uñas largas y pelaje sucio</span>
+                            </div>
+                            <div class="ba-after">
+                                <img src="img/cuca-despues.jpg" alt="Cuca después">
+                                <span class="ba-label ba-label--after">DESPUÉS</span>
+                                <span class="ba-caption">¡Impecable y con moño!</span>
+                            </div>
+                            <div class="ba-divider" id="baDivider3">
+                                <div class="ba-handle">
+                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M8 7l-4 5 4 5M16 7l4 5-4 5" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ba-pet-info">
+                            <div class="ba-pet-avatar" style="background: linear-gradient(135deg, #22d3ee, #0891b2);">
+                                <svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                            </div>
+                            <div>
+                                <p class="ba-pet-name">Cuca</p>
+                                <p class="ba-pet-breed">Golden Retriever</p>
+                            </div>
+                            <div class="ba-services">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z" /></svg>
+                                Baño + Corte + Accesorios
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 5 — Thor -->
+                    <div class="ba-slide">
+                        <div class="ba-compare" id="baCompare4">
+                            <div class="ba-before">
+                                <img src="img/thor-antes.jpg" alt="Thor antes">
+                                <span class="ba-label ba-label--before">● ANTES</span>
+                                <span class="ba-caption">Pelaje enmarañado</span>
+                            </div>
+                            <div class="ba-after">
+                                <img src="img/thor-despues.jpg" alt="Thor después">
+                                <span class="ba-label ba-label--after">DESPUÉS</span>
+                                <span class="ba-caption">¡El rey del barrio!</span>
+                            </div>
+                            <div class="ba-divider" id="baDivider4">
+                                <div class="ba-handle">
+                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M8 7l-4 5 4 5M16 7l4 5-4 5" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ba-pet-info">
+                            <div class="ba-pet-avatar" style="background: linear-gradient(135deg, #8B3CF7, #6D28D9);">
+                                <svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                            </div>
+                            <div>
+                                <p class="ba-pet-name">Thor</p>
+                                <p class="ba-pet-breed">Samoyedo</p>
+                            </div>
+                            <div class="ba-services">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z" /></svg>
+                                Baño Completo + Corte
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 6 — Yorkshire -->
+                    <div class="ba-slide">
+                        <div class="ba-compare" id="baCompare5">
+                            <div class="ba-before">
+                                <img src="img/yorkie-antes.jpg" alt="Yorkshire antes">
+                                <span class="ba-label ba-label--before">● ANTES</span>
+                                <span class="ba-caption">Flequillo tapando los ojos</span>
+                            </div>
+                            <div class="ba-after">
+                                <img src="img/yorkie-despues.jpg" alt="Yorkshire después">
+                                <span class="ba-label ba-label--after">DESPUÉS</span>
+                                <span class="ba-caption">¡Perfecto y elegante!</span>
+                            </div>
+                            <div class="ba-divider" id="baDivider5">
+                                <div class="ba-handle">
+                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M8 7l-4 5 4 5M16 7l4 5-4 5" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ba-pet-info">
+                            <div class="ba-pet-avatar" style="background: linear-gradient(135deg, #2dd4bf, #0d9488);">
+                                <svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                            </div>
+                            <div>
+                                <p class="ba-pet-name">Yorkshire</p>
+                                <p class="ba-pet-breed">Yorkshire Terrier</p>
+                            </div>
+                            <div class="ba-services">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z" /></svg>
+                                Corte de Estilo + Accesorios
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button class="ba-arrow ba-arrow--next" id="baNext">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7" /></svg>
+                </button>
+            </div>
+
+            <!-- Dots -->
+            <div class="ba-dots" id="baDots">
+                <button class="ba-dot active" data-index="0"></button>
+                <button class="ba-dot" data-index="1"></button>
+                <button class="ba-dot" data-index="2"></button>
+                <button class="ba-dot" data-index="3"></button>
+                <button class="ba-dot" data-index="4"></button>
+                <button class="ba-dot" data-index="5"></button>
+            </div>
+
+            <!-- Thumbnails -->
+            <div class="ba-thumbs anim-up anim-delay-3" id="baThumbs">
+                <div class="ba-thumb active" data-index="0">
+                    <div class="ba-thumb-img" style="background: linear-gradient(135deg, #c084fc, #8B3CF7);">
+                        <img src="img/max-despues.jpg" alt="Max">
+                    </div>
+                    <p class="ba-thumb-name">Max</p>
+                    <p class="ba-thumb-breed">Golden Retriever</p>
+                </div>
+                <div class="ba-thumb" data-index="1">
+                    <div class="ba-thumb-img" style="background: linear-gradient(135deg, #f472b6, #c084fc);">
+                        <img src="img/susie-despues.jpg" alt="Susie">
+                    </div>
+                    <p class="ba-thumb-name">Susie</p>
+                    <p class="ba-thumb-breed">Maltés</p>
+                </div>
+                <div class="ba-thumb" data-index="2">
+                    <div class="ba-thumb-img" style="background: linear-gradient(135deg, #38bdf8, #0ea5e9);">
+                        <img src="img/rocky-despues.jpg" alt="Rocky">
+                    </div>
+                    <p class="ba-thumb-name">Rocky</p>
+                    <p class="ba-thumb-breed">Bulldog Francés</p>
+                </div>
+                <div class="ba-thumb" data-index="3">
+                    <div class="ba-thumb-img" style="background: linear-gradient(135deg, #22d3ee, #0891b2);">
+                        <img src="img/cuca-despues.jpg" alt="Cuca">
+                    </div>
+                    <p class="ba-thumb-name">Cuca</p>
+                    <p class="ba-thumb-breed">Golden Retriever</p>
+                </div>
+                <div class="ba-thumb" data-index="4">
+                    <div class="ba-thumb-img" style="background: linear-gradient(135deg, #8B3CF7, #6D28D9);">
+                        <img src="img/thor-despues.jpg" alt="Thor">
+                    </div>
+                    <p class="ba-thumb-name">Thor</p>
+                    <p class="ba-thumb-breed">Samoyedo</p>
+                </div>
+                <div class="ba-thumb" data-index="5">
+                    <div class="ba-thumb-img" style="background: linear-gradient(135deg, #2dd4bf, #0d9488);">
+                        <img src="img/yorkie-despues.jpg" alt="Yorkshire">
+                    </div>
+                    <p class="ba-thumb-name">Yorkshire</p>
+                    <p class="ba-thumb-breed">Yorkshire Terrier</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section id="citas" class="cta-section">
+        <div class="cta-card anim-up">
+
+            <!-- Ícono superior -->
+            <div class="cta-icon">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <path d="M16 2v4M8 2v4M3 10h18" />
+                </svg>
+            </div>
+
+            <!-- Texto -->
+            <h2 class="cta-title">¿Listo para Consentir a tu<br>Mascota?</h2>
+            <p class="cta-desc">Agenda tu cita ahora y dale a tu mejor amigo el cuidado premium que merece. Nuestro equipo está listo para recibirlos con amor y profesionalismo.</p>
+
+            <!-- Botones -->
+            <div class="cta-buttons">
+                <a href="#citas" class="cta-btn-primary">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <path d="M16 2v4M8 2v4M3 10h18" />
+                    </svg>
+                    Agenda tu Cita
+                </a>
+                <a href="#contacto" class="cta-btn-outline">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    Contáctanos
+                </a>
+            </div>
+
+            <!-- 3 íconos inferiores -->
+            <div class="cta-features">
+                <div class="cta-feature">
+                    <div class="cta-feature-icon">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 6v6l4 2" />
+                        </svg>
+                    </div>
+                    <p class="cta-feature-name">Horarios Flexibles</p>
+                    <p class="cta-feature-desc">Adaptados a tu disponibilidad</p>
+                </div>
+                <div class="cta-feature">
+                    <div class="cta-feature-icon">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <p class="cta-feature-name">Atención Profesional</p>
+                    <p class="cta-feature-desc">Equipo certificado y experimentado</p>
+                </div>
+                <div class="cta-feature">
+                    <div class="cta-feature-icon">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                    <p class="cta-feature-name">Amor y Cuidado</p>
+                    <p class="cta-feature-desc">Tratamos a tu mascota con cariño</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        // =====================
+        // ANIMACIONES SCROLL
+        // =====================
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.hero-left, .hero-right').forEach(el => {
+                setTimeout(() => el.classList.add('anim-visible'), 100);
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('anim-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+            document.querySelectorAll(
+                '.about-images, .about-content, ' +
+                '.services-header, .service-card, ' +
+                '.transport-card, ' +
+                '.installations-header, .install-card, ' +
+                '.features-wrapper, .features-cta, ' +
+                '.beforeafter-header, .ba-slider-wrapper, .ba-thumbs, ' +
+                '.cta-card'
+            ).forEach(el => observer.observe(el));
+
+            // =====================
+            // SLIDER ANTES/DESPUÉS
+            // =====================
+            let currentSlide = 0;
+            const totalSlides = 6;
+            const slides = document.querySelectorAll('.ba-slide');
+            const dots = document.querySelectorAll('.ba-dot');
+            const thumbs = document.querySelectorAll('.ba-thumb');
+
+            function goToSlide(index) {
+                slides[currentSlide].classList.remove('active');
+                dots[currentSlide].classList.remove('active');
+                thumbs[currentSlide].classList.remove('active');
+                currentSlide = (index + totalSlides) % totalSlides;
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+                thumbs[currentSlide].classList.add('active');
+                initDivider(currentSlide);
+            }
+
+            document.getElementById('baPrev').addEventListener('click', () => goToSlide(currentSlide - 1));
+            document.getElementById('baNext').addEventListener('click', () => goToSlide(currentSlide + 1));
+            dots.forEach(dot => dot.addEventListener('click', () => goToSlide(+dot.dataset.index)));
+            thumbs.forEach(thumb => thumb.addEventListener('click', () => goToSlide(+thumb.dataset.index)));
+
+            // =====================
+            // COMPARADOR DRAG
+            // =====================
+            function initDivider(idx) {
+                const compare = document.getElementById(`baCompare${idx}`);
+                const divider = document.getElementById(`baDivider${idx}`);
+                const afterEl = compare.querySelector('.ba-after');
+                if (!compare || !divider) return;
+
+                let pct = 50;
+                afterEl.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+                divider.style.left = `${pct}%`;
+
+                function setPos(x) {
+                    const rect = compare.getBoundingClientRect();
+                    pct = Math.min(95, Math.max(5, ((x - rect.left) / rect.width) * 100));
+                    afterEl.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+                    divider.style.left = `${pct}%`;
+                }
+
+                // Mouse
+                divider.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    const move = (e) => setPos(e.clientX);
+                    const up = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); };
+                    document.addEventListener('mousemove', move);
+                    document.addEventListener('mouseup', up);
+                });
+
+                // Touch
+                divider.addEventListener('touchstart', (e) => {
+                    const move = (e) => setPos(e.touches[0].clientX);
+                    const end = () => { document.removeEventListener('touchmove', move); document.removeEventListener('touchend', end); };
+                    document.addEventListener('touchmove', move);
+                    document.addEventListener('touchend', end);
+                });
+            }
+
+            // Inicializar el primer slide
+            initDivider(0);
+        });
+    </script>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Servicios</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Spa Canino</a></li>
+                        <li><a href="#">Baño Completo</a></li>
+                        <li><a href="#">Limpieza Dental</a></li>
+                        <li><a href="#">Corte de Uñas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Información</h4>
+                    <ul class="footer-links">
+                        <li><a href="#quienes-somos">Quiénes Somos</a></li>
+                        <li><a href="#servicios">Nuestros Servicios</a></li>
+                        <li><a href="#citas">Agenda tu Cita</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Consejos de Cuidado</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-bottom">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="img/logoVenus.png" alt="VenusMascotas">
+                    </div>
+                    <p class="footer-tagline">Cuidado premium para tu mejor amigo</p>
+                </div>
+                <p class="footer-copy">
+                    © 2025 VenusMascotas. Todos los derechos reservados.<br>
+                    <span>Powered by Readdy</span>
+                </p>
+                <div class="footer-socials">
+                    <a href="#" class="footer-social">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg>
+                    </a>
+                    <a href="#" class="footer-social">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>
+                    </a>
+                    <a href="#" class="footer-social">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.136.563 4.14 1.537 5.878L.057 23.5l5.773-1.516A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.498-5.193-1.371l-.371-.221-3.857 1.013 1.03-3.748-.242-.386A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" /></svg>
+                    </a>
+                    <a href="#" class="footer-social">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.54V6.78a4.85 4.85 0 01-1.02-.09z" /></svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>

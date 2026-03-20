@@ -1,0 +1,619 @@
+﻿<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VenusMascotas — Empleados</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/Empleado.css" />
+</head>
+<body>
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sb-brand">
+            <div class="sb-logo"><img src="/img/logoVenus.png" alt="" onerror="this.parentElement.innerHTML='🐾'" /></div>
+            <div class="sb-texts"><div class="sb-name">VenusMascotas</div><div class="sb-sub">Admin Panel</div></div>
+        </div>
+        <nav class="sb-nav">
+            <div class="sb-group-lbl">Principal</div>
+            <a class="sb-item" href="Dashboard.html" data-tip="Dashboard">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
+                <span class="sb-lbl">Dashboard</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Reservas">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+                <span class="sb-lbl">Reservas</span><span class="sb-badge">4</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Caja">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                <span class="sb-lbl">Caja</span>
+            </a>
+            <div class="sb-group-lbl">Gestión</div>
+            <a class="sb-item" href="Clientes.html" data-tip="Clientes">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
+                <span class="sb-lbl">Clientes</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Mascotas">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                <span class="sb-lbl">Mascotas</span>
+            </a>
+            <a class="sb-item active" href="Empleados.html" data-tip="Empleados">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                <span class="sb-lbl">Empleados</span>
+            </a>
+            <a class="sb-item" href="Servicios.html" data-tip="Servicios">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" /></svg>
+                <span class="sb-lbl">Servicios</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Historial">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                <span class="sb-lbl">Historial</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Notificaciones">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                <span class="sb-lbl">Notificaciones</span>
+            </a>
+        </nav>
+
+        <!-- Sidebar bottom: solo botón contraer, sin perfil -->
+        <div class="sb-bottom">
+            <button class="sb-collapse-btn" onclick="toggleSidebar()">
+                <div class="sb-collapse-ico"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.8)" stroke-width="2.5"><path d="M15 19l-7-7 7-7" /></svg></div>
+                <span class="sb-collapse-lbl">Contraer menú</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ══ MAIN ══ -->
+    <div class="main">
+        <header class="topbar">
+            <div class="tb-left">
+                <div class="tb-sect">Gestión</div>
+                <h2>Empleados</h2>
+                <p id="fechaHoy"></p>
+            </div>
+            <div class="tb-right">
+                <button class="tb-btn" onclick="toggleTheme()" title="Cambiar tema">
+                    <svg id="iconSun" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
+                    <svg id="iconMoon" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                </button>
+                <div class="tb-profile-wrap">
+                    <div class="tb-profile" id="tbProfile" onclick="toggleDrop()">
+                        <div class="tb-ava" id="tbAva">CA</div>
+                        <div class="tb-pinfo">
+                            <span class="tb-pname" id="tbName">Admin</span>
+                            <span class="tb-prole" id="tbRole">Administrador</span>
+                        </div>
+                        <svg class="tb-chev" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6" /></svg>
+                    </div>
+                    <div class="tb-dropdown" id="tbDrop">
+                        <div class="dd-top">
+                            <div class="dd-name" id="ddName">Admin</div>
+                            <div class="dd-email" id="ddEmail">admin@venusmascotas.com</div>
+                        </div>
+                        <a href="/" class="dd-item">
+                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+                            Ir al sitio web
+                        </a>
+                        <div class="dd-sep"></div>
+                        <div class="dd-item red" onclick="logout()">
+                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                            Cerrar Sesión
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <div class="page-hdr">
+                <div><h1>Gestión de Empleados</h1><p>Administra tu equipo de trabajo</p></div>
+                <button class="btn-primary" onclick="abrirModalCrear()">
+                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 4v16m8-8H4" /></svg>
+                    Nuevo Empleado
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="kpi-big">
+                    <div><div class="kpi-big-lbl">Total Empleados</div><div class="kpi-big-val" id="statTotal">—</div></div>
+                    <div class="kpi-big-ico"><svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg></div>
+                </div>
+                <div class="kpi-big">
+                    <div><div class="kpi-big-lbl">Empleados Activos</div><div class="kpi-big-val" id="statActivos">—</div></div>
+                    <div class="kpi-big-ico"><svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                </div>
+                <div class="kpi-big">
+                    <div><div class="kpi-big-lbl">Roles Diferentes</div><div class="kpi-big-val" id="statRoles">—</div></div>
+                    <div class="kpi-big-ico"><svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></div>
+                </div>
+            </div>
+
+            <div class="search-wrap">
+                <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
+                <input class="search-input" type="text" id="searchInput" placeholder="Buscar por nombre, email o teléfono..." oninput="filtrar()" />
+            </div>
+
+            <div class="cards-grid" id="cardsGrid">
+                <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">Cargando...</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Input file oculto -->
+    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none" onchange="handleImagenSeleccionada(this)" />
+
+    <!-- Modal -->
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <div class="modal-hdr">
+                <h2 class="modal-ttl" id="modalTitle">Nuevo empleado</h2>
+                <button class="modal-close" onclick="cerrarModal()">✕</button>
+            </div>
+            <div class="form-grid">
+                <div class="field full">
+                    <label>Foto del empleado</label>
+                    <div class="img-upload-wrap">
+                        <div class="img-preview" id="imgPreview">
+                            <span id="imgIni">?</span>
+                        </div>
+                        <div class="img-upload-right">
+                            <button type="button" class="img-upload-btn" id="imgBtn" onclick="document.getElementById('fileInput').click()">
+                                <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                Seleccionar imagen
+                            </button>
+                            <div class="img-progress" id="imgProgress">
+                                <div class="img-progress-bar" id="imgProgressBar"></div>
+                            </div>
+                            <div class="img-hint" id="imgHint">JPG, PNG o WebP · Máx. 3 MB</div>
+                            <div class="img-remove" id="imgRemove" onclick="quitarImagen()">✕ Quitar imagen</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field full">
+                    <label>Nombre completo</label>
+                    <input type="text" id="fNombre" placeholder="Juan Pérez" oninput="actualizarIni()" />
+                </div>
+                <div class="field full">
+                    <label>Email</label>
+                    <input type="email" id="fEmail" placeholder="juan@venusmascotas.com" />
+                </div>
+                <div class="field full" id="passwordField">
+                    <label>Contraseña</label>
+                    <input type="password" id="fPassword" placeholder="••••••••" />
+                </div>
+                <div class="field">
+                    <label>Teléfono</label>
+                    <input type="text" id="fTelefono" placeholder="300 000 0000" />
+                </div>
+                <div class="field">
+                    <label>Cargo</label>
+                    <select id="fCargo">
+                        <option value="">Seleccionar cargo</option>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Empleado">Empleado</option>
+                        <option value="Veterinario">Veterinario</option>
+                        <option value="Groomer">Groomer</option>
+                    </select>
+                </div>
+                <div class="field full">
+                    <label>Dirección</label>
+                    <input type="text" id="fDireccion" placeholder="Calle 123 # 45-67" />
+                </div>
+                <div class="field">
+                    <label>Fecha de nacimiento</label>
+                    <input type="date" id="fFechaNacimiento" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn-save" id="btnSave" onclick="guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API = '';
+        let empleados = [];
+        let filtrados = [];
+        let editandoId = null;
+        let imagenUrl = null;
+        let subiendoImagen = false;
+
+        function check() {
+            if (!localStorage.getItem('token'))
+                window.location.replace('/Admin/Login.html');
+        }
+        check();
+        window.addEventListener('pageshow', check);
+
+        /* ── Fecha ── */
+        const DIAS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        const hoy = new Date();
+        document.getElementById('fechaHoy').textContent =
+            `${DIAS[hoy.getDay()]}, ${hoy.getDate()} de ${MESES[hoy.getMonth()]} de ${hoy.getFullYear()}`;
+
+        /* ── JWT ── */
+        let uName = 'Admin', uEmail = 'admin@venusmascotas.com', uRole = 'Administrador', uIni = 'AD';
+        try {
+            const tok = localStorage.getItem('token');
+            if (tok) {
+                const p = JSON.parse(atob(tok.split('.')[1]));
+                uName = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || uName;
+                uEmail = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || uEmail;
+                uRole = p['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || uRole;
+                uIni = uName.split(' ').map(x => x[0]).join('').substring(0, 2).toUpperCase();
+            }
+        } catch (e) { }
+
+        document.getElementById('tbAva').textContent = uIni;
+        document.getElementById('tbName').textContent = uName;
+        document.getElementById('tbRole').textContent = uRole;
+        document.getElementById('ddName').textContent = uName;
+        document.getElementById('ddEmail').textContent = uEmail;
+
+        /* ── UI helpers ── */
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+
+        function toggleDrop() {
+            const p = document.getElementById('tbProfile');
+            const d = document.getElementById('tbDrop');
+            const o = d.classList.toggle('open');
+            p.classList.toggle('open', o);
+        }
+        document.addEventListener('click', e => {
+            const w = document.querySelector('.tb-profile-wrap');
+            if (w && !w.contains(e.target)) {
+                document.getElementById('tbDrop').classList.remove('open');
+                document.getElementById('tbProfile').classList.remove('open');
+            }
+        });
+
+        const TK = 'venus_theme';
+        let dark = localStorage.getItem(TK) === 'dark';
+        function applyTheme(d) {
+            document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
+            document.getElementById('iconSun').style.display = d ? 'none' : 'block';
+            document.getElementById('iconMoon').style.display = d ? 'block' : 'none';
+            localStorage.setItem(TK, d ? 'dark' : 'light');
+        }
+        function toggleTheme() { dark = !dark; applyTheme(dark); }
+        applyTheme(dark);
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('rol');
+            window.location.replace('/Admin/Login.html');
+        }
+
+        function headers() {
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            };
+        }
+
+        function toast(msg, tipo = 'success') {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.className = `toast ${tipo}`;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 3200);
+        }
+
+        /* ── Subida de imagen ── */
+        async function handleImagenSeleccionada(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            if (file.size > 3 * 1024 * 1024) {
+                toast('La imagen supera el límite de 3 MB', 'error');
+                input.value = ''; return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                document.getElementById('imgPreview').innerHTML = `<img src="${e.target.result}" alt="preview"/>`;
+            };
+            reader.readAsDataURL(file);
+
+            subiendoImagen = true;
+            const btn = document.getElementById('imgBtn');
+            const prog = document.getElementById('imgProgress');
+            const bar = document.getElementById('imgProgressBar');
+            const hint = document.getElementById('imgHint');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner" style="border-top-color:var(--purple)"></span>Subiendo...';
+            prog.style.display = 'block';
+            hint.textContent = 'Subiendo imagen al servidor...';
+
+            let pct = 0;
+            const interval = setInterval(() => { pct = Math.min(pct + 8, 85); bar.style.width = pct + '%'; }, 120);
+
+            try {
+                const formData = new FormData();
+                formData.append('imagen', file);
+
+                const res = await fetch(`${API}/api/Empleado/upload-imagen`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+                    body: formData
+                });
+
+                clearInterval(interval);
+
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.message || 'Error al subir la imagen');
+                }
+
+                const data = await res.json();
+                imagenUrl = data.url;
+
+                bar.style.width = '100%';
+                hint.textContent = '✓ Imagen guardada correctamente';
+                document.getElementById('imgRemove').style.display = 'block';
+
+            } catch (err) {
+                clearInterval(interval);
+                toast(err.message, 'error');
+                quitarImagen();
+                hint.textContent = 'JPG, PNG o WebP · Máx. 3 MB';
+            } finally {
+                subiendoImagen = false;
+                btn.disabled = false;
+                btn.innerHTML = `<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> Cambiar imagen`;
+                input.value = '';
+                setTimeout(() => { prog.style.display = 'none'; bar.style.width = '0%'; }, 1400);
+            }
+        }
+
+        function quitarImagen() {
+            imagenUrl = null;
+            const nombre = document.getElementById('fNombre').value.trim();
+            const i = nombre ? nombre.split(' ').map(p => p[0]).join('').substring(0, 2).toUpperCase() : '?';
+            document.getElementById('imgPreview').innerHTML = `<span id="imgIni">${i}</span>`;
+            document.getElementById('imgRemove').style.display = 'none';
+            document.getElementById('imgHint').textContent = 'JPG, PNG o WebP · Máx. 3 MB';
+            document.getElementById('imgBtn').innerHTML = `<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> Seleccionar imagen`;
+            document.getElementById('fileInput').value = '';
+        }
+
+        function actualizarIni() {
+            if (imagenUrl) return;
+            const nombre = document.getElementById('fNombre').value.trim();
+            const i = nombre ? nombre.split(' ').map(p => p[0]).join('').substring(0, 2).toUpperCase() : '?';
+            const el = document.getElementById('imgIni');
+            if (el) el.textContent = i;
+        }
+
+        /* ── Cargar empleados ── */
+        async function cargarEmpleados() {
+            try {
+                const res = await fetch(`${API}/api/Empleado`, { headers: headers() });
+                if (res.status === 401) { window.location.replace('/Admin/Login.html'); return; }
+                if (!res.ok) throw new Error('Error al cargar empleados');
+                empleados = await res.json();
+                filtrados = [...empleados];
+                actualizarStats();
+                renderCards();
+            } catch (err) {
+                const msg = err.message;
+                document.getElementById('cardsGrid').innerHTML =
+                    `<div style="grid-column:1/-1;text-align:center;color:#EF4444;padding:40px">${msg}</div>`;
+            }
+        }
+
+        function actualizarStats() {
+            document.getElementById('statTotal').textContent = empleados.length;
+            document.getElementById('statActivos').textContent = empleados.length;
+            const roles = new Set(empleados.map(e => e.cargo).filter(Boolean));
+            document.getElementById('statRoles').textContent = roles.size;
+        }
+
+        /* ── Filtro ── */
+        function filtrar() {
+            const q = document.getElementById('searchInput').value.toLowerCase().trim();
+            filtrados = q
+                ? empleados.filter(e =>
+                    (e.nombre || '').toLowerCase().includes(q) ||
+                    (e.email || '').toLowerCase().includes(q) ||
+                    (e.telefono || '').toLowerCase().includes(q))
+                : [...empleados];
+            renderCards();
+        }
+
+        /* ── Helpers avatar ── */
+        function ini(nombre) {
+            return (nombre || '?').split(' ').map(p => p[0]).join('').substring(0, 2).toUpperCase();
+        }
+
+        function avatarCard(e) {
+            const i = ini(e.nombre);
+            return e.imagen
+                ? `<img src="${e.imagen}" alt="${i}" onerror="this.style.display='none'"/>${i}`
+                : i;
+        }
+
+        /* ── Render Cards ── */
+        function renderCards() {
+            const grid = document.getElementById('cardsGrid');
+            if (!filtrados.length) {
+                grid.innerHTML = `<div style="grid-column:1/-1"><div class="empty-state"><div class="e-icon">👤</div><p>No se encontraron empleados.</p></div></div>`;
+                return;
+            }
+            grid.innerHTML = filtrados.map(e => {
+                const fecha = e.fechaNacimiento ? new Date(e.fechaNacimiento).toLocaleDateString('es-CO') : '—';
+                return `
+              <div class="emp-card">
+                <div class="emp-card-top">
+                  <div class="emp-avatar-wrap">
+                    <div class="emp-avatar">
+                      ${avatarCard(e)}
+                    </div>
+                    <span class="emp-status-dot"></span>
+                  </div>
+                  <div class="emp-info">
+                    <div class="emp-name">${e.nombre}</div>
+                    <span class="emp-role-badge">${e.cargo || 'Sin cargo'}</span>
+                  </div>
+                </div>
+                <div class="emp-details">
+                  <div class="emp-detail-row">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <span>${e.email}</span>
+                  </div>
+                  <div class="emp-detail-row">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                    <span>${e.telefono || '—'}</span>
+                  </div>
+                  <div class="emp-detail-row">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                    <span>Desde ${fecha}</span>
+                  </div>
+                </div>
+                <div class="emp-card-footer">
+                  <button class="card-btn" onclick="abrirModalEditar(${e.id})">
+                    <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    Editar
+                  </button>
+                  <button class="card-btn danger" onclick="eliminar(${e.id},'${e.nombre.replace(/'/g, "\\'")}')">
+                    <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    Eliminar
+                  </button>
+                  <button class="card-btn-icon" title="Enviar correo" onclick="window.location='mailto:${e.email}'">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  </button>
+                </div>
+              </div>`;
+            }).join('');
+        }
+
+        /* ── Modal crear ── */
+        function abrirModalCrear() {
+            editandoId = null; imagenUrl = null;
+            document.getElementById('modalTitle').textContent = 'Nuevo empleado';
+            document.getElementById('passwordField').style.display = 'block';
+            document.getElementById('fEmail').disabled = false;
+            limpiarForm();
+            document.getElementById('overlay').classList.add('open');
+        }
+
+        /* ── Modal editar ── */
+        function abrirModalEditar(id) {
+            const e = empleados.find(x => x.id === id); if (!e) return;
+            editandoId = id; imagenUrl = e.imagen || null;
+            document.getElementById('modalTitle').textContent = 'Editar empleado';
+            document.getElementById('passwordField').style.display = 'none';
+            document.getElementById('fEmail').disabled = true;
+            document.getElementById('fNombre').value = e.nombre;
+            document.getElementById('fEmail').value = e.email;
+            document.getElementById('fTelefono').value = e.telefono || '';
+            document.getElementById('fCargo').value = e.cargo || '';
+            document.getElementById('fDireccion').value = e.direccion || '';
+            document.getElementById('fFechaNacimiento').value = e.fechaNacimiento ? e.fechaNacimiento.substring(0, 10) : '';
+
+            const prev = document.getElementById('imgPreview');
+            if (e.imagen) {
+                prev.innerHTML = `<img src="${e.imagen}" alt="foto"/>`;
+                document.getElementById('imgRemove').style.display = 'block';
+                document.getElementById('imgHint').textContent = '✓ Imagen actual cargada';
+                document.getElementById('imgBtn').innerHTML = `<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> Cambiar imagen`;
+            } else {
+                prev.innerHTML = `<span id="imgIni">${ini(e.nombre)}</span>`;
+                document.getElementById('imgRemove').style.display = 'none';
+                document.getElementById('imgHint').textContent = 'JPG, PNG o WebP · Máx. 3 MB';
+                document.getElementById('imgBtn').innerHTML = `<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> Seleccionar imagen`;
+            }
+            document.getElementById('overlay').classList.add('open');
+        }
+
+        function cerrarModal() {
+            document.getElementById('overlay').classList.remove('open');
+            limpiarForm();
+        }
+
+        function limpiarForm() {
+            ['fNombre', 'fEmail', 'fPassword', 'fTelefono', 'fDireccion', 'fFechaNacimiento']
+                .forEach(id => document.getElementById(id).value = '');
+            document.getElementById('fCargo').value = '';
+            imagenUrl = null;
+            document.getElementById('imgPreview').innerHTML = `<span id="imgIni">?</span>`;
+            document.getElementById('imgRemove').style.display = 'none';
+            document.getElementById('imgHint').textContent = 'JPG, PNG o WebP · Máx. 3 MB';
+            document.getElementById('imgProgress').style.display = 'none';
+            document.getElementById('imgProgressBar').style.width = '0%';
+            document.getElementById('imgBtn').innerHTML = `<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> Seleccionar imagen`;
+            document.getElementById('imgBtn').disabled = false;
+            document.getElementById('fileInput').value = '';
+        }
+
+        /* ── Guardar ── */
+        async function guardar() {
+            if (subiendoImagen) { toast('Espera a que termine de subir la imagen', 'error'); return; }
+            const btn = document.getElementById('btnSave');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Guardando...';
+            try {
+                let res;
+                if (editandoId === null) {
+                    res = await fetch(`${API}/api/Empleado`, {
+                        method: 'POST', headers: headers(),
+                        body: JSON.stringify({
+                            nombre: document.getElementById('fNombre').value.trim(),
+                            email: document.getElementById('fEmail').value.trim(),
+                            password: document.getElementById('fPassword').value,
+                            telefono: document.getElementById('fTelefono').value.trim(),
+                            cargo: document.getElementById('fCargo').value,
+                            direccion: document.getElementById('fDireccion').value.trim(),
+                            fechaNacimiento: document.getElementById('fFechaNacimiento').value || null,
+                            imagen: imagenUrl
+                        })
+                    });
+                } else {
+                    res = await fetch(`${API}/api/Empleado/${editandoId}`, {
+                        method: 'PUT', headers: headers(),
+                        body: JSON.stringify({
+                            nombre: document.getElementById('fNombre').value.trim(),
+                            telefono: document.getElementById('fTelefono').value.trim(),
+                            cargo: document.getElementById('fCargo').value,
+                            direccion: document.getElementById('fDireccion').value.trim(),
+                            fechaNacimiento: document.getElementById('fFechaNacimiento').value || null,
+                            imagen: imagenUrl
+                        })
+                    });
+                }
+                if (!res.ok) { const err = await res.json().catch(() => ({})); throw new Error(err.message || 'Error al guardar'); }
+                cerrarModal();
+                toast(editandoId === null ? '✓ Empleado creado correctamente' : '✓ Empleado actualizado');
+                await cargarEmpleados();
+            } catch (err) { toast(err.message, 'error'); }
+            finally { btn.disabled = false; btn.innerHTML = 'Guardar'; }
+        }
+
+        /* ── Eliminar ── */
+        async function eliminar(id, nombre) {
+            if (!confirm(`¿Eliminar a ${nombre}? Esta acción no se puede deshacer.`)) return;
+            try {
+                const res = await fetch(`${API}/api/Empleado/${id}`, { method: 'DELETE', headers: headers() });
+                if (!res.ok) throw new Error('No se pudo eliminar');
+                toast(`✓ ${nombre} eliminado`);
+                await cargarEmpleados();
+            } catch (err) { toast(err.message, 'error'); }
+        }
+
+        document.getElementById('overlay').addEventListener('click', e => {
+            if (e.target === e.currentTarget) cerrarModal();
+        });
+
+        cargarEmpleados();
+    </script>
+</body>
+</html>

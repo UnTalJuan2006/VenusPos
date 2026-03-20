@@ -1,0 +1,368 @@
+﻿<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VenusMascotas — Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/DashboardAdmin.css" />
+   
+</head>
+<body>
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sb-brand">
+            <div class="sb-logo">
+                <img src="/img/logoVenus.png" alt="" onerror="this.parentElement.innerHTML='🐾'" />
+            </div>
+            <div class="sb-texts">
+                <div class="sb-name">VenusMascotas</div>
+                <div class="sb-sub">Admin Panel</div>
+            </div>
+        </div>
+
+        <nav class="sb-nav">
+            <div class="sb-group-lbl">Principal</div>
+            <a class="sb-item active" href="#" data-tip="Dashboard">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
+                <span class="sb-lbl">Dashboard</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Reservas">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+                <span class="sb-lbl">Reservas</span>
+                <span class="sb-badge">4</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Caja">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                <span class="sb-lbl">Caja</span>
+            </a>
+            <div class="sb-group-lbl">Gestión</div>
+            <a class="sb-item" href="Clientes.html" data-tip="Clientes">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
+                <span class="sb-lbl">Clientes</span>
+            </a>
+            <a class="sb-item" href="Mascotas.html" data-tip="Mascotas">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                <span class="sb-lbl">Mascotas</span>
+            </a>
+            <a class="sb-item" href="Empleados.html" data-tip="Empleados">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                <span class="sb-lbl">Empleados</span>
+            </a>
+            <a class="sb-item" href="Servicios.html" data-tip="Servicios">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" /></svg>
+                <span class="sb-lbl">Servicios</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Historial">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                <span class="sb-lbl">Historial</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Notificaciones">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                <span class="sb-lbl">Notificaciones</span>
+            </a>
+        </nav>
+
+        <!-- Perfil + Contraer abajo -->
+        <div class="sb-bottom">
+          
+            <button class="sb-collapse-btn" onclick="toggleSidebar()">
+                <div class="sb-collapse-ico">
+                    <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.8)" stroke-width="2.5">
+                        <path d="M15 19l-7-7 7-7" />
+                    </svg>
+                </div>
+                <span class="sb-collapse-lbl">Contraer menú</span>
+            </button>
+        </div>
+
+    </aside>
+
+    <!-- ══ MAIN ══ -->
+    <div class="main">
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="tb-left">
+                <div class="tb-sect">Panel de Control</div>
+                <h2>Dashboard Administrativo</h2>
+                <p id="fechaHoy"></p>
+            </div>
+            <div class="tb-right">
+                <!-- Caja pill -->
+                <div class="pill-open"><div class="live-dot"></div>Caja abierta</div>
+
+                <!-- Notificaciones -->
+                <button class="tb-btn" title="Notificaciones">
+                    <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                    <span class="tb-pip"></span>
+                </button>
+
+                <!-- Toggle dark/light -->
+                <button class="tb-btn" onclick="toggleTheme()" id="themeBtn" title="Cambiar tema">
+                    <svg id="iconSun" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5" />
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
+                    <svg id="iconMoon" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none">
+                        <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+
+                <!-- Perfil con dropdown -->
+                <div class="tb-profile-wrap">
+                    <div class="tb-profile" id="tbProfile" onclick="toggleDrop()">
+                        <div class="tb-ava" id="tbAva">CA</div>
+                        <div class="tb-pinfo">
+                            <span class="tb-pname" id="tbName">Carlos Admin</span>
+                            <span class="tb-prole" id="tbRole">Admin</span>
+                        </div>
+                        <svg class="tb-chev" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path d="M6 9l6 6 6-6" />
+                        </svg>
+                    </div>
+                    <div class="tb-dropdown" id="tbDrop">
+                        <div class="dd-top">
+                            <div class="dd-name" id="ddName">Carlos Admin</div>
+                            <div class="dd-email" id="ddEmail">admin@venusmascotas.com</div>
+                        </div>
+                        <a href="/" class="dd-item">
+                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+                            Ir al sitio web
+                        </a>
+                        <div class="dd-sep"></div>
+                        <div class="dd-item red" onclick="logout()">
+                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                            Cerrar Sesión
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content">
+
+            <!-- Welcome -->
+            <div class="welcome-card">
+                <div class="wc-left">
+                    <h3>¡Bienvenido de nuevo, <span id="wName">Carlos</span>! 👋</h3>
+                    <p>Aquí está el resumen de hoy. Tienes <strong style="color:#fff">4 reservas pendientes</strong> por confirmar.</p>
+                </div>
+                <button class="btn-new">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 4v16m8-8H4" /></svg>
+                    + Nueva Reserva
+                </button>
+            </div>
+
+            <!-- Stats 3×2 -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-ico" style="background:#EDE9FE"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#7C3AED" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg></div>
+                    <div><div class="stat-val">248</div><div class="stat-lbl">Clientes Activos</div><span class="stat-trend up">↑ +12 este mes</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-ico" style="background:#FEF3C7"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#D97706" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg></div>
+                    <div><div class="stat-val">12</div><div class="stat-lbl">Reservas Hoy</div><span class="stat-trend up">↑ +3 desde ayer</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-ico" style="background:#D1FAE5"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#059669" stroke-width="2"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg></div>
+                    <div><div class="stat-val">$1.245</div><div class="stat-lbl">Ingresos del Día</div><span class="stat-trend up">↑ +15% vs ayer</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-ico" style="background:#FCE7F3"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#DB2777" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
+                    <div><div class="stat-val">356</div><div class="stat-lbl">Mascotas Registradas</div><span class="stat-trend up">↑ +8 esta semana</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-ico" style="background:#EDE9FE"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#7C3AED" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg></div>
+                    <div><div class="stat-val">6</div><div class="stat-lbl">Empleados Activos</div><span class="stat-trend up">Todos disponibles</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-ico" style="background:#FEE2E2"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#DC2626" stroke-width="2"><path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                    <div><div class="stat-val">4</div><div class="stat-lbl">Reservas Pendientes</div><span class="stat-trend down">Requieren atención</span></div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-hdr">
+                        <div><div class="chart-ttl">Reservas por Servicio — Semana</div><div class="chart-sub">Comparativa diaria en cantidad</div></div>
+                        <span class="chart-tag">↑ +18% sem. ant.</span>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chartBarras"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-hdr">
+                        <div><div class="chart-ttl">Servicios más Solicitados</div><div class="chart-sub">Distribución del mes · 118 servicios</div></div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chartDonut"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="bottom-row">
+                <div class="panel">
+                    <div class="panel-hdr">
+                        <div><div class="panel-ttl">Actividad Reciente</div><div class="panel-sub">Últimos movimientos del día</div></div>
+                        <a href="#" class="panel-lnk">Ver todo →</a>
+                    </div>
+                    <div class="act-list">
+                        <div class="act-row"><span class="act-em">📅</span><div class="act-body"><div class="act-ttl">Nueva reserva — Max Golden Retriever</div><div class="act-sub">Baño completo · Carlos</div></div><span class="act-t">10:02</span></div>
+                        <div class="act-row"><span class="act-em">✅</span><div class="act-body"><div class="act-ttl">Servicio completado — Luna Poodle</div><div class="act-sub">Corte de pelo · Sofía</div></div><span class="act-t">09:45</span></div>
+                        <div class="act-row"><span class="act-em">💰</span><div class="act-body"><div class="act-ttl">Pago recibido — $85.000</div><div class="act-sub">Spa completo · Efectivo</div></div><span class="act-t">09:30</span></div>
+                        <div class="act-row"><span class="act-em">🐾</span><div class="act-body"><div class="act-ttl">Nueva mascota registrada — Kira</div><div class="act-sub">Schnauzer · Ana Gómez</div></div><span class="act-t">09:10</span></div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-hdr">
+                        <div><div class="panel-ttl">Próximas Citas</div><div class="panel-sub">Agenda de hoy</div></div>
+                        <a href="#" class="panel-lnk">Ver todas →</a>
+                    </div>
+                    <div class="citas-list">
+                        <div class="cita-row"><div class="cita-hr">10:00</div><div class="cita-body"><div class="cita-nm">Max — Golden Retriever</div><div class="cita-sv">Baño completo</div></div><span class="chip c-ok">Confirmada</span></div>
+                        <div class="cita-row"><div class="cita-hr">11:30</div><div class="cita-body"><div class="cita-nm">Luna — Poodle</div><div class="cita-sv">Corte de pelo</div></div><span class="chip c-prc">En curso</span></div>
+                        <div class="cita-row"><div class="cita-hr">13:00</div><div class="cita-body"><div class="cita-nm">Thor — Bulldog</div><div class="cita-sv">Spa completo</div></div><span class="chip c-pnd">Pendiente</span></div>
+                        <div class="cita-row"><div class="cita-hr">15:00</div><div class="cita-body"><div class="cita-nm">Kira — Schnauzer</div><div class="cita-sv">Deslanado</div></div><span class="chip c-ok">Confirmada</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /content -->
+    </div><!-- /main -->
+
+    <script>
+        // ── Fecha ─────────────────────────────────────────────────
+        const D = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const M = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        const n = new Date();
+        document.getElementById('fechaHoy').textContent = `${D[n.getDay()]}, ${n.getDate()} de ${M[n.getMonth()]} de ${n.getFullYear()}`;
+
+        // ── JWT ───────────────────────────────────────────────────
+        let uName = 'Carlos Admin', uEmail = 'admin@venusmascotas.com', uRole = 'Admin', uIni = 'CA';
+        try {
+            const tok = localStorage.getItem('token');
+            if (tok) {
+                const p = JSON.parse(atob(tok.split('.')[1]));
+                uName = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || uName;
+                uEmail = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || uEmail;
+                uRole = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role'] || uRole;
+                uIni = uName.split(' ').map(x => x[0]).join('').substring(0, 2).toUpperCase();
+            }
+        } catch (e) { }
+
+        document.getElementById('sbAva').textContent = uIni;
+        document.getElementById('sbName').textContent = uName;
+        document.getElementById('tbAva').textContent = uIni;
+        document.getElementById('tbName').textContent = uName;
+        document.getElementById('tbRole').textContent = uRole;
+        document.getElementById('ddName').textContent = uName;
+        document.getElementById('ddEmail').textContent = uEmail;
+        document.getElementById('wName').textContent = uName.split(' ')[0];
+
+        // ── Sidebar ───────────────────────────────────────────────
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        // ── Dropdown ──────────────────────────────────────────────
+        function toggleDrop() {
+            const p = document.getElementById('tbProfile');
+            const d = document.getElementById('tbDrop');
+            const o = d.classList.toggle('open');
+            p.classList.toggle('open', o);
+        }
+        document.addEventListener('click', function (e) {
+            const w = document.querySelector('.tb-profile-wrap');
+            if (w && !w.contains(e.target)) {
+                document.getElementById('tbDrop').classList.remove('open');
+                document.getElementById('tbProfile').classList.remove('open');
+            }
+        });
+
+        // ── Tema ──────────────────────────────────────────────────
+        const TK = 'venus_theme';
+        let dark = localStorage.getItem(TK) === 'dark';
+
+        function applyTheme(d) {
+            document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
+            document.getElementById('iconSun').style.display = d ? 'none' : 'block';
+            document.getElementById('iconMoon').style.display = d ? 'block' : 'none';
+            localStorage.setItem(TK, d ? 'dark' : 'light');
+            if (barC && dotC) refreshCharts(d);
+        }
+        function toggleTheme() { dark = !dark; applyTheme(dark); }
+        applyTheme(dark);
+
+        // ── Logout ────────────────────────────────────────────────
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('rol');
+            window.location.replace('/Admin/Login.html');
+        }
+
+        // ── Protección ────────────────────────────────────────────
+        function check() {
+            if (!localStorage.getItem('token') || localStorage.getItem('rol') !== 'admin')
+                window.location.replace('/Admin/Login.html');
+        }
+        check();
+        window.addEventListener('pageshow', check);
+
+        // ── Charts ────────────────────────────────────────────────
+        const gc = () => dark ? '#1E1840' : '#F0EBF9';
+        const tc = () => dark ? '#BDB5DA' : '#8876AE';
+        const bc = () => dark ? '#15112A' : '#ffffff';
+
+        let barC = new Chart(document.getElementById('chartBarras'), {
+            type: 'bar',
+            data: {
+                labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Hoy'],
+                datasets: [
+                    { label: 'Esta semana', data: [8, 11, 7, 13, 10, 12, 14], backgroundColor: 'rgba(124,58,237,0.8)', borderRadius: 6, borderWidth: 0 },
+                    { label: 'Semana anterior', data: [6, 9, 8, 10, 8, 10, 11], backgroundColor: 'rgba(196,181,253,0.45)', borderRadius: 6, borderWidth: 0 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: { legend: { position: 'bottom', labels: { font: { family: 'DM Sans', weight: '700', size: 11 }, padding: 12, color: tc() } } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', weight: '700', size: 11 }, color: tc() } },
+                    y: { beginAtZero: true, grid: { color: gc() }, ticks: { stepSize: 2, font: { family: 'DM Sans', size: 11 }, color: tc() } }
+                }
+            }
+        });
+
+        let dotC = new Chart(document.getElementById('chartDonut'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Baño Completo', 'Corte de Pelo', 'Spa Completo', 'Deslanado', 'Limpieza Dental'],
+                datasets: [{ data: [38, 27, 22, 18, 13], backgroundColor: ['#7C3AED', '#F59E0B', '#10B981', '#06B6D4', '#EF4444'], borderColor: bc(), borderWidth: 3, hoverOffset: 8 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '65%',
+                plugins: {
+                    legend: { position: 'right', labels: { font: { family: 'DM Sans', weight: '700', size: 11 }, padding: 10, usePointStyle: true, pointStyleWidth: 7, color: tc() } },
+                    tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} (${Math.round(ctx.parsed / 118 * 100)}%)` } }
+                }
+            }
+        });
+
+        function refreshCharts(d) {
+            barC.options.scales.x.ticks.color = tc();
+            barC.options.scales.y.ticks.color = tc();
+            barC.options.scales.y.grid.color = gc();
+            barC.options.plugins.legend.labels.color = tc();
+            barC.update();
+            dotC.data.datasets[0].borderColor = bc();
+            dotC.options.plugins.legend.labels.color = tc();
+            dotC.update();
+        }
+    </script>
+
+</body>
+</html>

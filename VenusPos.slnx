@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="VenusPos.Application/VenusPos.Application.csproj" Id="c6773755-ea9b-4fd0-8b03-c7ae3bcdd003" />
+  <Project Path="VenusPos.Domain/VenusPos.Domain.csproj" Id="d616009e-1abd-482a-941b-aba5ebc1c341" />
+  <Project Path="VenusPos.Infrastructure/VenusPos.Infrastructure.csproj" Id="b09603be-2c72-40c8-9f36-63803bfb67a9" />
+  <Project Path="VenusPos.Shared/VenusPos.Shared.csproj" Id="89ff7266-dd2c-47b2-b4da-1b5da5256c70" />
+  <Project Path="VenusPos/VenusPos.csproj" />
+</Solution>

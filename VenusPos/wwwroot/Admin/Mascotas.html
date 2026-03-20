@@ -1,0 +1,708 @@
+﻿<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VenusMascotas - Mascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/MascotaAdmin.css" />
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sb-brand">
+            <div class="sb-logo"><img src="/img/logoVenus.png" alt="" onerror="this.parentElement.textContent='VP'" /></div>
+            <div class="sb-texts">
+                <div class="sb-name">VenusMascotas</div>
+                <div class="sb-sub">Admin Panel</div>
+            </div>
+        </div>
+        <nav class="sb-nav">
+            <div class="sb-group-lbl">Principal</div>
+            <a class="sb-item" href="Dashboard.html" data-tip="Dashboard">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
+                <span class="sb-lbl">Dashboard</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Reservas">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+                <span class="sb-lbl">Reservas</span><span class="sb-badge">4</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Caja">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                <span class="sb-lbl">Caja</span>
+            </a>
+            <div class="sb-group-lbl">Gestion</div>
+            <a class="sb-item" href="Clientes.html" data-tip="Clientes">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
+                <span class="sb-lbl">Clientes</span>
+            </a>
+            <a class="sb-item active" href="Mascotas.html" data-tip="Mascotas">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                <span class="sb-lbl">Mascotas</span>
+            </a>
+            <a class="sb-item" href="Empleados.html" data-tip="Empleados">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                <span class="sb-lbl">Empleados</span>
+            </a>
+            <a class="sb-item" href="Servicios.html" data-tip="Servicios">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3" /><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /></svg>
+                <span class="sb-lbl">Servicios</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Historial">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                <span class="sb-lbl">Historial</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Notificaciones">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                <span class="sb-lbl">Notificaciones</span>
+            </a>
+        </nav>
+        <div class="sb-bottom">
+            <button class="sb-collapse-btn" onclick="toggleSidebar()">
+                <div class="sb-collapse-ico"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.8)" stroke-width="2.5"><path d="M15 19l-7-7 7-7" /></svg></div>
+                <span class="sb-collapse-lbl">Contraer menu</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+        <header class="topbar">
+            <div class="tb-left">
+                <div class="tb-sect">Gestion</div>
+                <h2>Mascotas</h2>
+                <p id="fechaHoy"></p>
+            </div>
+            <div class="tb-right">
+                <button class="tb-btn" onclick="toggleTheme()" title="Cambiar tema">
+                    <svg id="iconSun" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
+                    <svg id="iconMoon" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                </button>
+                <div class="tb-profile-wrap">
+                    <div class="tb-profile" id="tbProfile" onclick="toggleDrop()">
+                        <div class="tb-ava" id="tbAva">AD</div>
+                        <div class="tb-pinfo">
+                            <span class="tb-pname" id="tbName">Admin</span>
+                            <span class="tb-prole" id="tbRole">Administrador</span>
+                        </div>
+                        <svg class="tb-chev" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6" /></svg>
+                    </div>
+                    <div class="tb-dropdown" id="tbDrop">
+                        <div class="dd-top">
+                            <div class="dd-name" id="ddName">Admin</div>
+                            <div class="dd-email" id="ddEmail"></div>
+                        </div>
+                        <a href="/" class="dd-item">
+                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+                            Ir al sitio web
+                        </a>
+                        <div class="dd-sep"></div>
+                        <div class="dd-item red" onclick="logout()">
+                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                            Cerrar Sesion
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <!-- Page header -->
+            <div class="page-hdr">
+                <div>
+                    <h1>Gestion de Mascotas</h1>
+                    <p>Administra todas las mascotas registradas en VenusMascotas</p>
+                </div>
+                <button class="btn-primary" onclick="abrirModalCrear()">
+                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 4v16m8-8H4" /></svg>
+                    Nueva Mascota
+                </button>
+            </div>
+
+            <!-- KPIs -->
+            <div class="stats-grid">
+                <div class="kpi-big">
+                    <div>
+                        <div class="kpi-big-lbl">Total Mascotas</div>
+                        <div class="kpi-big-val" id="statTotal">0</div>
+                    </div>
+                    <div class="kpi-big-ico">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                    </div>
+                </div>
+                <div class="kpi-big">
+                    <div>
+                        <div class="kpi-big-lbl">Clientes con mascota</div>
+                        <div class="kpi-big-val" id="statClientes">0</div>
+                    </div>
+                    <div class="kpi-big-ico">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
+                    </div>
+                </div>
+                <div class="kpi-big">
+                    <div>
+                        <div class="kpi-big-lbl">Registradas este mes</div>
+                        <div class="kpi-big-val" id="statMes">0</div>
+                    </div>
+                    <div class="kpi-big-ico">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
+                    <input class="search-input" type="text" id="searchInput" placeholder="Buscar por nombre, raza o dueno..." oninput="filtrar()" />
+                </div>
+                <select class="filter-select" id="filtroTamano" onchange="filtrar()">
+                    <option value="">Todos los Tamaños</option>
+                    <option value="Pequeno">Pequeno</option>
+                    <option value="Mediano">Mediano</option>
+                    <option value="Grande">Grande</option>
+                </select>
+                <select class="filter-select" id="filtroPelaje" onchange="filtrar()">
+                    <option value="">Todos los Mantos</option>
+                    <option value="Corto">Corto</option>
+                    <option value="SemiLargo">SemiLargo</option>
+                    <option value="Largo">Largo</option>
+                    <option value="DobleCapa">Doble Capa</option>
+                </select>
+                <select class="filter-select" id="filtroCliente" onchange="filtrar()">
+                    <option value="">Todos los Clientes</option>
+                </select>
+            </div>
+
+            <!-- Cards grid -->
+            <div class="cards-grid" id="cardsGrid">
+                <div class="cards-loading">Cargando mascotas...</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Modal VER -->
+    <div class="overlay" id="overlayVer">
+        <div class="modal modal-ver">
+            <button class="modal-close-abs" onclick="cerrarVer()">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div class="ver-top">
+                <div class="ver-img-wrap">
+                    <img id="verImg" src="" alt="" style="display:none" />
+                    <div class="ver-img-fallback" id="verImgFallback">
+                        <svg width="52" height="52" fill="none" viewBox="0 0 24 24" stroke="rgba(124,58,237,0.25)" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                    </div>
+                    <span class="ver-pelaje-badge" id="verPelajeBadge"></span>
+                </div>
+                <div class="ver-header-info">
+                    <div class="ver-nombre" id="verNombre"></div>
+                    <div class="ver-raza" id="verRaza"></div>
+                    <div class="ver-dueno-row">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+                        <span id="verDueno"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="ver-chips">
+                <div class="ver-chip">
+                    <div class="ver-chip-lbl">Tamaño</div>
+                    <div class="ver-chip-val" id="verTamano"></div>
+                </div>
+                <div class="ver-chip">
+                    <div class="ver-chip-lbl">Edad</div>
+                    <div class="ver-chip-val" id="verEdad"></div>
+                </div>
+                <div class="ver-chip">
+                    <div class="ver-chip-lbl">Fecha Nac.</div>
+                    <div class="ver-chip-val" id="verFechaNac"></div>
+                </div>
+                <div class="ver-chip">
+                    <div class="ver-chip-lbl">Registro</div>
+                    <div class="ver-chip-val" id="verFechaReg"></div>
+                </div>
+            </div>
+            <div class="ver-obs-wrap" id="verObsWrap">
+                <div class="ver-obs-lbl">Observaciones</div>
+                <div class="ver-obs" id="verObs"></div>
+            </div>
+            <div class="ver-footer">
+                <button class="btn-cancel" onclick="cerrarVer()">Cerrar</button>
+                <button class="btn-primary" onclick="editarDesdeVer()">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                    Editar Mascota
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal CREAR / EDITAR -->
+    <div class="overlay" id="overlayForm">
+        <div class="modal">
+            <div class="modal-hdr">
+                <h2 class="modal-ttl" id="formTitle">Nueva mascota</h2>
+                <button class="modal-close" onclick="cerrarForm()">x</button>
+            </div>
+            <!-- Preview imagen -->
+            <div class="img-preview-wrap">
+                <div class="img-preview" id="imgPreview">
+                    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="rgba(124,58,237,0.4)" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                </div>
+                <div class="img-upload-info">
+                    <label class="btn-upload" for="fileInput">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        Subir foto
+                    </label>
+                    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.webp" style="display:none" onchange="previsualizarImagen(event)" />
+                    <span class="img-hint">JPG, PNG o WebP. Max 3MB</span>
+                    <div class="upload-progress-wrap" id="uploadProgressWrap" style="display:none">
+                        <div class="upload-progress-track">
+                            <div class="upload-progress-bar" id="uploadProgressBar"></div>
+                        </div>
+                        <span class="upload-progress-txt" id="uploadProgressTxt">0%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-grid">
+                <div class="field">
+                    <label>Nombre</label>
+                    <input type="text" id="fNombre" placeholder="Max" />
+                </div>
+                <div class="field">
+                    <label>Raza</label>
+                    <input type="text" id="fRaza" placeholder="Golden Retriever" />
+                </div>
+                <div class="field">
+                    <label>Tamaño</label>
+                    <select id="fTamano">
+                        <option value="">Seleccionar...</option>
+                        <option value="Pequeno">Pequeno</option>
+                        <option value="Mediano">Mediano</option>
+                        <option value="Grande">Grande</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Tipo de Pelaje</label>
+                    <select id="fPelaje">
+                        <option value="">Seleccionar...</option>
+                        <option value="Corto">Corto</option>
+                        <option value="SemiLargo">SemiLargo</option>
+                        <option value="Largo">Largo</option>
+                        <option value="DobleCapa">Doble Capa</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Edad (años)</label>
+                    <input type="number" id="fEdad" placeholder="3" min="0" max="30" />
+                </div>
+                <div class="field">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" id="fFechaNac" />
+                </div>
+                <div class="field full">
+                    <label>Dueno</label>
+                    <select id="fCliente">
+                        <option value="">Seleccionar cliente...</option>
+                    </select>
+                </div>
+                <div class="field full">
+                    <label>Observaciones</label>
+                    <input type="text" id="fObservaciones" placeholder="Alergias, comportamiento especial..." />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="cerrarForm()">Cancelar</button>
+                <button class="btn-save" id="btnSave" onclick="guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var API        = '';
+    var mascotas   = [];
+    var filtrados  = [];
+    var clientes   = [];
+    var editandoId = null;
+    var viendo     = null;
+    var imagenUrl  = null;
+
+    /* Proteccion */
+    function check() { if (!localStorage.getItem('token')) window.location.replace('/Admin/Login.html'); }
+    check();
+    window.addEventListener('pageshow', check);
+
+    /* Fecha */
+    var DIAS  = ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
+    var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    var hoy = new Date();
+    document.getElementById('fechaHoy').textContent =
+        DIAS[hoy.getDay()] + ', ' + hoy.getDate() + ' de ' + MESES[hoy.getMonth()] + ' de ' + hoy.getFullYear();
+
+    /* JWT */
+    var uName = 'Admin', uEmail = '', uRole = 'Administrador', uIni = 'AD';
+    try {
+        var tok = localStorage.getItem('token');
+        if (tok) {
+            var p = JSON.parse(atob(tok.split('.')[1]));
+            uName  = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']         || uName;
+            uEmail = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || uEmail;
+            uRole  = p['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']       || uRole;
+            uIni   = uName.trim().split(' ').map(function(x){ return x[0]; }).join('').substring(0,2).toUpperCase();
+        }
+    } catch(e) {}
+    document.getElementById('tbAva').textContent   = uIni;
+    document.getElementById('tbName').textContent  = uName;
+    document.getElementById('tbRole').textContent  = uRole;
+    document.getElementById('ddName').textContent  = uName;
+    document.getElementById('ddEmail').textContent = uEmail;
+
+    /* UI */
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+    function toggleDrop() {
+        var p = document.getElementById('tbProfile'), d = document.getElementById('tbDrop');
+        d.classList.toggle('open'); p.classList.toggle('open', d.classList.contains('open'));
+    }
+    document.addEventListener('click', function(e) {
+        var w = document.querySelector('.tb-profile-wrap');
+        if (w && !w.contains(e.target)) {
+            document.getElementById('tbDrop').classList.remove('open');
+            document.getElementById('tbProfile').classList.remove('open');
+        }
+    });
+    var TK = 'venus_theme', dark = localStorage.getItem(TK) === 'dark';
+    function applyTheme(d) {
+        document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
+        document.getElementById('iconSun').style.display  = d ? 'none'  : 'block';
+        document.getElementById('iconMoon').style.display = d ? 'block' : 'none';
+        localStorage.setItem(TK, d ? 'dark' : 'light');
+    }
+    function toggleTheme() { dark = !dark; applyTheme(dark); }
+    applyTheme(dark);
+    function logout() { localStorage.removeItem('token'); window.location.replace('/Admin/Login.html'); }
+    function authHeaders() { return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') }; }
+    function toast(msg, tipo) {
+        tipo = tipo || 'success';
+        var el = document.getElementById('toast');
+        el.textContent = msg; el.className = 'toast ' + tipo; el.style.display = 'block';
+        clearTimeout(el._t); el._t = setTimeout(function(){ el.style.display = 'none'; }, 3200);
+    }
+
+    /* Cargar clientes para el select y el filtro */
+    async function cargarClientes() {
+        try {
+            var res = await fetch(API + '/api/Cliente', { headers: authHeaders() });
+            if (!res.ok) return;
+            clientes = await res.json();
+            var sel     = document.getElementById('fCliente');
+            var filtro  = document.getElementById('filtroCliente');
+            sel.innerHTML    = '<option value="">Seleccionar cliente...</option>';
+            filtro.innerHTML = '<option value="">Todos los Clientes</option>';
+            clientes.forEach(function(c) {
+                sel.innerHTML    += '<option value="' + c.id + '">' + c.nombre + '</option>';
+                filtro.innerHTML += '<option value="' + c.id + '">' + c.nombre + '</option>';
+            });
+        } catch(e) {}
+    }
+
+    /* Cargar mascotas */
+    async function cargarMascotas() {
+        try {
+            var res = await fetch(API + '/api/Mascota', { headers: authHeaders() });
+            if (res.status === 401) { window.location.replace('/Admin/Login.html'); return; }
+            if (!res.ok) throw new Error('Error ' + res.status);
+            mascotas = await res.json();
+            actualizarStats();
+            aplicarFiltro();
+        } catch(err) {
+            document.getElementById('cardsGrid').innerHTML =
+                '<div class="cards-error">Error al cargar: ' + err.message + '</div>';
+        }
+    }
+
+    /* KPIs */
+    function actualizarStats() {
+        document.getElementById('statTotal').textContent = mascotas.length;
+        var clientesUnicos = new Set(mascotas.map(function(m){ return m.idCliente; })).size;
+        document.getElementById('statClientes').textContent = clientesUnicos;
+        var ahora = new Date();
+        var esteMes = mascotas.filter(function(m) {
+            var f = new Date(m.fechaCreacion);
+            return f.getMonth() === ahora.getMonth() && f.getFullYear() === ahora.getFullYear();
+        }).length;
+        document.getElementById('statMes').textContent = esteMes;
+    }
+
+    /* Filtros */
+    function filtrar() { aplicarFiltro(); }
+    function aplicarFiltro() {
+        var q        = document.getElementById('searchInput').value.toLowerCase().trim();
+        var tamano   = document.getElementById('filtroTamano').value;
+        var pelaje   = document.getElementById('filtroPelaje').value;
+        var clienteF = document.getElementById('filtroCliente').value;
+        filtrados    = mascotas.filter(function(m) {
+            var matchQ = !q ||
+                (m.nombre        || '').toLowerCase().indexOf(q) >= 0 ||
+                (m.raza          || '').toLowerCase().indexOf(q) >= 0 ||
+                (m.nombreCliente || '').toLowerCase().indexOf(q) >= 0;
+            var matchT = !tamano   || (m['tamaño'] || m.tamano  || '') === tamano;
+            var matchP = !pelaje   || (m.tipoPelaje || '') === pelaje;
+            var matchC = !clienteF || String(m.idCliente) === String(clienteF);
+            return matchQ && matchT && matchP && matchC;
+        });
+        renderCards();
+    }
+
+    /* Colores pelaje */
+    var pelajeColors = {
+        'Corto':     { bg: '#DBEAFE', color: '#1D4ED8' },
+        'SemiLargo': { bg: '#FCE7F3', color: '#BE185D' },
+        'Largo':     { bg: '#D1FAE5', color: '#065F46' },
+        'DobleCapa': { bg: '#EDE9FE', color: '#5B21B6' }
+    };
+    function getPelajeStyle(pelaje) {
+        var c = pelajeColors[pelaje] || { bg: '#F3F4F6', color: '#374151' };
+        return 'background:' + c.bg + ';color:' + c.color;
+    }
+
+    /* Render cards */
+    function renderCards() {
+        var grid = document.getElementById('cardsGrid');
+        if (!filtrados.length) {
+            grid.innerHTML = '<div class="cards-empty">No se encontraron mascotas.</div>';
+            return;
+        }
+        grid.innerHTML = filtrados.map(function(m) {
+            var imgHtml = m.imagen
+                ? '<img src="' + m.imagen + '" alt="' + m.nombre + '" class="pet-img" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'" /><div class="pet-img-fallback" style="display:none"><svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="rgba(124,58,237,0.25)" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>'
+                : '<div class="pet-img-fallback"><svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="rgba(124,58,237,0.25)" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>';
+            var pStyle = getPelajeStyle(m.tipoPelaje);
+            var edad   = (m.edad || 0) + ((m.edad === 1) ? ' año' : ' años');
+            return '<div class="pet-card" onclick="verMascota(' + m.id + ')">' +
+                '<div class="pet-photo-wrap">' +
+                    imgHtml +
+                    '<span class="pet-pelaje-badge" style="' + pStyle + '">' + (m.tipoPelaje || '') + '</span>' +
+                '</div>' +
+                '<div class="pet-body">' +
+                    '<div class="pet-name-row">' +
+                        '<span class="pet-name">' + m.nombre + '</span>' +
+                        '<span class="pet-dot"></span>' +
+                    '</div>' +
+                    '<div class="pet-raza">' + (m.raza || '') + '</div>' +
+                    '<div class="pet-meta">' +
+                        '<div class="pet-meta-row">' +
+                            '<svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+                            (m.nombreCliente || 'Sin dueno') +
+                        '</div>' +
+                        '<div class="pet-meta-row">' +
+                            '<svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' +
+                            edad + ' &bull; ' + (m['tamaño'] || m.tamano || '') +
+                        '</div>' +
+                    '</div>' +
+                    '<button class="pet-btn-ver" onclick="event.stopPropagation();verMascota(' + m.id + ')">' +
+                        '<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
+                        'Ver perfil' +
+                    '</button>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    /* Ver mascota */
+    function verMascota(id) {
+        var m = null;
+        for (var i = 0; i < mascotas.length; i++) { if (mascotas[i].id === id) { m = mascotas[i]; break; } }
+        if (!m) return;
+        viendo = m;
+        var imgEl = document.getElementById('verImg');
+        var fallEl = document.getElementById('verImgFallback');
+        if (m.imagen) { imgEl.src = m.imagen; imgEl.style.display = 'block'; fallEl.style.display = 'none'; }
+        else          { imgEl.style.display = 'none'; fallEl.style.display = 'flex'; }
+        document.getElementById('verNombre').textContent = m.nombre;
+        document.getElementById('verRaza').textContent   = m.raza || '';
+        document.getElementById('verDueno').textContent  = m.nombreCliente || 'Sin dueno';
+        document.getElementById('verTamano').textContent = m['tamaño'] || m.tamano || '-';
+        document.getElementById('verEdad').textContent   = (m.edad || 0) + ((m.edad === 1) ? ' año' : ' años');
+        document.getElementById('verFechaNac').textContent = m.fechaNacimiento
+            ? new Date(m.fechaNacimiento).toLocaleDateString('es-CO', { year:'numeric', month:'short', day:'numeric' }) : '-';
+        document.getElementById('verFechaReg').textContent = m.fechaCreacion
+            ? new Date(m.fechaCreacion).toLocaleDateString('es-CO', { year:'numeric', month:'short', day:'numeric' }) : '-';
+        var badge = document.getElementById('verPelajeBadge');
+        badge.textContent = m.tipoPelaje || '';
+        badge.style.cssText = getPelajeStyle(m.tipoPelaje) + ';font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;';
+        var obsWrap = document.getElementById('verObsWrap');
+        if (m.observaciones && m.observaciones.trim()) {
+            document.getElementById('verObs').textContent = m.observaciones;
+            obsWrap.style.display = 'block';
+        } else { obsWrap.style.display = 'none'; }
+        document.getElementById('overlayVer').classList.add('open');
+    }
+
+    function cerrarVer() { document.getElementById('overlayVer').classList.remove('open'); viendo = null; }
+    function editarDesdeVer() { if (!viendo) return; cerrarVer(); abrirModalEditar(viendo.id); }
+
+    /* Modal crear */
+    function abrirModalCrear() {
+        editandoId = null; imagenUrl = null;
+        document.getElementById('formTitle').textContent = 'Nueva mascota';
+        limpiarForm();
+        document.getElementById('overlayForm').classList.add('open');
+    }
+
+    /* Modal editar */
+    function abrirModalEditar(id) {
+        var m = null;
+        for (var i = 0; i < mascotas.length; i++) { if (mascotas[i].id === id) { m = mascotas[i]; break; } }
+        if (!m) return;
+        editandoId = id; imagenUrl = m.imagen || null;
+        document.getElementById('formTitle').textContent   = 'Editar mascota';
+        document.getElementById('fNombre').value           = m.nombre        || '';
+        document.getElementById('fRaza').value             = m.raza          || '';
+        document.getElementById('fTamano').value           = m['tamaño'] || m.tamano || '';
+        document.getElementById('fPelaje').value           = m.tipoPelaje    || '';
+        document.getElementById('fEdad').value             = m.edad          || '';
+        document.getElementById('fObservaciones').value    = m.observaciones || '';
+        document.getElementById('fCliente').value          = m.idCliente     || '';
+        if (m.fechaNacimiento) {
+            document.getElementById('fFechaNac').value = m.fechaNacimiento.substring(0,10);
+        }
+        if (m.imagen) {
+            document.getElementById('imgPreview').innerHTML =
+                '<img src="' + m.imagen + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px" />';
+        }
+        // Asegurar que el select de cliente tenga el valor correcto
+        setTimeout(function() {
+            document.getElementById('fCliente').value = m.idCliente || '';
+        }, 50);
+        document.getElementById('overlayForm').classList.add('open');
+    }
+
+    function cerrarForm() { document.getElementById('overlayForm').classList.remove('open'); limpiarForm(); }
+    function limpiarForm() {
+        ['fNombre','fRaza','fEdad','fObservaciones','fFechaNac'].forEach(function(id){ document.getElementById(id).value = ''; });
+        document.getElementById('fTamano').value  = '';
+        document.getElementById('fPelaje').value  = '';
+        document.getElementById('fCliente').value = '';
+        document.getElementById('imgPreview').innerHTML =
+            '<svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="rgba(124,58,237,0.4)" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+        imagenUrl = null;
+        document.getElementById('fileInput').value = '';
+        document.getElementById('uploadProgressWrap').style.display = 'none';
+        document.getElementById('uploadProgressBar').style.width    = '0%';
+    }
+
+    /* Preview imagen */
+    function previsualizarImagen(event) {
+        var file = event.target.files[0]; if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('imgPreview').innerHTML =
+                '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px" />';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    /* Subir imagen con barra de progreso */
+    function subirImagen() {
+        return new Promise(function(resolve, reject) {
+            var fileInput = document.getElementById('fileInput');
+            if (!fileInput.files || !fileInput.files[0]) { resolve(null); return; }
+            var formData = new FormData();
+            formData.append('imagen', fileInput.files[0]);
+            var wrap = document.getElementById('uploadProgressWrap');
+            var bar  = document.getElementById('uploadProgressBar');
+            var txt  = document.getElementById('uploadProgressTxt');
+            wrap.style.display = 'flex';
+            bar.style.width = '0%'; txt.textContent = '0%';
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', API + '/api/Mascota/upload-imagen');
+            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    var pct = Math.round((e.loaded / e.total) * 100);
+                    bar.style.width = pct + '%'; txt.textContent = pct + '%';
+                }
+            };
+            xhr.onload = function() {
+                wrap.style.display = 'none';
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try { resolve(JSON.parse(xhr.responseText).url); }
+                    catch(e) { reject(new Error('Respuesta invalida')); }
+                } else {
+                    try { reject(new Error(JSON.parse(xhr.responseText).message || 'Error al subir')); }
+                    catch(e) { reject(new Error('Error al subir imagen')); }
+                }
+            };
+            xhr.onerror = function() { wrap.style.display = 'none'; reject(new Error('Error de red')); };
+            xhr.send(formData);
+        });
+    }
+
+    /* Guardar */
+    async function guardar() {
+        var nombre        = document.getElementById('fNombre').value.trim();
+        var raza          = document.getElementById('fRaza').value.trim();
+        var tamano        = document.getElementById('fTamano').value;
+        var pelaje        = document.getElementById('fPelaje').value;
+        var edad          = parseInt(document.getElementById('fEdad').value);
+        var fechaNac      = document.getElementById('fFechaNac').value;
+        var idCliente     = parseInt(document.getElementById('fCliente').value);
+        var observaciones = document.getElementById('fObservaciones').value.trim();
+
+        if (!nombre)          { toast('El nombre es obligatorio', 'error'); return; }
+        if (!tamano)          { toast('Selecciona el tamaño', 'error'); return; }
+        if (!pelaje)          { toast('Selecciona el tipo de pelaje', 'error'); return; }
+        if (isNaN(edad))      { toast('Ingresa la edad', 'error'); return; }
+        if (!fechaNac)        { toast('Ingresa la fecha de nacimiento', 'error'); return; }
+        if (isNaN(idCliente)) { toast('Selecciona el dueno', 'error'); return; }
+
+        var btn = document.getElementById('btnSave');
+        btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Guardando...';
+
+        try {
+            if (document.getElementById('fileInput').files && document.getElementById('fileInput').files[0]) {
+                imagenUrl = await subirImagen();
+            }
+            var url    = editandoId === null ? API + '/api/Mascota' : API + '/api/Mascota/' + editandoId;
+            var method = editandoId === null ? 'POST' : 'PUT';
+            var body   = {
+                nombre:          nombre,
+                raza:            raza,
+                tamano:          tamano,
+                tipoPelaje:      pelaje,
+                edad:            edad,
+                fechaNacimiento: fechaNac,
+                observaciones:   observaciones,
+                imagen:          imagenUrl
+            };
+            if (editandoId === null) body.idCliente = idCliente;
+
+            var res = await fetch(url, { method: method, headers: authHeaders(), body: JSON.stringify(body) });
+            if (!res.ok) {
+                var err = await res.json().catch(function(){ return {}; });
+                throw new Error(err.message || 'Error ' + res.status);
+            }
+            cerrarForm();
+            toast(editandoId === null ? 'Mascota registrada correctamente' : 'Mascota actualizada');
+            await cargarMascotas();
+        } catch(err) {
+            toast(err.message, 'error');
+        } finally {
+            btn.disabled = false; btn.innerHTML = 'Guardar';
+        }
+    }
+
+    /* Cerrar al click fuera */
+    document.getElementById('overlayVer').addEventListener('click',  function(e){ if (e.target===e.currentTarget) cerrarVer(); });
+    document.getElementById('overlayForm').addEventListener('click', function(e){ if (e.target===e.currentTarget) cerrarForm(); });
+
+    cargarClientes();
+    cargarMascotas();
+    </script>
+</body>
+</html>

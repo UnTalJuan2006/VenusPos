@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VenusMascotas — Acceso Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@1,700;1,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/login.css" />
+</head>
+<body>
+
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <span class="bg-paw bg-paw-1">🐾</span>
+    <span class="bg-paw bg-paw-2">🐾</span>
+
+    <div class="page">
+
+        <!-- ══ PANEL IZQUIERDO ══ -->
+        <div class="left-panel">
+            <div class="left-content">
+
+                <div class="left-logo">
+                    <img src="/img/logoVenus.png" alt="VenusMascotas" />
+                </div>
+
+                <div class="left-heading">
+                    <h1 class="left-title">VenusMascotas</h1>
+                    <p class="left-subtitle">Panel Administrativo</p>
+                </div>
+
+                <div class="left-divider"></div>
+
+                <div class="left-features">
+                    <div class="left-feature">
+                        <div class="left-feature-icon">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <div class="left-feature-text">
+                            <p class="feat-title">Gestión de Empleados</p>
+                            <p class="feat-desc">CRUD completo del personal</p>
+                        </div>
+                    </div>
+
+                    <div class="left-feature">
+                        <div class="left-feature-icon">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" />
+                                <path d="M16 2v4M8 2v4M3 10h18" />
+                            </svg>
+                        </div>
+                        <div class="left-feature-text">
+                            <p class="feat-title">Gestión de Reservas</p>
+                            <p class="feat-desc">Control de citas y horarios</p>
+                        </div>
+                    </div>
+
+                    <div class="left-feature">
+                        <div class="left-feature-icon">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="left-feature-text">
+                            <p class="feat-title">Punto de Venta</p>
+                            <p class="feat-desc">Facturación y caja</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/index.html" class="left-back">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Volver al sitio principal
+                </a>
+
+            </div>
+        </div>
+
+        <!-- ══ PANEL DERECHO ══ -->
+        <div class="right-panel">
+            <div class="form-box">
+
+                <div class="form-header">
+                    <div class="form-badge">
+                        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        Acceso Restringido
+                    </div>
+                    <h2 class="form-title">Bienvenido de nuevo</h2>
+                    <p class="form-subtitle">Ingresa tus credenciales para acceder al panel administrativo.</p>
+                </div>
+
+                <div class="error-msg" id="errorMsg">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 8v4m0 4h.01" />
+                    </svg>
+                    <span id="errorText">Credenciales inválidas.</span>
+                </div>
+
+                <div class="field">
+                    <label for="email">Correo electrónico</label>
+                    <div class="input-wrap">
+                        <span class="input-icon">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </span>
+                        <input type="email" id="email" placeholder="admin@venusmascotas.com" autocomplete="email" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="field-label-row">
+                        <label for="password">Contraseña</label>
+                        <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <div class="input-wrap">
+                        <span class="input-icon">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </span>
+                        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+                        <button class="btn-toggle-pass" onclick="togglePass()" type="button">
+                            <svg id="eyeIcon" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="btn-login" id="btnLogin" onclick="login()">
+                    <span id="btnText">Ingresar al Panel</span>
+                    <svg id="btnIcon" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                    <div class="spinner" id="spinner"></div>
+                </button>
+
+                <div class="form-divider"><span>o</span></div>
+
+                <a href="/index.html" class="btn-back-site">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    Volver al sitio principal
+                </a>
+
+                <div class="form-security">
+                    <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    Conexión segura · Solo personal autorizado
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePass() {
+            const input = document.getElementById('password');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerHTML = `<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>`;
+            } else {
+                input.type = 'password';
+                icon.innerHTML = `<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>`;
+            }
+        }
+
+        function mostrarError(msg) {
+            const el = document.getElementById('errorMsg');
+            document.getElementById('errorText').textContent = msg;
+            el.classList.add('show');
+        }
+
+        function ocultarError() {
+            document.getElementById('errorMsg').classList.remove('show');
+        }
+
+        async function login() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('btnLogin');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+            const spinner = document.getElementById('spinner');
+
+            ocultarError();
+
+            if (!email || !password) {
+                mostrarError('Por favor completa todos los campos.');
+                return;
+            }
+
+            btn.disabled = true;
+            btnText.textContent = 'Verificando...';
+            btnIcon.style.display = 'none';
+            spinner.style.display = 'block';
+
+            try {
+                const res = await fetch('/api/Empleado/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (!res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    throw new Error(data.message || 'Credenciales inválidas.');
+                }
+
+                const data = await res.json();
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('rol', 'admin');
+                window.location.href = '/Admin/Dashboard.html';
+
+            } catch (err) {
+                mostrarError(err.message);
+            } finally {
+                btn.disabled = false;
+                btnText.textContent = 'Ingresar al Panel';
+                btnIcon.style.display = 'inline';
+                spinner.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+        if (localStorage.getItem('token') && localStorage.getItem('rol') === 'admin') {
+            window.location.href = '/Admin/empleados.html';
+        }
+    </script>
+
+</body>
+</html>

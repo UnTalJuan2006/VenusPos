@@ -1,0 +1,33 @@
+@VenusPos_HostAddress = https://localhost:7245
+
+GET {{VenusPos_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{VenusPos_HostAddress}}/api/empleado/login
+Content-Type: application/json
+
+{
+    "email": "Santiago@gmail.com",
+    "password": "1234567"
+}
+###
+
+@id=1
+GET {{VenusPos_HostAddress}}/api/empleado/{id:int}?id={{id}}
+
+###
+
+GET {{VenusPos_HostAddress}}/api/empleado
+
+###
+
+POST {{VenusPos_HostAddress}}/api/empleado/login
+Content-Type: application/json
+
+{
+  //LoginEmpleadoDTO
+}
+
+###

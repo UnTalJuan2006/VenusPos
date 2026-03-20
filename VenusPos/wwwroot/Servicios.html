@@ -1,0 +1,797 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios — VenusMascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Index.css">
+    <style>
+        nav ul li a {
+            text-decoration: none !important;
+            color: inherit !important;
+        }
+
+        /* ══════════════════════════════
+           HERO SERVICIOS
+        ══════════════════════════════ */
+        .sv-hero {
+            background: linear-gradient(160deg, #ede9fe 0%, #f5f3ff 30%, #ffffff 55%, #eff6ff 80%, #dbeafe 100%);
+            padding: 64px 6% 72px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .sv-hero::before, .sv-hero::after {
+                content: '🐾';
+                position: absolute;
+                font-size: 140px;
+                opacity: 0.04;
+                pointer-events: none;
+            }
+
+            .sv-hero::before {
+                top: 10px;
+                left: 20px;
+                transform: rotate(-20deg);
+            }
+
+            .sv-hero::after {
+                bottom: 10px;
+                right: 30px;
+                transform: rotate(15deg);
+            }
+
+            .sv-hero .badge {
+                margin-bottom: 20px;
+            }
+
+            .sv-hero h1 {
+                font-size: clamp(34px, 5vw, 54px);
+                font-weight: 900;
+                color: var(--text-dark);
+                letter-spacing: -1px;
+                line-height: 1.1;
+                margin-bottom: 14px;
+            }
+
+                .sv-hero h1 span {
+                    color: var(--purple);
+                }
+
+            .sv-hero p {
+                font-size: 15px;
+                font-weight: 600;
+                color: var(--text-gray);
+                line-height: 1.7;
+                max-width: 480px;
+                margin: 0 auto;
+            }
+
+        /* ══════════════════════════════
+           SERVICIOS PRINCIPALES
+        ══════════════════════════════ */
+        .sv-main {
+            background: #ffffff;
+            padding: 80px 6%;
+        }
+
+        .sv-section-head {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+            .sv-section-head h2 {
+                font-size: clamp(28px, 3.5vw, 40px);
+                font-weight: 900;
+                color: var(--text-dark);
+                letter-spacing: -0.5px;
+                margin-bottom: 10px;
+            }
+
+            .sv-section-head p {
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text-gray);
+                max-width: 440px;
+                margin: 0 auto;
+                line-height: 1.65;
+            }
+
+        /* Card de servicio principal — alternado */
+        .sv-card {
+            max-width: 1100px;
+            margin: 0 auto 64px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+            .sv-card:last-child {
+                margin-bottom: 0;
+            }
+
+            .sv-card.reverse {
+                direction: rtl;
+            }
+
+                .sv-card.reverse > * {
+                    direction: ltr;
+                }
+
+        .sv-card-img {
+            border-radius: 22px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            box-shadow: 0 14px 44px rgba(139,60,247,.13);
+        }
+
+            .sv-card-img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                transition: transform .5s;
+            }
+
+            .sv-card-img:hover img {
+                transform: scale(1.04);
+            }
+
+        .sv-card-body {
+        }
+
+        .sv-card-ico {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .sv-card-body h3 {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .sv-card-body > p {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-gray);
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        .sv-incluye-label {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .sv-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+            .sv-list li {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text-gray);
+            }
+
+                .sv-list li::before {
+                    content: '';
+                    width: 18px;
+                    height: 18px;
+                    border-radius: 50%;
+                    background: rgba(139,60,247,.12);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                    background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%238B3CF7' stroke-width='3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: 10px;
+                }
+
+        /* ══════════════════════════════
+           SERVICIOS ADICIONALES
+        ══════════════════════════════ */
+        .sv-adicionales {
+            background: linear-gradient(135deg, #f5f3ff 0%, #eff6ff 100%);
+            padding: 80px 6%;
+        }
+
+        .sv-adicionales-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .sv-add-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 24px 20px;
+            box-shadow: 0 2px 14px rgba(0,0,0,.06);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+            .sv-add-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 30px rgba(139,60,247,.12);
+            }
+
+        .sv-add-ico {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: #f5f3ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .sv-add-card h4 {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 7px;
+        }
+
+        .sv-add-card p {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* ══════════════════════════════
+           SERVICIOS SEGÚN EL PELAJE
+        ══════════════════════════════ */
+        .sv-pelaje {
+            background: #ffffff;
+            padding: 80px 6%;
+        }
+
+        .sv-pelaje-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .sv-pelaje-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 18px rgba(0,0,0,.07);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+            .sv-pelaje-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 16px 40px rgba(139,60,247,.14);
+            }
+
+        .sv-pelaje-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+        }
+
+            .sv-pelaje-img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: top;
+                transition: transform .5s;
+            }
+
+        .sv-pelaje-card:hover .sv-pelaje-img img {
+            transform: scale(1.05);
+        }
+
+        .sv-pelaje-body {
+            padding: 18px 18px 22px;
+        }
+
+        .sv-pelaje-ico {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .sv-pelaje-body h4 {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .sv-pelaje-razas {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 8px;
+        }
+
+        .sv-pelaje-body p {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .sv-pelaje-precio {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+            .sv-pelaje-precio span {
+                color: var(--purple);
+            }
+
+        .sv-pelaje-nota {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-gray);
+            font-style: italic;
+            margin-top: 3px;
+        }
+
+        /* Responsive */
+        @media(max-width:900px) {
+            .sv-card, .sv-card.reverse {
+                grid-template-columns: 1fr;
+                direction: ltr;
+            }
+
+            .sv-adicionales-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .sv-pelaje-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media(max-width:560px) {
+            .sv-adicionales-grid, .sv-pelaje-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animaciones */
+        .anim-up {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity .65s ease, transform .65s ease;
+        }
+
+        .anim-left {
+            opacity: 0;
+            transform: translateX(-48px);
+            transition: opacity .65s ease, transform .65s ease;
+        }
+
+        .anim-right {
+            opacity: 0;
+            transform: translateX(48px);
+            transition: opacity .65s ease, transform .65s ease;
+        }
+
+        .anim-delay-1 {
+            transition-delay: .08s
+        }
+
+        .anim-delay-2 {
+            transition-delay: .16s
+        }
+
+        .anim-delay-3 {
+            transition-delay: .24s
+        }
+
+        .anim-delay-4 {
+            transition-delay: .32s
+        }
+
+        .anim-visible {
+            opacity: 1 !important;
+            transform: translate(0,0) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ══════════════ HEADER ══════════════ -->
+    <header>
+        <div class="header-inner">
+            <a href="Index.html" class="logo-wrap">
+                <div class="logo-circle">
+                    <img src="img/logoVenus.png" alt="Logo Venus Mascotas">
+                </div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="Index.html">Inicio</a></li>
+                    <li><a href="QuienesSomos.html">Quiénes Somos</a></li>
+                    <li class="active"><a href="Servicios.html">Servicios</a></li>
+                    <li><a href="Index.html#instalaciones">Instalaciónes</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="Index.html#citas" class="btn-header-primary">Agenda tu Cita</a>
+                <a href="Index.html#contacto" class="btn-header-link">Contacto</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ══════════════ HERO ══════════════ -->
+    <section class="sv-hero">
+        <div class="badge anim-up">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--purple)">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v4l3 3" />
+            </svg>
+            Nuestros Servicios
+        </div>
+        <h1 class="anim-up anim-delay-1">Servicios de <span>Spa Canino</span></h1>
+        <p class="anim-up anim-delay-2">Ofrecemos una amplia gama de servicios profesionales diseñados para el bienestar y la belleza de tu mascota</p>
+    </section>
+
+    <!-- ══════════════ SERVICIOS PRINCIPALES ══════════════ -->
+    <section class="sv-main">
+        <div class="sv-section-head anim-up">
+            <h2>Servicios Principales</h2>
+            <p>Paquetes completos diseñados para cubrir todas las necesidades de tu mascota</p>
+        </div>
+
+        <!-- Baño Completo -->
+        <div class="sv-card anim-up">
+            <div class="sv-card-body">
+                <div class="sv-card-ico" style="background: linear-gradient(135deg,#a78bfa,#8B3CF7);">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <h3>Baño Completo</h3>
+                <p>Servicio integral que incluye todos nuestros tratamientos para dejar a tu mascota impecable</p>
+                <p class="sv-incluye-label">Incluye:</p>
+                <ul class="sv-list">
+                    <li>Champú desengrasante</li>
+                    <li>Limpieza de oídos</li>
+                    <li>Limpieza dental</li>
+                    <li>Corte de uñas</li>
+                    <li>Perfume</li>
+                    <li>Accesorio (pañoleta o moños)</li>
+                </ul>
+            </div>
+            <div class="sv-card-img">
+                <img src="img/Atendinedo.jpeg"
+                     onerror="this.src='https://images.unsplash.com/photo-1581888227599-779811939961?w=700&q=80'"
+                     alt="Baño Completo" />
+            </div>
+        </div>
+
+        <!-- Corte y Estilizado -->
+        <div class="sv-card reverse anim-up">
+            <div class="sv-card-body">
+                <div class="sv-card-ico" style="background: linear-gradient(135deg,#38bdf8,#0ea5e9);">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
+                        <path d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 0L4 4m5.121 5.121L4 14.243" />
+                    </svg>
+                </div>
+                <h3>Corte y Estilizado</h3>
+                <p>Corte profesional adaptado a la raza y preferencias del dueño</p>
+                <p class="sv-incluye-label">Incluye:</p>
+                <ul class="sv-list">
+                    <li>Corte según raza</li>
+                    <li>Estilizado personalizado</li>
+                    <li>Recorte de patas</li>
+                    <li>Limpieza de cara</li>
+                    <li>Acabado profesional</li>
+                </ul>
+            </div>
+            <div class="sv-card-img">
+                <img src="img/spa.jpeg"
+                     onerror="this.src='https://images.unsplash.com/photo-1559057994-2a0e5e2b3b2e?w=700&q=80'"
+                     alt="Corte y Estilizado" />
+            </div>
+        </div>
+
+        <!-- Tratamiento Especial -->
+        <div class="sv-card anim-up">
+            <div class="sv-card-body">
+                <div class="sv-card-ico" style="background: linear-gradient(135deg,#f472b6,#c084fc);">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <h3>Tratamiento Especial</h3>
+                <p>Cuidados adicionales para pieles sensibles o necesidades específicas</p>
+                <p class="sv-incluye-label">Incluye:</p>
+                <ul class="sv-list">
+                    <li>Champú medicado</li>
+                    <li>Tratamiento antipulgas</li>
+                    <li>Hidratación profunda</li>
+                    <li>Masaje relajante</li>
+                    <li>Aromaterapia</li>
+                </ul>
+            </div>
+            <div class="sv-card-img">
+                <img src="img/pug.jpeg"
+                     onerror="this.src='https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=700&q=80'"
+                     alt="Tratamiento Especial" />
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ SERVICIOS ADICIONALES ══════════════ -->
+    <section class="sv-adicionales">
+        <div class="sv-section-head anim-up">
+            <h2>Servicios Adicionales</h2>
+            <p>Complementa el cuidado de tu mascota con nuestros servicios especializados</p>
+        </div>
+        <div class="sv-adicionales-grid">
+
+            <div class="sv-add-card anim-up anim-delay-1">
+                <div class="sv-add-ico">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="2">
+                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                </div>
+                <h4>Limpieza Dental</h4>
+                <p>Cuidado completo de la salud bucal para prevenir enfermedades</p>
+            </div>
+
+            <div class="sv-add-card anim-up anim-delay-2">
+                <div class="sv-add-ico">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="2">
+                        <path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4M12 4a7 7 0 017 7" />
+                    </svg>
+                </div>
+                <h4>Limpieza de Oídos</h4>
+                <p>Higiene profunda para prevenir infecciones y mantener la salud auditiva</p>
+            </div>
+
+            <div class="sv-add-card anim-up anim-delay-3">
+                <div class="sv-add-ico">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="2">
+                        <path d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 0L4 4m5.121 5.121L4 14.243" />
+                    </svg>
+                </div>
+                <h4>Corte de Uñas</h4>
+                <p>Corte profesional y seguro para la comodidad de tu mascota</p>
+            </div>
+
+            <div class="sv-add-card anim-up anim-delay-4">
+                <div class="sv-add-ico">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="2">
+                        <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                </div>
+                <h4>Champú Desengrasante</h4>
+                <p>Eliminación profunda de suciedad y grasa acumulada</p>
+            </div>
+
+            <div class="sv-add-card anim-up anim-delay-1">
+                <div class="sv-add-ico">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="2">
+                        <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                </div>
+                <h4>Champú Hidratante</h4>
+                <p>Hidratación profunda para un pelaje suave y brillante</p>
+            </div>
+
+            <div class="sv-add-card anim-up anim-delay-2">
+                <div class="sv-add-ico">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="2">
+                        <path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.78 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                </div>
+                <h4>Perfume</h4>
+                <p>Fragancias suaves y seguras especialmente formuladas para mascotas</p>
+            </div>
+
+            <div class="sv-add-card anim-up anim-delay-3">
+                <div class="sv-add-ico">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="2">
+                        <path d="M12 8v13m0-13V6a4 4 0 014-4h1M12 8H5.5a2.5 2.5 0 000 5H12m0-5h6.5a2.5 2.5 0 010 5H12" />
+                    </svg>
+                </div>
+                <h4>Accesorios</h4>
+                <p>Pañoleta o moños para que tu mascota luzca hermosa</p>
+            </div>
+
+            <div class="sv-add-card anim-up anim-delay-4">
+                <div class="sv-add-ico">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="2">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <h4>Cepillado Profundo</h4>
+                <p>Eliminación de nudos y pelo muerto para un pelaje saludable</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════════ SERVICIOS SEGÚN EL PELAJE ══════════════ -->
+    <section class="sv-pelaje">
+        <div class="sv-section-head anim-up">
+            <div class="badge" style="margin:0 auto 16px;display:inline-flex;">
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--purple)">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 8v4l3 3" />
+                </svg>
+                Clasificación por Tipo de Manto
+            </div>
+            <h2>Servicios Según el Pelaje</h2>
+            <p>Cada tipo de pelaje requiere cuidados específicos. Conoce cuál es el adecuado para tu mascota</p>
+        </div>
+
+        <div class="sv-pelaje-grid">
+
+            <div class="sv-pelaje-card anim-up anim-delay-1">
+                <div class="sv-pelaje-img">
+                    <img src="https://images.unsplash.com/photo-1601979031925-424e53b6caaa?w=500&q=80" alt="Pelo Corto" />
+                </div>
+                <div class="sv-pelaje-body">
+                    <div class="sv-pelaje-ico" style="background:linear-gradient(135deg,#38bdf8,#0ea5e9);">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                    </div>
+                    <h4>Pelo Corto</h4>
+                    <div class="sv-pelaje-razas">Pitbull, Bulldog, Beagle, Boxer</div>
+                    <p>Ideal para razas con pelaje corto y liso que requieren cuidados básicos</p>
+                    <div class="sv-pelaje-precio">Valor base desde: <span>Consultar</span></div>
+                    <div class="sv-pelaje-nota">*El precio final depende del estado del pelaje</div>
+                </div>
+            </div>
+
+            <div class="sv-pelaje-card anim-up anim-delay-2">
+                <div class="sv-pelaje-img">
+                    <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=500&q=80" alt="Pelo Semilargo" />
+                </div>
+                <div class="sv-pelaje-body">
+                    <div class="sv-pelaje-ico" style="background:linear-gradient(135deg,#a78bfa,#8B3CF7);">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                    </div>
+                    <h4>Pelo Semilargo</h4>
+                    <div class="sv-pelaje-razas">Cocker, Schnauzer, Border Collie</div>
+                    <p>Para razas con pelaje de longitud media que necesita cuidado regular</p>
+                    <div class="sv-pelaje-precio">Valor base desde: <span>Consultar</span></div>
+                    <div class="sv-pelaje-nota">*El precio final depende del estado del pelaje</div>
+                </div>
+            </div>
+
+            <div class="sv-pelaje-card anim-up anim-delay-3">
+                <div class="sv-pelaje-img">
+                    <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=500&q=80" alt="Pelo Largo" />
+                </div>
+                <div class="sv-pelaje-body">
+                    <div class="sv-pelaje-ico" style="background:linear-gradient(135deg,#a78bfa,#8B3CF7);">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                    </div>
+                    <h4>Pelo Largo</h4>
+                    <div class="sv-pelaje-razas">Shih Tzu, Yorkshire, Maltés</div>
+                    <p>Especial para razas con pelaje largo que requieren atención detallada</p>
+                    <div class="sv-pelaje-precio">Valor base desde: <span>Consultar</span></div>
+                    <div class="sv-pelaje-nota">*El precio final depende del estado del pelaje</div>
+                </div>
+            </div>
+
+            <div class="sv-pelaje-card anim-up anim-delay-4">
+                <div class="sv-pelaje-img">
+                    <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=500&q=80" alt="Pelo Doble Capa" />
+                </div>
+                <div class="sv-pelaje-body">
+                    <div class="sv-pelaje-ico" style="background:linear-gradient(135deg,#a78bfa,#8B3CF7);">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                    </div>
+                    <h4>Pelo Doble Capa</h4>
+                    <div class="sv-pelaje-razas">Samoyedo, Golden Retriever, Husky</div>
+                    <p>Para razas con doble capa que necesitan cuidado especializado</p>
+                    <div class="sv-pelaje-precio">Valor base desde: <span>Consultar</span></div>
+                    <div class="sv-pelaje-nota">*El precio final depende del estado del pelaje</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════════ FOOTER ══════════════ -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Servicios</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Spa Canino</a></li>
+                        <li><a href="#">Baño Completo</a></li>
+                        <li><a href="#">Limpieza Dental</a></li>
+                        <li><a href="#">Corte de Uñas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Información</h4>
+                    <ul class="footer-links">
+                        <li><a href="QuienesSomos.html">Quiénes Somos</a></li>
+                        <li><a href="Servicios.html">Nuestros Servicios</a></li>
+                        <li><a href="Index.html#citas">Agenda tu Cita</a></li>
+                        <li><a href="Index.html#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Consejos de Cuidado</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">
+                <div class="footer-brand">
+                    <div class="footer-logo"><img src="img/logoVenus.png" alt="VenusMascotas"></div>
+                    <p class="footer-tagline">Cuidado premium para tu mejor amigo</p>
+                </div>
+                <p class="footer-copy">© 2025 VenusMascotas. Todos los derechos reservados.<br><span>Powered by Readdy</span></p>
+                <div class="footer-socials">
+                    <a href="#" class="footer-social"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg></a>
+                    <a href="#" class="footer-social"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg></a>
+                    <a href="#" class="footer-social"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51z" /></svg></a>
+                    <a href="#" class="footer-social"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.54V6.78z" /></svg></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('anim-visible'); observer.unobserve(e.target); }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.anim-up, .anim-left, .anim-right').forEach(el => observer.observe(el));
+
+    setTimeout(() => {
+        document.querySelectorAll('.sv-hero .anim-up').forEach(el => el.classList.add('anim-visible'));
+    }, 80);
+    </script>
+</body>
+</html>
