@@ -24,8 +24,4 @@
 		<ProjectReference Include="..\VenusPos.Infrastructure\VenusPos.Infrastructure.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="wwwroot\Clientes\" />
-	</ItemGroup>
-
 </Project>

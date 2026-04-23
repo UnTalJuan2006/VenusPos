@@ -8,7 +8,7 @@ namespace VenusPos.Application.Services.Cliente
     public class ClienteService : IClienteService
     {
         private readonly IClienteRepository _repo;
-
+        
         public ClienteService(IClienteRepository repo)
         {
             _repo = repo;
@@ -71,6 +71,16 @@ namespace VenusPos.Application.Services.Cliente
         {
             return await _repo.EliminarClienteAsync(id);
         }
+
+        public async Task<ClienteDTO> LoginAsync(IngresoClienteDTO dto)
+        {
+            var cliente = await _repo.ObtenerPorEmailAsync(dto.Email)
+                ?? throw new UnauthorizedAccessException("No encontramos una cuenta con ese email.");
+
+            return MapToDTO(cliente);
+        }
+
+
 
         private static ClienteDTO MapToDTO(Domain.Entities.Cliente c) => new()
         {

@@ -10,5 +10,6 @@ namespace VenusPos.Application.Interfaces.Services
         Task<ClienteDTO> CrearClienteAsync(CrearClienteDTO dto);
         Task<ClienteDTO> ActualizarClienteAsync(int id, ActualizarClienteDTO dto);
         Task<bool> EliminarClienteAsync(int id);
+        Task<ClienteDTO> LoginAsync(IngresoClienteDTO dto); 
     }
 }

@@ -22,6 +22,7 @@ namespace VenusPos.Domain.Entities
         public DateTime? FechaCierre { get; set; }
         public Empleado Empleado { get; set; }
         public ICollection<Venta> Ventas { get; set; }
+        public ICollection<MovimientoCaja> MovimientosCaja { get; set; }
     }
 
 }

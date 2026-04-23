@@ -26,9 +26,14 @@ namespace VenusPos.Infrastructure.Data
         public DbSet<Caja> Caja { get; set; }
         public DbSet<Venta> Ventas { get; set; }
         public DbSet<VentaDetalle> VentaDetalles { get; set; }
+        public DbSet<MovimientoCaja> MovimientosCaja { get; set; }
 
         // HISTORIAL
         public DbSet<Historial> Historiales { get; set; }
+
+        // CONFIGURACION
+        public DbSet<ConfiguracionPrecio> ConfiguracionesPrecios { get; set; }
+        public DbSet<ReservaServicio> ReservaServicios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,6 +62,14 @@ namespace VenusPos.Infrastructure.Data
             modelBuilder.Entity<VentaDetalle>().Property(vd => vd.PrecioUnitario).HasPrecision(10, 2);
             modelBuilder.Entity<VentaDetalle>().Property(vd => vd.Subtotal).HasPrecision(10, 2);
 
+            modelBuilder.Entity<Reserva>().Property(r => r.PrecioTotal).HasPrecision(10, 2);
+
+            modelBuilder.Entity<ReservaServicio>().Property(rs => rs.PrecioUnitario).HasPrecision(10, 2);
+
+            modelBuilder.Entity<ConfiguracionPrecio>().Property(cp => cp.Valor).HasPrecision(5, 4);
+
+            modelBuilder.Entity<MovimientoCaja>().Property(mc => mc.Monto).HasPrecision(10, 2);
+
             // ================================
             // ENUMS COMO STRING - MASCOTA
             // ================================
@@ -66,6 +79,13 @@ namespace VenusPos.Infrastructure.Data
 
             modelBuilder.Entity<Mascota>()
                 .Property(m => m.TipoPelaje)
+                .HasConversion<string>();
+
+            // ================================
+            // ENUMS COMO STRING - RESERVA
+            // ================================
+            modelBuilder.Entity<Reserva>()
+                .Property(r => r.Estado)
                 .HasConversion<string>();
 
             // ================================
@@ -79,6 +99,9 @@ namespace VenusPos.Infrastructure.Data
 
             modelBuilder.Entity<EmpleadoServicio>()
                 .HasKey(es => new { es.IdEmpleado, es.IdServicio });
+
+            modelBuilder.Entity<ReservaServicio>()
+                .HasKey(rs => new { rs.IdReserva, rs.IdServicio });
 
             // ================================
             // RELACIONES - MASCOTA
@@ -150,6 +173,21 @@ namespace VenusPos.Infrastructure.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             // ================================
+            // RELACIONES - RESERVA SERVICIO
+            // ================================
+            modelBuilder.Entity<ReservaServicio>()
+                .HasOne(rs => rs.Reserva)
+                .WithMany(r => r.ReservaServicios)
+                .HasForeignKey(rs => rs.IdReserva)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ReservaServicio>()
+                .HasOne(rs => rs.Servicio)
+                .WithMany()
+                .HasForeignKey(rs => rs.IdServicio)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ================================
             // RELACIONES - CAJA
             // ================================
             modelBuilder.Entity<Caja>()
@@ -158,6 +196,20 @@ namespace VenusPos.Infrastructure.Data
                 .HasForeignKey(c => c.IdEmpleado)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // ================================
+            // RELACIONES - MOVIMIENTO CAJA
+            // ================================
+            modelBuilder.Entity<MovimientoCaja>()
+                .HasOne(mc => mc.Caja)
+                .WithMany(c => c.MovimientosCaja)
+                .HasForeignKey(mc => mc.IdCaja)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<MovimientoCaja>()
+                .HasOne(mc => mc.Empleado)
+                .WithMany()
+                .HasForeignKey(mc => mc.IdEmpleado)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // ================================
             // RELACIONES - VENTA
@@ -215,6 +267,27 @@ namespace VenusPos.Infrastructure.Data
                 .WithMany(m => m.Historial)
                 .HasForeignKey(h => h.IdMascota)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Historial>()
+                .HasOne(h => h.Reserva)
+                .WithMany(r => r.Historiales)
+                .HasForeignKey(h => h.IdReserva)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // ================================
+            // INDICES DE OPTIMIZACION
+            // ================================
+            modelBuilder.Entity<Reserva>()
+                .HasIndex(r => r.CodigoReserva)
+                .IsUnique()
+                .HasFilter("[CodigoReserva] IS NOT NULL");
+
+            modelBuilder.Entity<Reserva>()
+                .HasIndex(r => new { r.FechaReserva, r.IdEmpleado });
+
+            modelBuilder.Entity<ConfiguracionPrecio>()
+                .HasIndex(cp => cp.Clave)
+                .IsUnique();
         }
     }
 }

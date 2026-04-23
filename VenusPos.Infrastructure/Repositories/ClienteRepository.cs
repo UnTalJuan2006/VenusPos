@@ -42,10 +42,49 @@ namespace VenusPos.Infrastructure.Repositories
 
         public async Task<bool> EliminarClienteAsync(int id)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
+            var cliente = await _context.Clientes
+                .Include(c => c.Mascota)
+                    .ThenInclude(m => m.ReservaMascotas)
+                .Include(c => c.Reserva)
+                    .ThenInclude(r => r.ReservaMascotas)
+                .Include(c => c.Ventas)
+                    .ThenInclude(v => v.Detalles)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (cliente is null)
                 return false;
+
+            // Eliminar en cascada manual
+            // 1. Eliminar ReservaMascota de las reservas del cliente
+            foreach (var reserva in cliente.Reserva)
+            {
+                _context.ReservaMascotas.RemoveRange(reserva.ReservaMascotas);
+            }
+
+            // 2. Eliminar ReservaMascota de las mascotas del cliente
+            foreach (var mascota in cliente.Mascota)
+            {
+                _context.ReservaMascotas.RemoveRange(mascota.ReservaMascotas);
+            }
+
+            // 3. Eliminar VentaDetalles
+            foreach (var venta in cliente.Ventas)
+            {
+                _context.VentaDetalles.RemoveRange(venta.Detalles);
+            }
+
+            // 4. Eliminar Ventas
+            _context.Ventas.RemoveRange(cliente.Ventas);
+
+            // 5. Eliminar Reservas
+            _context.Reservas.RemoveRange(cliente.Reserva);
+
+            // 6. Eliminar Mascotas
+            _context.Mascotas.RemoveRange(cliente.Mascota);
+
+            // 7. Finalmente eliminar Cliente
             _context.Clientes.Remove(cliente);
+
             await _context.SaveChangesAsync();
             return true;
         }

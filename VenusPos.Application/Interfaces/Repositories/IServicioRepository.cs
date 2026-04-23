@@ -9,6 +9,7 @@ namespace VenusPos.Application.Interfaces.Repositories
     {
         Task<IEnumerable<Servicio>> ObtenerTodosAsync();
         Task<Servicio?> ObtenerPorIdAsync(int id);
+        Task<IEnumerable<Servicio>> ObtenerPorIdsAsync(List<int> ids);
         Task<Servicio> CrearAsync(Servicio servicio);
         Task<Servicio> ActualizarAsync(Servicio servicio);
         Task<bool> EliminarAsync(int id);

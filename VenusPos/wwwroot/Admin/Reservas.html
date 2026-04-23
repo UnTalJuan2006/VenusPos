@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VenusMascotas - Reservas</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/ClienteAdmin.css" />
+    <link rel="stylesheet" href="../css/ReservasAdmin.css" />
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sb-brand">
+            <div class="sb-logo">
+                <img src="/img/logoVenus.png" alt="" onerror="this.parentElement.textContent='VP'" />
+            </div>
+            <div class="sb-texts">
+                <div class="sb-name">VenusMascotas</div>
+                <div class="sb-sub">Admin Panel</div>
+            </div>
+        </div>
+        <nav class="sb-nav">
+            <div class="sb-group-lbl">Principal</div>
+            <a class="sb-item" href="Dashboard.html" data-tip="Dashboard">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                </svg>
+                <span class="sb-lbl">Dashboard</span>
+            </a>
+            <a class="sb-item active" href="Reservas.html" data-tip="Reservas">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <path d="M16 2v4M8 2v4M3 10h18" />
+                </svg>
+                <span class="sb-lbl">Reservas</span>
+                <span class="sb-badge" id="badgeReservas">0</span>
+            </a>
+            <a class="sb-item" href="Caja.html" data-tip="Caja">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
+                <span class="sb-lbl">Caja</span>
+            </a>
+            <div class="sb-group-lbl">Gestion</div>
+            <a class="sb-item" href="Clientes.html" data-tip="Clientes">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+                </svg>
+                <span class="sb-lbl">Clientes</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Mascotas">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                </svg>
+                <span class="sb-lbl">Mascotas</span>
+            </a>
+            <a class="sb-item" href="Empleados.html" data-tip="Empleados">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="sb-lbl">Empleados</span>
+            </a>
+            <a class="sb-item" href="Servicios.html" data-tip="Servicios">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                </svg>
+                <span class="sb-lbl">Servicios</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Historial">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <span class="sb-lbl">Historial</span>
+            </a>
+            <a class="sb-item" href="#" data-tip="Notificaciones">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                <span class="sb-lbl">Notificaciones</span>
+            </a>
+        </nav>
+        <div class="sb-bottom">
+            <button class="sb-collapse-btn" onclick="toggleSidebar()">
+                <div class="sb-collapse-ico">
+                    <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.8)" stroke-width="2.5">
+                        <path d="M15 19l-7-7 7-7" />
+                    </svg>
+                </div>
+                <span class="sb-collapse-lbl">Contraer menu</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+        <header class="topbar">
+            <div class="tb-left">
+                <div class="tb-sect">Principal</div>
+                <h2>Reservas</h2>
+                <p id="fechaHoy"></p>
+            </div>
+            <div class="tb-right">
+                <button class="tb-btn" onclick="toggleTheme()" title="Cambiar tema">
+                    <svg id="iconSun" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5" />
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
+                    <svg id="iconMoon" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none">
+                        <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <div class="tb-profile-wrap">
+                    <div class="tb-profile" id="tbProfile" onclick="toggleDrop()">
+                        <div class="tb-ava" id="tbAva">AD</div>
+                        <div class="tb-pinfo">
+                            <span class="tb-pname" id="tbName">Admin</span>
+                            <span class="tb-prole" id="tbRole">Administrador</span>
+                        </div>
+                        <svg class="tb-chev" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path d="M6 9l6 6 6-6" />
+                        </svg>
+                    </div>
+                    <div class="tb-dropdown" id="tbDrop">
+                        <div class="dd-top">
+                            <div class="dd-name" id="ddName">Admin</div>
+                            <div class="dd-email" id="ddEmail"></div>
+                        </div>
+                        <a href="/" class="dd-item">
+                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                            </svg>
+                            Ir al sitio web
+                        </a>
+                        <div class="dd-sep"></div>
+                        <div class="dd-item red" onclick="logout()">
+                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            Cerrar Sesion
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <!-- Page header principal -->
+            
+            <div class="reservas-header">
+                <div>
+                    <h1>Gestion de Reservas</h1>
+                    <p>Administra las reservas de citas y servicios</p>
+                </div>
+                <button class="btn-nueva-reserva" onclick="nuevaReserva()">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path d="M12 5v14M5 12h14" />
+                    </svg>
+                    Nueva Reserva
+                </button>
+            </div>
+            <!-- KPIs Cards -->
+            <div class="stats-grid">
+                <div class="kpi-big">
+                    <div>
+                        <div class="kpi-big-lbl">Total Reservas</div>
+                        <div class="kpi-big-val" id="statTotal">0</div>
+                    </div>
+                    <div class="kpi-big-ico">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <path d="M16 2v4M8 2v4M3 10h18" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="kpi-big">
+                    <div>
+                        <div class="kpi-big-lbl">Pendientes</div>
+                        <div class="kpi-big-val" id="statPendientes">0</div>
+                    </div>
+                    <div class="kpi-big-ico">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 6v6l4 2" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="kpi-big">
+                    <div>
+                        <div class="kpi-big-lbl">Confirmadas</div>
+                        <div class="kpi-big-val" id="statConfirmadas">0</div>
+                    </div>
+                    <div class="kpi-big-ico">
+                        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subheader con vista por empleado y botón -->
+            <!-- Selector de fecha -->
+            <div class="date-selector">
+                <button class="date-nav-btn" onclick="cambiarDia(-1)">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <div class="date-display">
+                    <div class="date-main" id="dateDisplay"></div>
+                    <div class="date-sub" id="dateSubDisplay"></div>
+                </div>
+                <button class="date-nav-btn" onclick="cambiarDia(1)">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Cards de empleados con timeline -->
+            <div class="empleados-cards" id="empleadosCards">
+                <div style="text-align:center;padding:40px;color:var(--muted)">
+                    Cargando agenda de empleados...
+                </div>
+            </div>
+
+            <!-- Horarios detallados -->
+            <div class="horarios-detallados" id="horariosDetallados"></div>
+
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Modal Nueva Reserva -->
+    <div class="modal-overlay" id="modalOverlay" style="display:none" onclick="cerrarModalReserva(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-hdr">
+                <h3 class="modal-ttl">Nueva Reserva</h3>
+                <button class="modal-close" onclick="cerrarModalReserva()">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <form id="formNuevaReserva" onsubmit="crearReserva(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-lbl">Cliente *</label>
+                        <select class="form-inp" id="modalCliente" required onchange="cargarMascotasCliente()">
+                            <option value="">Seleccione un cliente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-lbl">Mascota *</label>
+                        <select class="form-inp" id="modalMascota" required>
+                            <option value="">Primero seleccione un cliente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-lbl">Servicios *</label>
+                        <div id="serviciosCheckboxList" class="checkbox-list"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-lbl">Fecha *</label>
+                            <input type="date" class="form-inp" id="modalFecha" required onchange="verificarDisponibilidad()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-lbl">Hora Inicio *</label>
+                            <input type="time" class="form-inp" id="modalHora" required onchange="verificarDisponibilidad()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-lbl">Empleado *</label>
+                        <select class="form-inp" id="modalEmpleado" required>
+                            <option value="">Seleccione fecha y hora primero</option>
+                        </select>
+                        <small class="form-hint" id="empleadoHint" style="display:none;color:var(--muted);font-size:12px;margin-top:4px"></small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-lbl">Detalles / Observaciones</label>
+                        <textarea class="form-inp" id="modalDetalles" rows="3" placeholder="Observaciones adicionales..."></textarea>
+                    </div>
+                    <div id="precioCalculado" style="display:none;margin-top:16px;padding:16px;background:var(--purple-soft);border-radius:12px;border:1.5px solid var(--purple)">
+                        <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:4px">Precio Total Estimado</div>
+                        <div style="font-size:24px;font-weight:800;color:var(--purple)" id="precioTotal">$0</div>
+                        <div style="font-size:12px;color:var(--muted);margin-top:4px" id="precioDetalle"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-sec" onclick="cerrarModalReserva()">Cancelar</button>
+                    <button type="submit" class="btn-primary">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path d="M5 13l4 4L19 7" />
+                        </svg>
+                        Crear Reserva
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API = '';
+        let reservas = [];
+        let empleados = [];
+        let mascotas = [];
+        let clientes = [];
+        let servicios = [];
+        let fechaSeleccionada = new Date();
+
+        // Proteccion de ruta
+        function check() {
+            if (!localStorage.getItem('token'))
+                window.location.replace('/Admin/Login.html');
+        }
+        check();
+        window.addEventListener('pageshow', check);
+
+        const DIAS = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+        const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        const hoy = new Date();
+        document.getElementById('fechaHoy').textContent =
+            DIAS[hoy.getDay()] + ', ' + hoy.getDate() + ' de ' +
+            MESES[hoy.getMonth()] + ' de ' + hoy.getFullYear();
+
+        // JWT
+        let uName = 'Admin', uEmail = '', uRole = 'Administrador', uIni = 'AD';
+        try {
+            var tok = localStorage.getItem('token');
+            if (tok) {
+                var p = JSON.parse(atob(tok.split('.')[1]));
+                uName = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || uName;
+                uEmail = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || uEmail;
+                uRole = p['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || uRole;
+                uIni = uName.trim().split(' ').map(x => x[0]).join('').substring(0, 2).toUpperCase();
+            }
+        } catch (e) { }
+
+        document.getElementById('tbAva').textContent = uIni;
+        document.getElementById('tbName').textContent = uName;
+        document.getElementById('tbRole').textContent = uRole;
+        document.getElementById('ddName').textContent = uName;
+        document.getElementById('ddEmail').textContent = uEmail;
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+
+        function toggleDrop() {
+            var d = document.getElementById('tbDrop');
+            var p = document.getElementById('tbProfile');
+            var o = d.classList.toggle('open');
+            p.classList.toggle('open', o);
+        }
+        document.addEventListener('click', function (e) {
+            var w = document.querySelector('.tb-profile-wrap');
+            if (w && !w.contains(e.target)) {
+                document.getElementById('tbDrop').classList.remove('open');
+                document.getElementById('tbProfile').classList.remove('open');
+            }
+        });
+
+        var TK = 'venus_theme';
+        var dark = localStorage.getItem(TK) === 'dark';
+        function applyTheme(d) {
+            document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
+            document.getElementById('iconSun').style.display = d ? 'none' : 'block';
+            document.getElementById('iconMoon').style.display = d ? 'block' : 'none';
+            localStorage.setItem(TK, d ? 'dark' : 'light');
+        }
+        function toggleTheme() { dark = !dark; applyTheme(dark); }
+        applyTheme(dark);
+
+        function logout() { localStorage.removeItem('token'); window.location.replace('/Admin/Login.html'); }
+
+        function authHeaders() {
+            return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+        }
+
+        function toast(msg, tipo) {
+            tipo = tipo || 'success';
+            var el = document.getElementById('toast');
+            el.textContent = msg;
+            el.className = 'toast ' + tipo;
+            el.style.display = 'block';
+            clearTimeout(el._t);
+            el._t = setTimeout(() => { el.style.display = 'none'; }, 3200);
+        }
+
+        // ═══════════════════════════════════════════
+        // SELECTOR DE FECHA
+        // ═══════════════════════════════════════════
+
+        function actualizarDisplayFecha() {
+            var dateMain = DIAS[fechaSeleccionada.getDay()] + ', ' +
+                fechaSeleccionada.getDate() + ' de ' +
+                MESES[fechaSeleccionada.getMonth()] + ' de ' +
+                fechaSeleccionada.getFullYear();
+            var esHoy = esMismaFecha(fechaSeleccionada, new Date());
+            document.getElementById('dateDisplay').textContent = dateMain;
+            document.getElementById('dateSubDisplay').textContent = esHoy ? 'Hoy' : formatFecha(fechaSeleccionada);
+        }
+
+        function cambiarDia(offset) {
+            fechaSeleccionada.setDate(fechaSeleccionada.getDate() + offset);
+            actualizarDisplayFecha();
+            cargarDatos();
+        }
+
+        function esMismaFecha(a, b) {
+            return a.getDate() === b.getDate() && a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear();
+        }
+
+        // ═══════════════════════════════════════════
+        // ACTUALIZAR STATS (KPIs)
+        // ═══════════════════════════════════════════
+
+        function actualizarStats() {
+            var total = reservas.length;
+            var pendientes = reservas.filter(r => r.estado === 'Pendiente').length;
+            var confirmadas = reservas.filter(r => r.estado === 'Confirmada').length;
+
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statPendientes').textContent = pendientes;
+            document.getElementById('statConfirmadas').textContent = confirmadas;
+        }
+
+        // ═══════════════════════════════════════════
+        // CARGAR DATOS
+        // ═══════════════════════════════════════════
+
+        async function cargarDatos() {
+            try {
+                var [resR, resE, resM, resC, resS] = await Promise.all([
+                    fetch(API + '/api/Reserva', { headers: authHeaders() }),
+                    fetch(API + '/api/Empleado', { headers: authHeaders() }),
+                    fetch(API + '/api/Mascota', { headers: authHeaders() }),
+                    fetch(API + '/api/Cliente', { headers: authHeaders() }),
+                    fetch(API + '/api/Servicio', { headers: authHeaders() })
+                ]);
+
+                if (resR.status === 401) { window.location.replace('/Admin/Login.html'); return; }
+                if (!resR.ok) throw new Error('Error al cargar reservas');
+
+                reservas = await resR.json();
+                empleados = resE.ok ? await resE.json() : [];
+                mascotas = resM.ok ? await resM.json() : [];
+                clientes = resC.ok ? await resC.json() : [];
+                servicios = resS.ok ? (await resS.json()).filter(s => s.activo) : [];
+
+                // Actualizar KPIs globales (todas las reservas)
+                actualizarStats();
+
+                // Filtrar y renderizar reservas del día
+                var reservasDia = filtrarReservasPorFecha(fechaSeleccionada);
+                var pendientesDia = reservasDia.filter(r => r.estado === 'Pendiente').length;
+                document.getElementById('badgeReservas').textContent = pendientesDia;
+
+                renderEmpleadosCards(reservasDia);
+                renderHorariosDetallados(reservasDia);
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('empleadosCards').innerHTML =
+                    '<div style="text-align:center;padding:40px;color:#EF4444">' + err.message + '</div>';
+            }
+        }
+
+        function filtrarReservasPorFecha(fecha) {
+            var s = formatFechaAPI(fecha);
+            return reservas.filter(r => r.fechaReserva && r.fechaReserva.substring(0, 10) === s);
+        }
+
+        function formatFechaAPI(fecha) {
+            return fecha.getFullYear() + '-' +
+                String(fecha.getMonth() + 1).padStart(2, '0') + '-' +
+                String(fecha.getDate()).padStart(2, '0');
+        }
+
+        // ═══════════════════════════════════════════
+        // CARDS DE EMPLEADOS CON TIMELINE
+        // ═══════════════════════════════════════════
+
+        function renderEmpleadosCards(reservasDia) {
+            var container = document.getElementById('empleadosCards');
+
+            if (!empleados || empleados.length === 0) {
+                container.innerHTML = '<div class="empty-state">No hay empleados registrados</div>';
+                return;
+            }
+
+            container.innerHTML = empleados.map(emp => {
+                var reservasEmp = reservasDia.filter(r => r.idEmpleado === emp.id);
+                var minutosOcupados = calcularMinutosOcupados(reservasEmp);
+                var ocupacionPct = Math.min(100, Math.round((minutosOcupados / (9 * 60)) * 100));
+
+                var avatarHtml = emp.imagen
+                    ? '<div class="empleado-avatar"><img src="' + emp.imagen + '" alt="' + emp.nombre + '"></div>'
+                    : '<div class="empleado-avatar">' + obtenerIniciales(emp.nombre) + '</div>';
+
+                return '<div class="empleado-card">' +
+                    '<div class="empleado-card-header">' +
+                    '<div class="empleado-card-top">' +
+                    avatarHtml +
+                    '<div class="empleado-info">' +
+                    '<div class="empleado-nombre">' + emp.nombre + '</div>' +
+                    '<div class="empleado-reservas-count">' + reservasEmp.length + ' ' + (reservasEmp.length === 1 ? 'reserva' : 'reservas') + '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="empleado-ocupacion">' +
+                    '<div class="ocupacion-label">' +
+                    '<span>Ocupación del día</span>' +
+                    '<span class="ocupacion-percent">' + ocupacionPct + '%</span>' +
+                    '</div>' +
+                    '<div class="ocupacion-bar"><div class="ocupacion-fill" style="width:' + ocupacionPct + '%"></div></div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="timeline-wrapper">' + generarTimeline(reservasEmp) + '</div>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function generarTimeline(reservasEmp) {
+            var horaInicio = 8;
+            var horaFin = 17;
+            var ALTURA_HORA = 60; // Altura base por hora en píxeles (aumentada para mejor visibilidad)
+            var html = '<div class="timeline-grid">';
+
+            // Crear filas por hora (solo las etiquetas y líneas)
+            for (var h = horaInicio; h <= horaFin; h++) {
+                var horaLabel = String(h).padStart(2, '0') + ':00';
+
+                html += '<div class="timeline-row">' +
+                    '<div class="timeline-row-label">' + horaLabel + '</div>' +
+                    '<div class="timeline-row-content"></div>' +
+                    '</div>';
+            }
+
+            html += '</div>'; // Cerrar timeline-grid
+
+            // Ahora agregar los bloques de reservas con posicionamiento absoluto
+            html += '<div class="timeline-blocks-container">';
+
+            reservasEmp.forEach(r => {
+                if (!r.horaInicio) return;
+
+                // Calcular posición Y basada en la hora de inicio
+                var partesInicio = r.horaInicio.split(':');
+                var horaInicioNum = parseInt(partesInicio[0]);
+                var minutoInicioNum = parseInt(partesInicio[1]);
+
+                // Minutos desde el inicio del día laboral (8:00)
+                var minutosDesdeLasOcho = (horaInicioNum - horaInicio) * 60 + minutoInicioNum;
+
+                // Posición Y en píxeles
+                var posicionY = (minutosDesdeLasOcho / 60) * ALTURA_HORA;
+
+                // Calcular altura del bloque basada en la duración
+                var duracionMinutos = r.duracionMinutos || 60;
+                var alturaBloque = (duracionMinutos / 60) * ALTURA_HORA - 4; // -4px para espaciado
+
+                var estadoClass = (r.estado || 'pendiente').toLowerCase();
+
+                // Mostrar TODOS los servicios, no solo el primero
+                var serviciosTexto = '';
+                if (r.servicios && r.servicios.length > 0) {
+                    serviciosTexto = r.servicios.map(s => s.nombreServicio).join(', ');
+                } else {
+                    serviciosTexto = 'Servicio';
+                }
+
+                var estadoLabel = r.estado || 'Pendiente';
+
+                html += '<div class="tl-block ' + estadoClass + '" ' +
+                    'style="position: absolute; top: ' + posicionY + 'px; height: ' + alturaBloque + 'px; left: 38px; right: 0;" ' +
+                    'onclick="verDetallesReserva(' + r.id + ')">' +
+                    '<div class="tl-block-header">' +
+                    '<span class="tl-hora">' + formatHora(r.horaInicio) + ' - ' + formatHora(r.horaFin) + '</span>' +
+                    '<span class="tl-badge">' + estadoLabel + '</span>' +
+                    '</div>' +
+                    '<div class="tl-servicio">' + serviciosTexto + '</div>' +
+                    '<div class="tl-mascota">' +
+                    '<svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' +
+                    (r.nombreMascota || 'Mascota') +
+                    '</div>' +
+                    '</div>';
+            });
+
+            html += '</div>'; // Cerrar timeline-blocks-container
+
+            return html;
+        }
+
+        function calcularMinutosOcupados(reservas) {
+            return reservas.reduce((total, r) => total + (r.duracionMinutos || 60), 0);
+        }
+
+        // ═══════════════════════════════════════════
+        // HORARIOS DETALLADOS
+        // ═══════════════════════════════════════════
+
+        function renderHorariosDetallados(reservasDia) {
+            var container = document.getElementById('horariosDetallados');
+            if (!empleados || empleados.length === 0) { container.innerHTML = ''; return; }
+
+            var html = '<h2>Horarios del día por empleado</h2>' +
+                '<p class="horarios-subtitle">Vista detallada de todas las reservas programadas</p>';
+
+            empleados.forEach(emp => {
+                var reservasEmp = reservasDia.filter(r => r.idEmpleado === emp.id);
+
+                var totalReservas = reservasEmp.length;
+                var minutosOcupados = calcularMinutosOcupados(reservasEmp);
+                var horasOcupadas = Math.floor(minutosOcupados / 60);
+                var minutosRestantes = minutosOcupados % 60;
+                var confirmadas = reservasEmp.filter(r => r.estado === 'Confirmada').length;
+                var completadas = reservasEmp.filter(r => r.estado === 'Completada').length;
+                var ocupacionPct = Math.min(100, Math.round((minutosOcupados / (9 * 60)) * 100));
+
+                var tiempoText = horasOcupadas > 0
+                    ? horasOcupadas + 'h ' + (minutosRestantes > 0 ? minutosRestantes + 'm' : '')
+                    : minutosRestantes + 'm';
+
+                var avatarHtml = emp.imagen
+                    ? '<div class="horario-empleado-avatar"><img src="' + emp.imagen + '" alt="' + emp.nombre + '"></div>'
+                    : '<div class="horario-empleado-avatar">' + obtenerIniciales(emp.nombre) + '</div>';
+
+                html += '<div class="horario-section">' +
+                    '<div class="horario-empleado-header">' +
+                    '<div class="horario-empleado-left">' +
+                    avatarHtml +
+                    '<div>' +
+                    '<div class="horario-empleado-name">' + emp.nombre + '</div>' +
+                    '<div class="horario-empleado-meta">' + totalReservas + ' ' + (totalReservas === 1 ? 'reserva' : 'reservas') + ' • ' + tiempoText + ' ocupado</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="horario-ocupacion-right">' +
+                    '<div class="horario-ocupacion-label">Ocupación</div>' +
+                    '<div class="horario-ocupacion-value">' + ocupacionPct + '%</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="horario-section-body">';
+
+                if (reservasEmp.length > 0) {
+                    html += '<div class="horario-tabla-wrap"><table class="horario-tabla">' +
+                        '<thead><tr>' +
+                        '<th>Hora Inicio</th>' +
+                        '<th>Hora Fin</th>' +
+                        '<th>Duración</th>' +
+                        '<th>Servicio</th>' +
+                        '<th>Mascota(s)</th>' +
+                        '<th>Estado</th>' +
+                        '<th>Acciones</th>' +
+                        '</tr></thead><tbody>';
+
+                    reservasEmp.forEach(r => {
+                        var durMin = r.duracionMinutos || 60;
+                        var durH = Math.floor(durMin / 60);
+                        var durM = durMin % 60;
+                        var durText = durH > 0 ? durH + 'h ' + (durM > 0 ? durM + 'm' : '') : durM + 'm';
+
+                        // Procesar servicios - puede venir como array o string
+                        var serviciosTexto = '-';
+                        if (r.servicios && Array.isArray(r.servicios) && r.servicios.length > 0) {
+                            serviciosTexto = r.servicios.map(s => s.nombreServicio || s.nombre || s).join(', ');
+                        } else if (r.nombreServicio) {
+                            // Fallback si viene en un campo directo
+                            serviciosTexto = r.nombreServicio;
+                        }
+
+                        html += '<tr>' +
+                            '<td>' +
+                            '<div class="hora-col">' +
+                            '<svg class="hora-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' +
+                            formatHora(r.horaInicio) +
+                            '</div>' +
+                            '</td>' +
+                            '<td class="hora-col-td">' + formatHora(r.horaFin) + '</td>' +
+                            '<td class="duracion-col">' + durText + '</td>' +
+                            '<td>' +
+                            '<div class="servicio-col">' +
+                            '<svg class="servicio-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14.121 14.121L19 19m-7-7l5.879-5.879M12 12l-5.879 5.879M12 12L6.121 6.121M19 5l-7 7-7-7"/></svg>' +
+                            serviciosTexto +
+                            '</div>' +
+                            '</td>' +
+                            '<td>' +
+                            '<div class="mascota-info">' +
+                            '<div class="mascota-row">' +
+                            '<svg class="mascota-icon" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' +
+                            '<span class="mascota-nombre">' + (r.nombreMascota || '-') + '</span>' +
+                            ((r.tamañoMascota || r.tamanioMascota) ? '<span class="mascota-tamanio">(' + (r.tamañoMascota || r.tamanioMascota) + ')</span>' : '') +
+                            '</div>' +
+                            '</div>' +
+                            '</td>' +
+                            '<td>' + renderEstado(r.estado) + '</td>' +
+                            '<td>' +
+                            '<button class="act-btn" title="Ver detalles" onclick="verDetallesReserva(' + r.id + ')">' +
+                            '<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>' +
+                            '</button>' +
+                            '</td>' +
+                            '</tr>';
+                    });
+
+                    html += '</tbody></table></div>';
+                } else {
+                    html += '<div class="empty-state">No hay reservas para este empleado</div>';
+                }
+
+                html += '</div>'; // .horario-section-body
+
+                // Footer con métricas
+                html += '<div class="horario-section-footer">' +
+                    '<div class="footer-metricas">' +
+                    '<div class="footer-metrica">' +
+                    '<div class="footer-metrica-label">Total Reservas</div>' +
+                    '<div class="footer-metrica-value">' + totalReservas + '</div>' +
+                    '</div>' +
+                    '<div class="footer-metrica">' +
+                    '<div class="footer-metrica-label">Tiempo Ocupado</div>' +
+                    '<div class="footer-metrica-value">' + tiempoText + '</div>' +
+                    '</div>' +
+                    '<div class="footer-metrica">' +
+                    '<div class="footer-metrica-label">Confirmadas</div>' +
+                    '<div class="footer-metrica-value">' + confirmadas + '</div>' +
+                    '</div>' +
+                    '<div class="footer-metrica">' +
+                    '<div class="footer-metrica-label">Completadas</div>' +
+                    '<div class="footer-metrica-value verde">' + completadas + '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<button class="btn-nueva-reserva-empleado" onclick="nuevaReservaEmpleado(' + emp.id + ')">' +
+                    '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>' +
+                    'Nueva reserva' +
+                    '</button>' +
+                    '</div>';
+
+                html += '</div>'; // .horario-section
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ═══════════════════════════════════════════
+        // UTILIDADES
+        // ═══════════════════════════════════════════
+
+        function formatFecha(fecha) {
+            if (!fecha) return '-';
+            var f = typeof fecha === 'string' ? new Date(fecha) : fecha;
+            return f.toLocaleDateString('es-CO', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        function formatHora(hora) {
+            if (!hora) return '-';
+            return hora.substring(0, 5);
+        }
+
+        function renderEstado(estado) {
+            var clases = { 'Pendiente': 'pendiente', 'Confirmada': 'confirmada', 'Completada': 'completada', 'Cancelada': 'cancelada' };
+            var clase = clases[estado] || 'pendiente';
+            return '<span class="estado-badge ' + clase + '"><span class="estado-dot"></span>' + (estado || 'Pendiente') + '</span>';
+        }
+
+        function obtenerIniciales(nombre) {
+            if (!nombre) return 'EM';
+            return nombre.trim().split(' ').map(x => x[0]).join('').substring(0, 2).toUpperCase();
+        }
+
+        // ═══════════════════════════════════════════
+        // ACCIONES
+        // ═══════════════════════════════════════════
+
+        function nuevaReserva() {
+            abrirModalReserva();
+        }
+
+        function nuevaReservaEmpleado(idEmpleado) {
+            abrirModalReserva(idEmpleado);
+        }
+
+        function abrirModalReserva(idEmpleadoPredefinido) {
+            // Resetear formulario
+            document.getElementById('formNuevaReserva').reset();
+            document.getElementById('precioCalculado').style.display = 'none';
+            document.getElementById('modalMascota').innerHTML = '<option value="">Primero seleccione un cliente</option>';
+            document.getElementById('modalEmpleado').innerHTML = '<option value="">Seleccione fecha y hora primero</option>';
+
+            // Cargar clientes
+            var selectCliente = document.getElementById('modalCliente');
+            selectCliente.innerHTML = '<option value="">Seleccione un cliente</option>' +
+                clientes.map(c => '<option value="' + c.id + '">' + c.nombre + ' - ' + c.telefono + '</option>').join('');
+
+            // Cargar servicios como checkboxes
+            var serviciosList = document.getElementById('serviciosCheckboxList');
+            serviciosList.innerHTML = servicios.map(s =>
+                '<label class="checkbox-item" style="display:flex;align-items:center;gap:10px;padding:10px;cursor:pointer;border-radius:8px;transition:background 0.2s" onmouseover="this.style.background=\'var(--surface2)\'" onmouseout="this.style.background=\'transparent\'">' +
+                '<input type="checkbox" name="servicios" value="' + s.id + '" onchange="calcularPrecioReserva()" style="width:18px;height:18px;cursor:pointer">' +
+                '<div style="flex:1"><div style="font-weight:600;color:var(--text)">' + s.nombre + '</div>' +
+                '<div style="font-size:12px;color:var(--muted)">' + s.descripcion + ' - $' + s.precio.toLocaleString('es-CO') + '</div></div>' +
+                '</label>'
+            ).join('');
+
+            // Setear fecha de hoy por defecto
+            var hoy = new Date();
+            document.getElementById('modalFecha').value = hoy.toISOString().split('T')[0];
+            document.getElementById('modalFecha').min = hoy.toISOString().split('T')[0];
+
+            // Si viene con empleado predefinido, recordarlo para después
+            if (idEmpleadoPredefinido) {
+                document.getElementById('modalEmpleado').dataset.empleadoPredefinido = idEmpleadoPredefinido;
+            }
+
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function cerrarModalReserva(event) {
+            if (event && event.target.classList.contains('modal')) return;
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+
+        function cargarMascotasCliente() {
+            var idCliente = parseInt(document.getElementById('modalCliente').value);
+            var selectMascota = document.getElementById('modalMascota');
+
+            if (!idCliente) {
+                selectMascota.innerHTML = '<option value="">Primero seleccione un cliente</option>';
+                return;
+            }
+
+            var mascotasCliente = mascotas.filter(m => m.idCliente === idCliente);
+            if (mascotasCliente.length === 0) {
+                selectMascota.innerHTML = '<option value="">Este cliente no tiene mascotas registradas</option>';
+                return;
+            }
+
+            selectMascota.innerHTML = '<option value="">Seleccione una mascota</option>' +
+                mascotasCliente.map(m =>
+                    '<option value="' + m.id + '">' + m.nombre + ' (' + m.raza + ' - ' + m.tamaño + ')</option>'
+                ).join('');
+
+            // Si solo hay una mascota, seleccionarla automáticamente
+            if (mascotasCliente.length === 1) {
+                selectMascota.value = mascotasCliente[0].id;
+            }
+
+            calcularPrecioReserva();
+        }
+
+        async function calcularPrecioReserva() {
+            var idMascota = parseInt(document.getElementById('modalMascota').value);
+            var serviciosSeleccionados = Array.from(document.querySelectorAll('input[name="servicios"]:checked'))
+                .map(cb => parseInt(cb.value));
+
+            if (!idMascota || serviciosSeleccionados.length === 0) {
+                document.getElementById('precioCalculado').style.display = 'none';
+                return;
+            }
+
+            try {
+                var res = await fetch(API + '/api/Reserva/calcular-precio', {
+                    method: 'POST',
+                    headers: authHeaders(),
+                    body: JSON.stringify({
+                        idMascota: idMascota,
+                        idsServicios: serviciosSeleccionados
+                    })
+                });
+
+                if (res.ok) {
+                    var calculo = await res.json();
+                    document.getElementById('precioTotal').textContent = '$' + calculo.total.toLocaleString('es-CO');
+                    document.getElementById('precioDetalle').textContent =
+                        'Duración estimada: ' + calculo.duracionTotalMinutos + ' minutos';
+                    document.getElementById('precioCalculado').style.display = 'block';
+                } else {
+                    document.getElementById('precioCalculado').style.display = 'none';
+                }
+            } catch (err) {
+                console.error('Error al calcular precio:', err);
+            }
+        }
+
+        async function verificarDisponibilidad() {
+            var fecha = document.getElementById('modalFecha').value;
+            var hora = document.getElementById('modalHora').value;
+            var serviciosSeleccionados = Array.from(document.querySelectorAll('input[name="servicios"]:checked'))
+                .map(cb => parseInt(cb.value));
+
+            if (!fecha || !hora || serviciosSeleccionados.length === 0) {
+                document.getElementById('modalEmpleado').innerHTML = '<option value="">Complete todos los campos requeridos</option>';
+                return;
+            }
+
+            // Calcular duración total
+            var duracionTotal = serviciosSeleccionados.reduce((total, idServ) => {
+                var servicio = servicios.find(s => s.id === idServ);
+                return total + (servicio ? 60 : 0); // Asumiendo 60 min por servicio por defecto
+            }, 0);
+
+            try {
+                var idMascota = parseInt(document.getElementById('modalMascota').value);
+                var mascota = mascotas.find(m => m.id === idMascota);
+                var tamañoMascota = mascota ? mascota.tamaño : null;
+
+                var params = new URLSearchParams({
+                    fecha: fecha,
+                    duracionMinutos: duracionTotal
+                });
+
+                if (tamañoMascota) params.append('tamañoMascota', tamañoMascota);
+
+                var res = await fetch(API + '/api/Reserva/disponibilidad?' + params.toString(), {
+                    headers: authHeaders()
+                });
+
+                if (res.ok) {
+                    var horarios = await res.json();
+
+                    // Filtrar empleados disponibles para la hora seleccionada
+                    var empleadosDisponibles = horarios
+                        .filter(h => h.horaInicio === hora + ':00')
+                        .flatMap(h => h.empleadosDisponibles);
+
+                    var selectEmpleado = document.getElementById('modalEmpleado');
+
+                    if (empleadosDisponibles.length === 0) {
+                        selectEmpleado.innerHTML = '<option value="">No hay empleados disponibles en este horario</option>';
+                        document.getElementById('empleadoHint').style.display = 'block';
+                        document.getElementById('empleadoHint').textContent = 'Intente con otro horario';
+                    } else {
+                        // Verificar si hay un empleado predefinido
+                        var empleadoPredefinido = selectEmpleado.dataset.empleadoPredefinido;
+
+                        selectEmpleado.innerHTML = '<option value="">Seleccione un empleado</option>' +
+                            empleadosDisponibles.map(e =>
+                                '<option value="' + e.id + '">' + e.nombre + '</option>'
+                            ).join('');
+
+                        // Si hay empleado predefinido y está disponible, seleccionarlo
+                        if (empleadoPredefinido && empleadosDisponibles.some(e => e.id == empleadoPredefinido)) {
+                            selectEmpleado.value = empleadoPredefinido;
+                        } else if (empleadosDisponibles.length === 1) {
+                            selectEmpleado.value = empleadosDisponibles[0].id;
+                        }
+
+                        document.getElementById('empleadoHint').style.display = 'block';
+                        document.getElementById('empleadoHint').textContent =
+                            empleadosDisponibles.length + ' empleado(s) disponible(s)';
+                        document.getElementById('empleadoHint').style.color = 'var(--purple)';
+                    }
+                }
+            } catch (err) {
+                console.error('Error al verificar disponibilidad:', err);
+            }
+        }
+
+        async function crearReserva(event) {
+            event.preventDefault();
+
+            var serviciosSeleccionados = Array.from(document.querySelectorAll('input[name="servicios"]:checked'))
+                .map(cb => parseInt(cb.value));
+
+            if (serviciosSeleccionados.length === 0) {
+                toast('Debe seleccionar al menos un servicio', 'error');
+                return;
+            }
+
+            var datos = {
+                idCliente: parseInt(document.getElementById('modalCliente').value),
+                idMascota: parseInt(document.getElementById('modalMascota').value),
+                idEmpleado: parseInt(document.getElementById('modalEmpleado').value),
+                fechaReserva: document.getElementById('modalFecha').value + 'T00:00:00',
+                horaInicio: document.getElementById('modalHora').value + ':00',
+                idsServicios: serviciosSeleccionados,
+                detalles: document.getElementById('modalDetalles').value
+            };
+
+            try {
+                var res = await fetch(API + '/api/Reserva', {
+                    method: 'POST',
+                    headers: authHeaders(),
+                    body: JSON.stringify(datos)
+                });
+
+                if (res.ok) {
+                    var nuevaReserva = await res.json();
+                    toast('Reserva creada exitosamente. Código: ' + (nuevaReserva.codigoReserva || '#' + nuevaReserva.id), 'success');
+                    cerrarModalReserva();
+                    cargarDatos();
+                } else {
+                    var error = await res.json();
+                    toast(error.message || 'Error al crear la reserva', 'error');
+                }
+            } catch (err) {
+                console.error('Error al crear reserva:', err);
+                toast('Error al crear la reserva', 'error');
+            }
+        }
+
+        function verDetallesReserva(id) {
+            var r = reservas.find(res => res.id === id);
+            if (!r) return;
+            alert(
+                'Código: ' + (r.codigoReserva || '#' + r.id) + '\n' +
+                'Fecha: ' + formatFecha(r.fechaReserva) + ' ' + formatHora(r.horaInicio) + '\n' +
+                'Cliente: ' + (r.nombreCliente || '-') + '\n' +
+                'Mascota: ' + (r.nombreMascota || '-') + '\n' +
+                'Empleado: ' + (r.nombreEmpleado || '-') + '\n' +
+                'Estado: ' + r.estado + '\n' +
+                'Total: $' + (r.precioTotal || 0).toLocaleString('es-CO')
+            );
+        }
+
+        // ═══════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════
+
+        actualizarDisplayFecha();
+        cargarDatos();
+    </script>
+</body>
+</html>

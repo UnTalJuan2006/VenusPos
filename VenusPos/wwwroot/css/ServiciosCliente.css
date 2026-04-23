@@ -1,0 +1,417 @@
+﻿nav ul li a {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+/* ══════════════════════════════
+           HERO SERVICIOS
+        ══════════════════════════════ */
+.sv-hero {
+    background: linear-gradient(160deg, #ede9fe 0%, #f5f3ff 30%, #ffffff 55%, #eff6ff 80%, #dbeafe 100%);
+    padding: 64px 6% 72px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+    .sv-hero::before, .sv-hero::after {
+        content: '🐾';
+        position: absolute;
+        font-size: 140px;
+        opacity: 0.04;
+        pointer-events: none;
+    }
+
+    .sv-hero::before {
+        top: 10px;
+        left: 20px;
+        transform: rotate(-20deg);
+    }
+
+    .sv-hero::after {
+        bottom: 10px;
+        right: 30px;
+        transform: rotate(15deg);
+    }
+
+    .sv-hero .badge {
+        margin-bottom: 20px;
+    }
+
+    .sv-hero h1 {
+        font-size: clamp(34px, 5vw, 54px);
+        font-weight: 900;
+        color: var(--text-dark);
+        letter-spacing: -1px;
+        line-height: 1.1;
+        margin-bottom: 14px;
+    }
+
+        .sv-hero h1 span {
+            color: var(--purple);
+        }
+
+    .sv-hero p {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-gray);
+        line-height: 1.7;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+
+/* ══════════════════════════════
+           SERVICIOS PRINCIPALES
+        ══════════════════════════════ */
+.sv-main {
+    background: #ffffff;
+    padding: 80px 6%;
+}
+
+.sv-section-head {
+    text-align: center;
+    margin-bottom: 56px;
+}
+
+    .sv-section-head h2 {
+        font-size: clamp(28px, 3.5vw, 40px);
+        font-weight: 900;
+        color: var(--text-dark);
+        letter-spacing: -0.5px;
+        margin-bottom: 10px;
+    }
+
+    .sv-section-head p {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-gray);
+        max-width: 440px;
+        margin: 0 auto;
+        line-height: 1.65;
+    }
+
+/* Card de servicio principal — alternado */
+.sv-card {
+    max-width: 1100px;
+    margin: 0 auto 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+    .sv-card:last-child {
+        margin-bottom: 0;
+    }
+
+    .sv-card.reverse {
+        direction: rtl;
+    }
+
+        .sv-card.reverse > * {
+            direction: ltr;
+        }
+
+.sv-card-img {
+    border-radius: 22px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    box-shadow: 0 14px 44px rgba(139,60,247,.13);
+}
+
+    .sv-card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform .5s;
+    }
+
+    .sv-card-img:hover img {
+        transform: scale(1.04);
+    }
+
+.sv-card-body {
+}
+
+.sv-card-ico {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.sv-card-body h3 {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.sv-card-body > p {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-gray);
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+
+.sv-incluye-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.sv-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+    .sv-list li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-gray);
+    }
+
+        .sv-list li::before {
+            content: '';
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(139,60,247,.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%238B3CF7' stroke-width='3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 10px;
+        }
+
+/* ══════════════════════════════
+           SERVICIOS ADICIONALES
+        ══════════════════════════════ */
+.sv-adicionales {
+    background: linear-gradient(135deg, #f5f3ff 0%, #eff6ff 100%);
+    padding: 80px 6%;
+}
+
+.sv-adicionales-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.sv-add-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 24px 20px;
+    box-shadow: 0 2px 14px rgba(0,0,0,.06);
+    transition: transform .2s, box-shadow .2s;
+}
+
+    .sv-add-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(139,60,247,.12);
+    }
+
+.sv-add-ico {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: #f5f3ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.sv-add-card h4 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 7px;
+}
+
+.sv-add-card p {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-gray);
+    line-height: 1.6;
+}
+
+/* ══════════════════════════════
+           SERVICIOS SEGÚN EL PELAJE
+        ══════════════════════════════ */
+.sv-pelaje {
+    background: #ffffff;
+    padding: 80px 6%;
+}
+
+.sv-pelaje-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.sv-pelaje-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,.07);
+    transition: transform .2s, box-shadow .2s;
+}
+
+    .sv-pelaje-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 16px 40px rgba(139,60,247,.14);
+    }
+
+.sv-pelaje-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+}
+
+    .sv-pelaje-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        transition: transform .5s;
+    }
+
+.sv-pelaje-card:hover .sv-pelaje-img img {
+    transform: scale(1.05);
+}
+
+.sv-pelaje-body {
+    padding: 18px 18px 22px;
+}
+
+.sv-pelaje-ico {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.sv-pelaje-body h4 {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.sv-pelaje-razas {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--purple);
+    margin-bottom: 8px;
+}
+
+.sv-pelaje-body p {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-gray);
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.sv-pelaje-precio {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+    .sv-pelaje-precio span {
+        color: var(--purple);
+    }
+
+.sv-pelaje-nota {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-gray);
+    font-style: italic;
+    margin-top: 3px;
+}
+
+/* Responsive */
+@media(max-width:900px) {
+    .sv-card, .sv-card.reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+    }
+
+    .sv-adicionales-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .sv-pelaje-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width:560px) {
+    .sv-adicionales-grid, .sv-pelaje-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animaciones */
+.anim-up {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity .65s ease, transform .65s ease;
+}
+
+.anim-left {
+    opacity: 0;
+    transform: translateX(-48px);
+    transition: opacity .65s ease, transform .65s ease;
+}
+
+.anim-right {
+    opacity: 0;
+    transform: translateX(48px);
+    transition: opacity .65s ease, transform .65s ease;
+}
+
+.anim-delay-1 {
+    transition-delay: .08s
+}
+
+.anim-delay-2 {
+    transition-delay: .16s
+}
+
+.anim-delay-3 {
+    transition-delay: .24s
+}
+
+.anim-delay-4 {
+    transition-delay: .32s
+}
+
+.anim-visible {
+    opacity: 1 !important;
+    transform: translate(0,0) !important;
+}

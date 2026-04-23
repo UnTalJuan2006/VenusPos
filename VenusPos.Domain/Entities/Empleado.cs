@@ -17,6 +17,7 @@
         public ICollection<Reserva> Reserva { get; set; }
         public ICollection<Caja> Caja { get; set; }
         public ICollection<Historial> Historial { get; set; }
-        public ICollection<Venta> Ventas { get; set; }  
+        public ICollection<Venta> Ventas { get; set; }
+        public ICollection<MovimientoCaja> MovimientosCaja { get; set; }  
     }
 }

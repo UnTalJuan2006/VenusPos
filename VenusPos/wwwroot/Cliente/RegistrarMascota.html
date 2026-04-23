@@ -1,0 +1,823 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tu Mascota — VenusMascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --purple: #7C3AED;
+            --purple-dark: #5B21B6;
+            --purple-light: #8B5CF6;
+            --purple-pale: #EDE9FE;
+            --purple-soft: #F5F3FF;
+            --text-dark: #1C1033;
+            --text-gray: #6B7280;
+            --border: #E5E7EB;
+            --bg: #F9F8FE;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            min-height: 100%;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        /* HEADER */
+        .flow-header {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 0 6%;
+        }
+
+        .flow-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .flow-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .flow-logo-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--purple-soft);
+            border: 2px solid var(--purple-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+            .flow-logo-circle img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+        .flow-logo-name {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--text-dark);
+        }
+
+        .flow-header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .flow-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-gray);
+        }
+
+        .flow-user-ava {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--purple);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-salir {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-gray);
+            background: none;
+            border: 1.5px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s;
+        }
+
+            .btn-salir:hover {
+                border-color: var(--purple);
+                color: var(--purple);
+            }
+
+        /* PROGRESS BAR */
+        .flow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 0;
+            gap: 0;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+            max-width: 140px;
+        }
+
+            .flow-step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 18px;
+                left: calc(50% + 20px);
+                width: calc(100% - 40px);
+                height: 2px;
+                background: var(--border);
+            }
+
+            .flow-step.done::after {
+                background: var(--purple);
+            }
+
+            .flow-step.active::after {
+                background: linear-gradient(90deg, var(--purple), var(--border));
+            }
+
+        .flow-step-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 900;
+            background: var(--border);
+            color: var(--text-gray);
+            z-index: 1;
+            position: relative;
+            transition: all .3s;
+        }
+
+        .flow-step.done .flow-step-num {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(124,58,237,.3);
+        }
+
+        .flow-step.active .flow-step-num {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(124,58,237,.4);
+            transform: scale(1.08);
+        }
+
+        .flow-step-lbl {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-gray);
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        .flow-step.active .flow-step-lbl {
+            color: var(--purple);
+            font-weight: 800;
+        }
+
+        .flow-step.done .flow-step-lbl {
+            color: var(--purple);
+        }
+
+        /* MAIN */
+        .flow-main {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 48px 20px 80px;
+        }
+
+        .flow-hero {
+            margin-bottom: 36px;
+        }
+
+        .flow-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--purple-soft);
+            color: var(--purple);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+
+        .flow-hero h1 {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 900;
+            color: var(--text-dark);
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+
+            .flow-hero h1 span {
+                color: var(--purple);
+            }
+
+        .flow-hero p {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* CARD */
+        .form-card {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(124,58,237,.07);
+        }
+
+        /* Upload imagen */
+        .img-upload-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: var(--bg);
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            margin-bottom: 28px;
+            cursor: pointer;
+            transition: border-color .2s;
+        }
+
+            .img-upload-section:hover {
+                border-color: var(--purple);
+            }
+
+        .img-preview-box {
+            width: 80px;
+            height: 80px;
+            border-radius: 14px;
+            background: var(--purple-soft);
+            border: 1.5px solid var(--purple-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+            .img-preview-box svg {
+                color: var(--purple);
+                opacity: .5;
+            }
+
+        .img-upload-info {
+            flex: 1;
+        }
+
+            .img-upload-info strong {
+                font-size: 14px;
+                font-weight: 800;
+                color: var(--text-dark);
+                display: block;
+                margin-bottom: 3px;
+            }
+
+            .img-upload-info span {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--text-gray);
+            }
+
+        .btn-upload-img {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--purple);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background .2s;
+        }
+
+            .btn-upload-img:hover {
+                background: var(--purple-dark);
+            }
+
+        .upload-progress-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .upload-progress-track {
+            flex: 1;
+            height: 5px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .upload-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--purple-dark), var(--purple-light));
+            border-radius: 10px;
+            transition: width .15s ease;
+        }
+
+        .upload-progress-txt {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--purple);
+            min-width: 30px;
+        }
+
+        /* Form */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+            .form-grid .full {
+                grid-column: 1/-1;
+            }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .field label {
+                font-size: 11px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .08em;
+                color: var(--text-gray);
+                margin-bottom: 6px;
+            }
+
+            .field input, .field select {
+                padding: 11px 14px;
+                border: 1.5px solid var(--border);
+                border-radius: 10px;
+                font-family: 'Nunito', sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text-dark);
+                background: var(--bg);
+                outline: none;
+                transition: border-color .2s, box-shadow .2s;
+            }
+
+                .field input:focus, .field select:focus {
+                    border-color: var(--purple);
+                    box-shadow: 0 0 0 3px rgba(124,58,237,.08);
+                    background: #fff;
+                }
+
+                .field input::placeholder {
+                    color: #C4B5FD;
+                }
+
+                .field input.error, .field select.error {
+                    border-color: #EF4444;
+                }
+
+        .field-err {
+            font-size: 11px;
+            font-weight: 700;
+            color: #EF4444;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .form-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 22px 0 18px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--text-gray);
+        }
+
+            .form-divider::before, .form-divider::after {
+                content: '';
+                flex: 1;
+                height: 1px;
+                background: var(--border);
+            }
+
+        .btn-siguiente {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--purple);
+            color: #fff;
+            border: none;
+            padding: 15px 24px;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all .2s;
+            margin-top: 28px;
+            box-shadow: 0 6px 20px rgba(124,58,237,.35);
+        }
+
+            .btn-siguiente:hover {
+                background: var(--purple-dark);
+                transform: translateY(-1px);
+            }
+
+            .btn-siguiente:disabled {
+                opacity: .6;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 13px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            z-index: 999;
+            display: none;
+            box-shadow: 0 8px 24px rgba(0,0,0,.12);
+            font-family: 'Nunito', sans-serif;
+        }
+
+            .toast.error {
+                border-color: #EF4444;
+                color: #DC2626;
+            }
+
+            .toast.success {
+                border-color: #10B981;
+                color: #059669;
+            }
+
+        .spinner {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .6s linear infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+                .form-grid .full {
+                    grid-column: 1;
+                }
+
+            .flow-main {
+                padding: 28px 16px 60px;
+            }
+
+            .form-card {
+                padding: 22px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="flow-header">
+        <div class="flow-header-top">
+            <a href="../AgendaCita.html" class="flow-logo">
+                <div class="flow-logo-circle">
+                    <img src="../img/logoVenus.png" alt="" onerror="this.parentElement.textContent='VP'" />
+                </div>
+                <span class="flow-logo-name">VenusMascotas</span>
+            </a>
+            <div class="flow-header-right">
+                <div class="flow-user">
+                    <div class="flow-user-ava" id="userAva">?</div>
+                    <span id="userName">Cliente</span>
+                </div>
+                <a href="../AgendaCita.html" class="btn-salir">
+                    <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7" /></svg>
+                    Salir
+                </a>
+            </div>
+        </div>
+
+        <!-- PROGRESS STEPS -->
+        <div class="flow-steps">
+            <div class="flow-step done">
+                <div class="flow-step-num">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div class="flow-step-lbl">Registro</div>
+            </div>
+            <div class="flow-step active">
+                <div class="flow-step-num">2</div>
+                <div class="flow-step-lbl">Tu Mascota</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-step-num">3</div>
+                <div class="flow-step-lbl">Servicios</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-step-num">4</div>
+                <div class="flow-step-lbl">Calendario</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-step-num">5</div>
+                <div class="flow-step-lbl">Confirmacion</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="flow-main">
+
+        <div class="flow-hero">
+            <div class="flow-badge">Paso 2</div>
+            <h1>Cuentanos sobre tu peludo, <span id="heroNombre">amigo</span></h1>
+            <p>Personalizamos el servicio segun las caracteristicas de tu mascota.</p>
+        </div>
+
+        <div class="form-card">
+
+            <div class="img-upload-section" onclick="document.getElementById('fileInput').click()">
+                <div class="img-preview-box" id="imgPreviewBox">
+                    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                    </svg>
+                </div>
+                <div class="img-upload-info">
+                    <strong>Foto de tu mascota</strong>
+                    <span>JPG, PNG o WebP. Maximo 3MB</span>
+                    <div>
+                        <label class="btn-upload-img" for="fileInput" onclick="event.stopPropagation()">
+                            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            Subir foto
+                        </label>
+                        <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.webp" style="display:none" onchange="previsualizarImagen(event)" />
+                    </div>
+                    <div class="upload-progress-wrap" id="uploadProgressWrap" style="display:none">
+                        <div class="upload-progress-track">
+                            <div class="upload-progress-bar" id="uploadProgressBar"></div>
+                        </div>
+                        <span class="upload-progress-txt" id="uploadProgressTxt">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="field">
+                    <label>Nombre de la mascota</label>
+                    <input type="text" id="fNombre" placeholder="Ej: Max" />
+                    <div class="field-err" id="errNombre">Ingresa el nombre</div>
+                </div>
+                <div class="field">
+                    <label>Raza</label>
+                    <input type="text" id="fRaza" placeholder="Ej: Golden Retriever" />
+                    <div class="field-err" id="errRaza">Ingresa la raza</div>
+                </div>
+                <div class="field">
+                    <label>Tamano</label>
+                    <select id="fTamano">
+                        <option value="">Seleccionar...</option>
+                        <option value="Pequeno">Pequeño</option>
+                        <option value="Mediano">Mediano</option>
+                        <option value="Grande">Grande</option>
+                    </select>
+                    <div class="field-err" id="errTamano">Selecciona el tamano</div>
+                </div>
+                <div class="field">
+                    <label>Tipo de Pelaje</label>
+                    <select id="fPelaje">
+                        <option value="">Seleccionar...</option>
+                        <option value="Corto">Corto</option>
+                        <option value="SemiLargo">SemiLargo</option>
+                        <option value="Largo">Largo</option>
+                        <option value="DobleCapa">Doble Capa</option>
+                    </select>
+                    <div class="field-err" id="errPelaje">Selecciona el tipo de pelaje</div>
+                </div>
+                <div class="field">
+                    <label>Edad (anos)</label>
+                    <input type="number" id="fEdad" placeholder="Ej: 3" min="0" max="30" />
+                    <div class="field-err" id="errEdad">Ingresa la edad</div>
+                </div>
+                <div class="field">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" id="fFechaNac" />
+                    <div class="field-err" id="errFechaNac">Ingresa la fecha de nacimiento</div>
+                </div>
+            </div>
+
+            <div class="form-divider">Informacion adicional</div>
+
+            <div class="form-grid">
+                <div class="field full">
+                    <label>Observaciones (opcional)</label>
+                    <input type="text" id="fObservaciones" placeholder="Alergias, comportamiento especial, cuidados..." />
+                </div>
+            </div>
+
+            <button class="btn-siguiente" id="btnSiguiente" onclick="guardarMascota()">
+                Siguiente — Elegir Servicios
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </button>
+
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/reserva-utils.js"></script>
+    <script>
+        var API = '/api';
+        var imagenUrl = null;
+
+        var clienteId = localStorage.getItem('cliente_id');
+        var clienteNombre = localStorage.getItem('cliente_nombre') || 'amigo';
+
+        if (!clienteId) { window.location.replace('../AgendaCita.html'); }
+
+        var primerNombre = clienteNombre.split(' ')[0];
+        document.getElementById('heroNombre').textContent = primerNombre;
+        document.getElementById('userName').textContent = clienteNombre;
+        document.getElementById('userAva').textContent = clienteNombre.split(' ').map(function (x) { return x[0]; }).join('').substring(0, 2).toUpperCase();
+
+        function toast(msg, tipo) {
+            tipo = tipo || 'error';
+            var el = document.getElementById('toast');
+            el.textContent = msg; el.className = 'toast ' + tipo; el.style.display = 'block';
+            clearTimeout(el._t); el._t = setTimeout(function () { el.style.display = 'none'; }, 3500);
+        }
+
+        function previsualizarImagen(event) {
+            var file = event.target.files[0]; if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('imgPreviewBox').innerHTML =
+                    '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px" />';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function subirImagen() {
+            return new Promise(function (resolve, reject) {
+                var fileInput = document.getElementById('fileInput');
+                if (!fileInput.files || !fileInput.files[0]) { resolve(null); return; }
+                var formData = new FormData();
+                formData.append('imagen', fileInput.files[0]);
+                var wrap = document.getElementById('uploadProgressWrap');
+                var bar = document.getElementById('uploadProgressBar');
+                var txt = document.getElementById('uploadProgressTxt');
+                wrap.style.display = 'flex'; bar.style.width = '0%'; txt.textContent = '0%';
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', API + '/Mascota/upload-imagen');
+                xhr.upload.onprogress = function (e) {
+                    if (e.lengthComputable) {
+                        var pct = Math.round((e.loaded / e.total) * 100);
+                        bar.style.width = pct + '%'; txt.textContent = pct + '%';
+                    }
+                };
+                xhr.onload = function () {
+                    wrap.style.display = 'none';
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        try { resolve(JSON.parse(xhr.responseText).url); }
+                        catch (e) { reject(new Error('Error al procesar imagen')); }
+                    } else {
+                        try { reject(new Error(JSON.parse(xhr.responseText).message || 'Error al subir')); }
+                        catch (e) { reject(new Error('Error al subir imagen')); }
+                    }
+                };
+                xhr.onerror = function () { wrap.style.display = 'none'; reject(new Error('Error de red')); };
+                xhr.send(formData);
+            });
+        }
+
+        async function guardarMascota() {
+            var nombre = document.getElementById('fNombre').value.trim();
+            var raza = document.getElementById('fRaza').value.trim();
+            var tamano = document.getElementById('fTamano').value;
+            var pelaje = document.getElementById('fPelaje').value;
+            var edad = parseInt(document.getElementById('fEdad').value);
+            var fechaNac = document.getElementById('fFechaNac').value;
+            var observaciones = document.getElementById('fObservaciones').value.trim();
+            var ok = true;
+
+            function validar(id, errId, condicion) {
+                var inp = document.getElementById(id), err = document.getElementById(errId);
+                if (condicion) { err.style.display = 'block'; inp.classList.add('error'); ok = false; }
+                else { err.style.display = 'none'; inp.classList.remove('error'); }
+            }
+            validar('fNombre', 'errNombre', !nombre || nombre.length < 2);
+            validar('fRaza', 'errRaza', !raza);
+            validar('fTamano', 'errTamano', !tamano);
+            validar('fPelaje', 'errPelaje', !pelaje);
+            validar('fEdad', 'errEdad', isNaN(edad) || edad < 0);
+            validar('fFechaNac', 'errFechaNac', !fechaNac);
+            if (!ok) { toast('Completa todos los campos obligatorios', 'error'); return; }
+
+            var btn = document.getElementById('btnSiguiente');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Guardando...';
+
+            try {
+                if (document.getElementById('fileInput').files && document.getElementById('fileInput').files[0]) {
+                    imagenUrl = await subirImagen();
+                }
+                var res = await fetch(API + '/Mascota', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nombre: nombre, raza: raza, tamano: tamano,
+                        tipoPelaje: pelaje, edad: edad, fechaNacimiento: fechaNac,
+                        observaciones: observaciones, imagen: imagenUrl,
+                        idCliente: parseInt(clienteId)
+                    })
+                });
+                if (!res.ok) {
+                    var err = await res.json().catch(function () { return {}; });
+                    throw new Error(err.message || 'Error al guardar mascota');
+                }
+                var mascota = await res.json();
+                localStorage.setItem('mascota_id', mascota.id);
+                localStorage.setItem('mascota_nombre', mascota.nombre);
+
+                // Guardar mascota en ReservaStorage para el flujo de reservas
+                ReservaStorage.setMascota(mascota);
+
+                toast('Mascota registrada!', 'success');
+                setTimeout(function () { window.location.href = '../Reserva/SeleccionServicios.html'; }, 800);
+            } catch (err) {
+                toast(err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Siguiente — Elegir Servicios <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+            }
+        }
+    </script>
+</body>
+</html>

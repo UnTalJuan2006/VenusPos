@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método de Pago — VenusMascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Index.css">
+    <link rel="stylesheet" href="../css/Reserva.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-inner">
+            <a href="../Index.html" class="logo-wrap">
+                <div class="logo-circle">
+                    <img src="../img/logoVenus.png" alt="Logo Venus Mascotas">
+                </div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="../Index.html">Inicio</a></li>
+                    <li><a href="../QuienesSomos.html">Quienes Somos</a></li>
+                    <li><a href="../Servicios.html">Servicios</a></li>
+                    <li><a href="../Index.html#instalaciones">Instalaciones</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="../AgendaCita.html" class="btn-header-primary">Agenda tu Cita</a>
+                <a href="../Index.html#contacto" class="btn-header-link">Contacto</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- PROGRESS HEADER -->
+    <div class="progress-header">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Mascota</div>
+                </div>
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Servicio</div>
+                </div>
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Horario</div>
+                </div>
+                <div class="step-indicator active">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Pago</div>
+                </div>
+                <div class="step-indicator">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">Confirmación</div>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-fill" style="width: 70%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="reserva-container">
+        <h1 class="page-title">Método de Pago</h1>
+        <p class="page-subtitle">Selecciona cómo deseas pagar tu servicio</p>
+
+        <!-- Métodos de Pago -->
+        <div class="card" style="max-width: 700px; margin: 0 auto 32px;">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+
+                <!-- Opción Efectivo -->
+                <label class="metodo-pago-card" data-metodo="Efectivo" onclick="seleccionarMetodoPago('Efectivo', this)">
+                    <input type="radio" name="metodoPago" value="Efectivo" checked style="display: none;">
+                    <div class="metodo-pago-content">
+                        <div class="metodo-pago-icon">💵</div>
+                        <div class="metodo-pago-info">
+                            <div class="metodo-pago-header">
+                                <strong class="metodo-pago-title">Efectivo</strong>
+                                <span class="badge-disponible">DISPONIBLE</span>
+                            </div>
+                            <p class="metodo-pago-desc">Paga en efectivo al finalizar el servicio</p>
+                        </div>
+                        <div class="metodo-pago-check">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </label>
+
+                <!-- Opción PSE -->
+                <label class="metodo-pago-card disabled" data-metodo="PSE">
+                    <input type="radio" name="metodoPago" value="PSE" disabled style="display: none;">
+                    <div class="metodo-pago-content">
+                        <div class="metodo-pago-icon">🏦</div>
+                        <div class="metodo-pago-info">
+                            <div class="metodo-pago-header">
+                                <strong class="metodo-pago-title">PSE</strong>
+                                <span class="badge-proximamente">PRÓXIMAMENTE</span>
+                            </div>
+                            <p class="metodo-pago-desc">Pago por transferencia bancaria</p>
+                        </div>
+                    </div>
+                </label>
+
+                <!-- Opción Tarjeta -->
+                <label class="metodo-pago-card disabled" data-metodo="Tarjeta">
+                    <input type="radio" name="metodoPago" value="Tarjeta" disabled style="display: none;">
+                    <div class="metodo-pago-content">
+                        <div class="metodo-pago-icon">💳</div>
+                        <div class="metodo-pago-info">
+                            <div class="metodo-pago-header">
+                                <strong class="metodo-pago-title">Tarjeta de Crédito/Débito</strong>
+                                <span class="badge-proximamente">PRÓXIMAMENTE</span>
+                            </div>
+                            <p class="metodo-pago-desc">Pago con tarjeta al finalizar el servicio</p>
+                        </div>
+                    </div>
+                </label>
+
+            </div>
+
+            <!-- Información del método seleccionado -->
+            <div id="metodoPagoInfo" class="metodo-pago-alert">
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <p><strong>Pago en Efectivo:</strong> El pago se realiza al finalizar el servicio. No se requiere pago por adelantado.</p>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+            <button class="btn btn-secondary" onclick="NavigationUtils.goTo('SeleccionHorario.html')">
+                ← Volver
+            </button>
+            <button id="btnContinuar" class="btn btn-primary" onclick="continuarAResumen()">
+                Continuar al Resumen
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/reserva-utils.js"></script>
+    <script>
+        let metodoPagoSeleccionado = 'Efectivo';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Página de método de pago cargada');
+
+            // Check requirements
+            if (!NavigationUtils.requireCliente()) return;
+
+            const cliente = ReservaStorage.getCliente();
+            const mascota = ReservaStorage.getMascota();
+            const horario = ReservaStorage.getHorario();
+            const empleado = ReservaStorage.getEmpleado();
+
+            console.log('Cliente:', cliente);
+            console.log('Mascota:', mascota);
+            console.log('Horario:', horario);
+            console.log('Empleado:', empleado);
+
+            // Validate all data
+            if (!mascota || !horario || !empleado) {
+                console.error('Faltan datos:', { mascota, horario, empleado });
+                Toast.error('Faltan datos de la reserva. Por favor completa los pasos anteriores.');
+                setTimeout(() => {
+                    NavigationUtils.goTo('SeleccionHorario.html');
+                }, 2000);
+                return;
+            }
+
+            // Seleccionar Efectivo por defecto
+            const efectivoCard = document.querySelector('.metodo-pago-card[data-metodo="Efectivo"]');
+            if (efectivoCard) {
+                efectivoCard.classList.add('selected');
+            }
+        });
+
+        function seleccionarMetodoPago(metodo, element) {
+            // Solo permitir selección si no está deshabilitado
+            if (element.classList.contains('disabled')) {
+                Toast.error('Este método de pago estará disponible próximamente');
+                return;
+            }
+
+            // Remover selección previa
+            document.querySelectorAll('.metodo-pago-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Seleccionar nuevo
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+            metodoPagoSeleccionado = metodo;
+
+            // Actualizar información
+            const infoDiv = document.getElementById('metodoPagoInfo');
+            if (metodo === 'Efectivo') {
+                infoDiv.innerHTML = `
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <p><strong>Pago en Efectivo:</strong> El pago se realiza al finalizar el servicio. No se requiere pago por adelantado.</p>
+                `;
+            }
+        }
+
+        function continuarAResumen() {
+            // Guardar método de pago en storage
+            ReservaStorage.setMetodoPago(metodoPagoSeleccionado);
+
+            // Ir a resumen
+            NavigationUtils.goTo('ResumenConfirmacion.html');
+        }
+    </script>
+
+    <style>
+        .metodo-pago-card {
+            padding: 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .metodo-pago-card:not(.disabled):hover {
+            border-color: #8B3CF7;
+            background: #faf5ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 60, 247, 0.15);
+        }
+
+        .metodo-pago-card.selected {
+            border-color: #8B3CF7;
+            background: #faf5ff;
+            box-shadow: 0 4px 12px rgba(139, 60, 247, 0.2);
+        }
+
+        .metodo-pago-card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f9fafb;
+        }
+
+        .metodo-pago-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .metodo-pago-icon {
+            font-size: 36px;
+            flex-shrink: 0;
+        }
+
+        .metodo-pago-info {
+            flex: 1;
+        }
+
+        .metodo-pago-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .metodo-pago-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #1f2937;
+        }
+
+        .metodo-pago-desc {
+            margin: 0;
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        .badge-disponible {
+            background: #10b981;
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-proximamente {
+            background: #6b7280;
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .metodo-pago-check {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #8B3CF7;
+            color: white;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .metodo-pago-card.selected .metodo-pago-check {
+            display: flex;
+        }
+
+        .metodo-pago-alert {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: start;
+        }
+
+        .metodo-pago-alert svg {
+            color: #f59e0b;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .metodo-pago-alert p {
+            margin: 0;
+            color: #92400e;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+
+</body>
+</html>

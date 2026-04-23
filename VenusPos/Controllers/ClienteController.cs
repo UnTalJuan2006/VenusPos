@@ -84,5 +84,21 @@ namespace VenusPos.Controllers
             }
         }
 
+
+        // POST /api/Cliente/login
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] IngresoClienteDTO dto)
+        {
+            try
+            {
+                var cliente = await _service.LoginAsync(dto);
+                return Ok(cliente);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+        }
+
     }
 }

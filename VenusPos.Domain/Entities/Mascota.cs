@@ -14,6 +14,7 @@ namespace VenusPos.Domain.Entities
         public EnumTipoPelaje TipoPelaje { get; set; }
         public string Observaciones { get; set; }
         public DateTime FechaCreacion { get; set; }
+
         public DateTime FechaNacimiento { get; set; }
         public DateTime? FechaActualizacion { get; set; }
         public string Imagen { get; set; }

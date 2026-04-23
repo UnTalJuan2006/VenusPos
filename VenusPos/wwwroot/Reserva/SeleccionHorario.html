@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecciona Horario — VenusMascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Reserva.css">
+    <style>
+        :root {
+            --purple: #8B3CF7;
+            --purple-dark: #6D28D9;
+            --text-dark: #1a1a2e;
+            --text-gray: #6b7280;
+            --border: #E5E7EB;
+            --bg: #F9F8FE;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        /* ══ HEADER DEL FLUJO ══ */
+        .flow-header {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 0 6%;
+        }
+
+        .flow-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .flow-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .flow-logo-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+            .flow-logo-circle img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+        .flow-logo-name {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--text-dark);
+        }
+
+        .flow-header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .flow-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-gray);
+        }
+
+        .flow-user-ava {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--purple);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-salir {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-gray);
+            background: none;
+            border: 1.5px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s;
+        }
+
+            .btn-salir:hover {
+                border-color: var(--purple);
+                color: var(--purple);
+            }
+
+        /* ══ BARRA DE PROGRESO ══ */
+        .flow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            max-width: 140px;
+            position: relative;
+        }
+
+            .flow-step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 18px;
+                left: calc(50% + 20px);
+                width: calc(100% - 40px);
+                height: 2px;
+                background: var(--border);
+            }
+
+            .flow-step.done::after {
+                background: var(--purple);
+            }
+
+            .flow-step.active::after {
+                background: linear-gradient(90deg, var(--purple), var(--border));
+            }
+
+        .flow-step-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 900;
+            background: var(--border);
+            color: var(--text-gray);
+            z-index: 1;
+            position: relative;
+            transition: all .3s;
+        }
+
+        .flow-step.done .flow-step-num {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(124,58,237,.3);
+        }
+
+        .flow-step.active .flow-step-num {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(124,58,237,.4);
+            transform: scale(1.08);
+        }
+
+        .flow-step-lbl {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-gray);
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        .flow-step.active .flow-step-lbl {
+            color: var(--purple);
+            font-weight: 800;
+        }
+
+        .flow-step.done .flow-step-lbl {
+            color: var(--purple);
+        }
+
+        /* ══ HERO PASO 4 — igual distribución que TuMascota ══ */
+        .flow-hero {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 48px 20px 0;
+            margin-bottom: 8px;
+        }
+
+        .flow-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f5f3ff;
+            color: var(--purple);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+
+        .flow-hero h1 {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 900;
+            color: var(--text-dark);
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+
+            .flow-hero h1 span {
+                color: var(--purple);
+            }
+
+        .flow-hero > p {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* Card info mascota */
+        .mascota-info-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 20px;
+            margin-bottom: 0;
+            gap: 16px;
+        }
+
+        .mascota-info-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .mascota-info-img {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            background: #f5f3ff;
+            border: 1.5px solid #ede9fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+            .mascota-info-img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .mascota-info-img svg {
+                color: var(--purple);
+                opacity: .5;
+            }
+
+        .mascota-info-nombre {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .mascota-info-detalle {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .duracion-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f5f3ff;
+            border: 1.5px solid #ede9fe;
+            border-radius: 10px;
+            padding: 8px 16px;
+            flex-shrink: 0;
+        }
+
+            .duracion-badge svg {
+                color: var(--purple);
+                flex-shrink: 0;
+            }
+
+        .duracion-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .duracion-valor {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--purple);
+        }
+
+        /* ══ CONTENIDO ORIGINAL (sin cambios) ══ */
+        .horario-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .horario-layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .calendario-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 32px;
+        }
+
+        .calendario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendario-mes {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .calendario-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+            .calendario-nav button {
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+                border: 1.5px solid var(--border);
+                background: #fff;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all .2s;
+            }
+
+                .calendario-nav button:hover {
+                    border-color: var(--purple);
+                    color: var(--purple);
+                }
+
+        .calendario-dias-nombre {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .dia-nombre {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-gray);
+            padding: 8px 0;
+        }
+
+        .calendario-dias {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .dia {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+            .dia:hover:not(.disabled):not(.selected) {
+                background: #f9fafb;
+                border-color: #e5e7eb;
+            }
+
+            .dia.disabled {
+                color: #d1d5db;
+                cursor: not-allowed;
+            }
+
+            .dia.selected {
+                background: var(--purple);
+                color: #fff;
+                box-shadow: 0 4px 12px rgba(139,60,247,0.3);
+            }
+
+            .dia.today {
+                border-color: var(--purple);
+            }
+
+        .dia-demanda {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 2px;
+        }
+
+            .dia-demanda.baja {
+                background: var(--green);
+            }
+
+            .dia-demanda.media {
+                background: var(--yellow);
+            }
+
+            .dia-demanda.alta {
+                background: var(--red);
+            }
+
+        .leyenda {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .leyenda-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-gray);
+        }
+
+        .leyenda-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .profesionales-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .profesional-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: all .2s;
+        }
+
+            .profesional-card:hover {
+                box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            }
+
+        .profesional-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .profesional-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #f3f4f6;
+        }
+
+        .profesional-avatar-placeholder {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e9d5ff 0%, #c4b5fd 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6d28d9;
+            font-weight: 900;
+            font-size: 24px;
+        }
+
+        .profesional-info {
+            flex: 1;
+        }
+
+        .profesional-nombre {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .profesional-especialidad {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 6px;
+        }
+
+        .profesional-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--purple);
+        }
+
+        .profesional-disponibles {
+            background: #f0fdf4;
+            color: #15803d;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .horarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .horario-slot {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+            .horario-slot:hover:not(.disabled) {
+                border-color: var(--purple);
+                background: #faf5ff;
+            }
+
+            .horario-slot.selected {
+                background: var(--purple);
+                border-color: var(--purple);
+                color: #fff;
+                box-shadow: 0 4px 12px rgba(139,60,247,0.3);
+            }
+
+            .horario-slot.disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .horario-slot.ocupado {
+                background: #f3f4f6;
+                border: 2px solid #d1d5db;
+                color: #9ca3af;
+                position: relative;
+            }
+
+            .horario-slot.ocupado::before {
+                content: '🔒';
+                position: absolute;
+                top: 4px;
+                right: 6px;
+                font-size: 10px;
+                opacity: 0.6;
+            }
+
+            .horario-slot.ocupado:hover {
+                background: #f3f4f6;
+                border-color: #d1d5db;
+            }
+
+        .horario-inicio {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+
+        .horario-fin {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        .btn-continuar {
+            width: 100%;
+            max-width: 400px;
+            margin: 32px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--purple);
+            color: #fff;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .btn-continuar:hover {
+                background: var(--purple-dark);
+                transform: translateY(-1px);
+            }
+
+            .btn-continuar:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+        @media (max-width: 968px) {
+            .horario-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .calendario-card {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .flow-step-lbl {
+                display: none;
+            }
+
+            .horarios-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+
+            .mascota-info-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ══ HEADER DEL FLUJO ══ -->
+    <header class="flow-header">
+        <div class="flow-header-top">
+            <a href="../AgendaCita.html" class="flow-logo">
+                <div class="flow-logo-circle">
+                    <img src="../img/logoVenus.png" alt="" onerror="this.parentElement.textContent='VP'" />
+                </div>
+                <span class="flow-logo-name">VenusMascotas</span>
+            </a>
+            <div class="flow-header-right">
+                <div class="flow-user">
+                    <div class="flow-user-ava" id="userAva">?</div>
+                    <span id="userName">Cliente</span>
+                </div>
+                <a href="../AgendaCita.html" class="btn-salir">
+                    <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7" /></svg>
+                    Salir
+                </a>
+            </div>
+        </div>
+
+        <!-- Barra de pasos -->
+        <div class="flow-steps">
+            <div class="flow-step done">
+                <div class="flow-step-num">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div class="flow-step-lbl">Registro</div>
+            </div>
+            <div class="flow-step done">
+                <div class="flow-step-num">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div class="flow-step-lbl">Tu Mascota</div>
+            </div>
+            <div class="flow-step done">
+                <div class="flow-step-num">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div class="flow-step-lbl">Servicios</div>
+            </div>
+            <div class="flow-step active">
+                <div class="flow-step-num">4</div>
+                <div class="flow-step-lbl">Calendario</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-step-num">5</div>
+                <div class="flow-step-lbl">Confirmacion</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ══ HERO PASO 4 + INFO MASCOTA ══ -->
+    <div class="flow-hero">
+        <div class="flow-badge">Paso 4</div>
+        <h1>Elige tu <span>fecha y horario</span></h1>
+        <p>Solo mostramos estilistas disponibles para tu mascota.</p>
+
+        <!-- Card info mascota + duración -->
+        <div class="mascota-info-bar" id="mascotaInfoBar" style="display:none;">
+            <div class="mascota-info-left">
+                <div class="mascota-info-img" id="mascotaImgBox">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="mascota-info-nombre" id="mascotaInfoNombre">—</div>
+                    <div class="mascota-info-detalle" id="mascotaInfoDetalle">—</div>
+                </div>
+            </div>
+            <div class="duracion-badge">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                </svg>
+                <div>
+                    <div class="duracion-label">Duración estimada</div>
+                    <div class="duracion-valor" id="duracionValor">—</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- separador visual -->
+    <div style="max-width:700px; margin: 0 auto; padding: 0 20px;">
+        <div style="height:1px; background: var(--border); margin: 24px 0 0;"></div>
+    </div>
+
+    <!-- ══ CONTENIDO ORIGINAL ══ -->
+    <div class="horario-container">
+        <div class="horario-layout">
+            <!-- Calendario -->
+            <div class="calendario-card">
+                <div class="calendario-header">
+                    <h3 class="calendario-mes" id="calendarioMes">Marzo 2026</h3>
+                    <div class="calendario-nav">
+                        <button onclick="cambiarMes(-1)">
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M15 19l-7-7 7-7" /></svg>
+                        </button>
+                        <button onclick="cambiarMes(1)">
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="calendario-dias-nombre">
+                    <div class="dia-nombre">Dom</div>
+                    <div class="dia-nombre">Lun</div>
+                    <div class="dia-nombre">Mar</div>
+                    <div class="dia-nombre">Mié</div>
+                    <div class="dia-nombre">Jue</div>
+                    <div class="dia-nombre">Vie</div>
+                    <div class="dia-nombre">Sáb</div>
+                </div>
+
+                <div class="calendario-dias" id="calendarioDias"></div>
+
+                <div class="leyenda">
+                    <div class="leyenda-item">
+                        <div class="leyenda-dot" style="background: var(--green);"></div>
+                        <span>Baja demanda</span>
+                    </div>
+                    <div class="leyenda-item">
+                        <div class="leyenda-dot" style="background: var(--yellow);"></div>
+                        <span>Media demanda</span>
+                    </div>
+                    <div class="leyenda-item">
+                        <div class="leyenda-dot" style="background: var(--red);"></div>
+                        <span>Alta demanda</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profesionales y horarios -->
+            <div>
+                <div id="profesionalesContainer">
+                    <div style="text-align:center; padding:64px 20px; color:var(--text-gray);">
+                        <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2" style="color:#c4b5fd; margin:0 auto 16px; display:block;">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <path d="M16 2v4M8 2v4M3 10h18" />
+                        </svg>
+                        <p style="font-size:15px; font-weight:700; margin-bottom:6px;">Selecciona una fecha</p>
+                        <p style="font-size:13px;">Al elegir un día verás los horarios disponibles por estilista, calculados según la duración estimada del servicio.</p>
+                    </div>
+                </div>
+
+                <button class="btn-continuar" id="btnContinuar" onclick="continuar()" disabled>
+                    Continuar al resumen
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Método de Pago -->
+    <div id="modalMetodoPago" class="modal-overlay" style="display: none;" onclick="cerrarModalPago(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-hdr">
+                <h3 class="modal-ttl">Método de Pago</h3>
+                <button class="modal-close" onclick="cerrarModalPago()">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 13px; color: #6b7280; margin-bottom: 20px;">¿Cómo deseas pagar tu servicio?</p>
+
+                <div class="metodos-pago-grid">
+                    <!-- Efectivo -->
+                    <label class="metodo-card seleccionado" data-metodo="Efectivo" onclick="seleccionarMetodo('Efectivo', this)">
+                        <input type="radio" name="metodoPagoModal" value="Efectivo" checked style="display: none;">
+                        <div class="metodo-icon">💵</div>
+                        <div class="metodo-info">
+                            <div class="metodo-title">Efectivo</div>
+                            <span class="badge-disponible">DISPONIBLE</span>
+                        </div>
+                        <div class="metodo-desc">Paga al finalizar el servicio</div>
+                        <div class="metodo-check">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                    </label>
+
+                    <!-- PSE -->
+                    <label class="metodo-card deshabilitado" data-metodo="PSE">
+                        <input type="radio" name="metodoPagoModal" value="PSE" disabled style="display: none;">
+                        <div class="metodo-icon">🏦</div>
+                        <div class="metodo-info">
+                            <div class="metodo-title">PSE</div>
+                            <span class="badge-proximamente">PRÓXIMAMENTE</span>
+                        </div>
+                        <div class="metodo-desc">Transferencia bancaria</div>
+                    </label>
+
+                    <!-- Tarjeta -->
+                    <label class="metodo-card deshabilitado" data-metodo="Tarjeta">
+                        <input type="radio" name="metodoPagoModal" value="Tarjeta" disabled style="display: none;">
+                        <div class="metodo-icon">💳</div>
+                        <div class="metodo-info">
+                            <div class="metodo-title">Tarjeta</div>
+                            <span class="badge-proximamente">PRÓXIMAMENTE</span>
+                        </div>
+                        <div class="metodo-desc">Débito o crédito</div>
+                    </label>
+                </div>
+
+                <div class="metodo-info-box">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <p><strong>Pago en Efectivo:</strong> El pago se realiza al finalizar el servicio. No se requiere pago por adelantado.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-sec" onclick="cerrarModalPago()">Cancelar</button>
+                <button class="btn-primary" onclick="confirmarMetodoPago()">
+                    Continuar al Resumen
+                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/reserva-utils.js"></script>
+    <script src="../js/reserva-api.js"></script>
+    <script>
+        let fechaActual = new Date();
+        let mesActual = new Date();
+        let fechaSeleccionada = null;
+        let horarioSeleccionado = null;
+        let empleadoSeleccionado = null;
+        let mascota = null;
+        let calculoPrecio = null;
+
+        const clienteNombre = localStorage.getItem('cliente_nombre') || 'Cliente';
+        document.getElementById('userName').textContent = clienteNombre;
+        document.getElementById('userAva').textContent = clienteNombre.split(' ').map(x => x[0]).join('').substring(0, 2).toUpperCase();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!NavigationUtils.requireCliente()) return;
+
+            mascota = ReservaStorage.getMascota();
+            calculoPrecio = ReservaStorage.getPrecio();
+
+            if (!mascota || !calculoPrecio) {
+                Toast.warning('No se encontró información de mascota');
+                setTimeout(() => NavigationUtils.goTo('../AgendaCita.html'), 1500);
+                return;
+            }
+
+            // Mostrar card de mascota
+            document.getElementById('mascotaInfoNombre').textContent =
+                `${mascota.nombre} — ${getPelajeLabel(mascota.tipoPelaje)}, talla ${getTamañoLabel(mascota.tamaño).toLowerCase()}`;
+            document.getElementById('mascotaInfoDetalle').textContent = mascota.raza || '';
+            if (mascota.imagen) {
+                document.getElementById('mascotaImgBox').innerHTML =
+                    `<img src="${mascota.imagen}" alt="${mascota.nombre}"/>`;
+            }
+            const mins = calculoPrecio.duracionMinutos || 90;
+            const h = Math.floor(mins / 60);
+            const m = mins % 60;
+            document.getElementById('duracionValor').textContent = h > 0 ? `${h}h${m > 0 ? ' ' + m + 'min' : ''}` : `${m}min`;
+            document.getElementById('mascotaInfoBar').style.display = 'flex';
+
+            renderizarCalendario();
+        });
+
+        function renderizarCalendario() {
+            const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            document.getElementById('calendarioMes').textContent = `${meses[mesActual.getMonth()]} ${mesActual.getFullYear()}`;
+
+            const primerDia = new Date(mesActual.getFullYear(), mesActual.getMonth(), 1);
+            const ultimoDia = new Date(mesActual.getFullYear(), mesActual.getMonth() + 1, 0);
+            const diasMes = ultimoDia.getDate();
+            const primerDiaSemana = primerDia.getDay();
+
+            const calendarioDias = document.getElementById('calendarioDias');
+            calendarioDias.innerHTML = '';
+
+            for (let i = 0; i < primerDiaSemana; i++) {
+                calendarioDias.appendChild(document.createElement('div'));
+            }
+
+            for (let dia = 1; dia <= diasMes; dia++) {
+                const fecha = new Date(mesActual.getFullYear(), mesActual.getMonth(), dia);
+                const diaEl = document.createElement('div');
+                diaEl.className = 'dia';
+                if (fecha.toDateString() === fechaActual.toDateString()) diaEl.classList.add('today');
+                if (fechaSeleccionada && fecha.toDateString() === fechaSeleccionada.toDateString()) diaEl.classList.add('selected');
+
+                // Deshabilitar domingos (día 0)
+                const esDomingo = fecha.getDay() === 0;
+
+                // Deshabilitar fechas pasadas
+                if (fecha < new Date(fechaActual.getFullYear(), fechaActual.getMonth(), fechaActual.getDate()) || esDomingo) {
+                    diaEl.classList.add('disabled');
+                } else {
+                    diaEl.onclick = () => seleccionarFecha(fecha);
+                }
+
+                // No mostrar indicador de demanda en domingos
+                const demandaHTML = esDomingo ? '' : `<div class="dia-demanda ${getDemanda(fecha)}"></div>`;
+                diaEl.innerHTML = `<span>${dia}</span>${demandaHTML}`;
+                calendarioDias.appendChild(diaEl);
+            }
+        }
+
+        function getDemanda(fecha) {
+            const dia = fecha.getDay();
+            if (dia === 6 || dia === 0) return 'alta';
+            if (dia === 5) return 'media';
+            return 'baja';
+        }
+
+        function cambiarMes(dir) {
+            mesActual.setMonth(mesActual.getMonth() + dir);
+            renderizarCalendario();
+        }
+
+        async function seleccionarFecha(fecha) {
+            fechaSeleccionada = fecha;
+            horarioSeleccionado = null;
+            empleadoSeleccionado = null;
+            document.getElementById('btnContinuar').disabled = true;
+            renderizarCalendario();
+            await cargarProfesionales();
+        }
+
+        async function cargarProfesionales() {
+            const container = document.getElementById('profesionalesContainer');
+            container.innerHTML = '<div style="text-align:center;padding:48px;color:var(--text-gray);">Cargando profesionales...</div>';
+            try {
+                const fechaStr = DateUtils.toAPIDate(fechaSeleccionada);
+                const tamañoMascota = mascota?.tamaño || null;
+                const horarios = await ReservaAPI.obtenerHorariosDisponibles(fechaStr, calculoPrecio.duracionMinutos, null, tamañoMascota);
+
+                if (!horarios || horarios.length === 0) {
+                    container.innerHTML = '<div style="text-align:center;padding:48px;color:var(--text-gray);">No hay horarios para esta fecha</div>';
+                    return;
+                }
+
+                container.innerHTML = '<div class="profesionales-container" id="profesionalesList"></div>';
+                const list = document.getElementById('profesionalesList');
+                const empleadosMap = new Map();
+
+                // Procesar todos los horarios y recolectar empleados únicos
+                horarios.forEach(h => {
+                    // Agregar empleados disponibles con este horario marcado como disponible
+                    if (h.empleadosDisponibles && h.empleadosDisponibles.length > 0) {
+                        h.empleadosDisponibles.forEach(emp => {
+                            if (!empleadosMap.has(emp.id)) {
+                                empleadosMap.set(emp.id, { empleado: emp, horarios: [] });
+                            }
+                            // Agregar este horario como disponible para este empleado
+                            empleadosMap.get(emp.id).horarios.push({
+                                horaInicio: h.horaInicio,
+                                horaFin: h.horaFin,
+                                estaDisponible: true,
+                                motivoNoDisponible: ''
+                            });
+                        });
+                    }
+                });
+
+                // Ahora agregar los horarios ocupados a todos los empleados que ya tienen horarios
+                horarios.forEach(h => {
+                    if (!h.estaDisponible || (h.empleadosDisponibles && h.empleadosDisponibles.length === 0)) {
+                        // Este horario está ocupado, agregarlo a todos los empleados que ya mostramos
+                        empleadosMap.forEach((data, empId) => {
+                            // Verificar si este empleado ya tiene este horario
+                            const yaExiste = data.horarios.some(hr => hr.horaInicio === h.horaInicio);
+                            if (!yaExiste) {
+                                // Agregar como ocupado
+                                data.horarios.push({
+                                    horaInicio: h.horaInicio,
+                                    horaFin: h.horaFin,
+                                    estaDisponible: false,
+                                    motivoNoDisponible: h.motivoNoDisponible || 'Horario ocupado'
+                                });
+                            }
+                        });
+                    }
+                });
+
+                // Si no hay empleados, mostrar mensaje
+                if (empleadosMap.size === 0) {
+                    container.innerHTML = '<div style="text-align:center;padding:48px;color:var(--text-gray);">No hay profesionales disponibles para esta fecha</div>';
+                    return;
+                }
+
+                // Crear cards para todos los empleados, ordenando sus horarios
+                empleadosMap.forEach(({ empleado, horarios }) => {
+                    // Ordenar horarios por hora
+                    horarios.sort((a, b) => a.horaInicio.localeCompare(b.horaInicio));
+                    list.appendChild(crearCardProfesional(empleado, horarios));
+                });
+            } catch (error) {
+                Toast.error('Error al cargar profesionales: ' + error.message);
+                container.innerHTML = '<div style="text-align:center;padding:48px;color:#ef4444;">Error al cargar profesionales</div>';
+            }
+        }
+
+        function crearCardProfesional(empleado, horarios) {
+            const card = document.createElement('div');
+            card.className = 'profesional-card';
+            const avatar = empleado.imagen
+                ? `<img src="${empleado.imagen}" alt="${empleado.nombre}" class="profesional-avatar">`
+                : `<div class="profesional-avatar-placeholder">${empleado.nombre.charAt(0)}</div>`;
+
+            // Contar solo horarios disponibles
+            const horariosDisponibles = horarios.filter(h => h.estaDisponible);
+
+            card.innerHTML = `
+                <div class="profesional-header">
+                    ${avatar}
+                    <div class="profesional-info">
+                        <div class="profesional-nombre">${empleado.nombre}</div>
+                        <div class="profesional-especialidad">${empleado.cargo || 'Estilista Profesional'}</div>
+                        <div class="profesional-rating">
+                            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            ${empleado.calificacion || '5.0'}
+                        </div>
+                    </div>
+                    <div class="profesional-disponibles">${horariosDisponibles.length} libres</div>
+                </div>
+                <div class="horarios-grid" id="horarios-${empleado.id}"></div>
+            `;
+            const grid = card.querySelector(`#horarios-${empleado.id}`);
+            horarios.forEach(h => {
+                const slot = document.createElement('div');
+                slot.className = 'horario-slot';
+
+                // Si está seleccionado
+                if (horarioSeleccionado?.horaInicio === h.horaInicio && empleadoSeleccionado?.id === empleado.id) {
+                    slot.classList.add('selected');
+                }
+
+                // Si NO está disponible (ocupado)
+                if (!h.estaDisponible) {
+                    slot.classList.add('disabled');
+                    slot.classList.add('ocupado');
+                    slot.title = h.motivoNoDisponible || 'Horario ocupado';
+                }
+
+                slot.innerHTML = `<div class="horario-inicio">${h.horaInicio.substring(0, 5)}</div><div class="horario-fin">hasta ${h.horaFin.substring(0, 5)}</div>`;
+
+                // Solo permitir click si está disponible
+                if (h.estaDisponible) {
+                    slot.onclick = () => seleccionarHorario(h, empleado);
+                }
+
+                grid.appendChild(slot);
+            });
+            return card;
+        }
+
+        function seleccionarHorario(horario, empleado) {
+            horarioSeleccionado = horario;
+            empleadoSeleccionado = empleado;
+            document.getElementById('btnContinuar').disabled = false;
+            cargarProfesionales();
+            Toast.success(`Horario seleccionado: ${horario.horaInicio.substring(0, 5)} con ${empleado.nombre}`);
+        }
+
+        let metodoPagoSeleccionado = 'Efectivo';
+
+        function continuar() {
+            if (!horarioSeleccionado || !empleadoSeleccionado) {
+                Toast.warning('Selecciona un horario y profesional');
+                return;
+            }
+            ReservaStorage.setHorario({ fecha: DateUtils.toAPIDate(fechaSeleccionada), horaInicio: horarioSeleccionado.horaInicio, horaFin: horarioSeleccionado.horaFin });
+            ReservaStorage.setEmpleado(empleadoSeleccionado);
+
+            // Mostrar modal de método de pago
+            abrirModalPago();
+        }
+
+        function abrirModalPago() {
+            document.getElementById('modalMetodoPago').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function cerrarModalPago(event) {
+            if (event && event.target.classList.contains('modal-pago')) return;
+            document.getElementById('modalMetodoPago').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function seleccionarMetodo(metodo, elemento) {
+            if (elemento.classList.contains('deshabilitado')) {
+                Toast.warning('Este método de pago estará disponible próximamente');
+                return;
+            }
+
+            // Remover selección previa
+            document.querySelectorAll('.metodo-card').forEach(card => {
+                card.classList.remove('seleccionado');
+            });
+
+            // Seleccionar nuevo
+            elemento.classList.add('seleccionado');
+            elemento.querySelector('input').checked = true;
+            metodoPagoSeleccionado = metodo;
+
+            // Actualizar info
+            const infoBox = document.querySelector('.metodo-info-box p');
+            if (metodo === 'Efectivo') {
+                infoBox.innerHTML = '<strong>Pago en Efectivo:</strong> El pago se realiza al finalizar el servicio. No se requiere pago por adelantado.';
+            } else if (metodo === 'PSE') {
+                infoBox.innerHTML = '<strong>Pago PSE:</strong> Serás redirigido a tu banco para completar el pago de forma segura.';
+            } else if (metodo === 'Tarjeta') {
+                infoBox.innerHTML = '<strong>Pago con Tarjeta:</strong> El pago se procesa de forma segura al finalizar el servicio.';
+            }
+        }
+
+        function confirmarMetodoPago() {
+            ReservaStorage.setMetodoPago(metodoPagoSeleccionado);
+            NavigationUtils.goTo('ResumenConfirmacion.html');
+        }
+
+        function getTamañoLabel(t) { return { 'Pequeno': 'Pequeño', 'Mediano': 'Mediano', 'Grande': 'Grande' }[t] || t; }
+        function getPelajeLabel(p) { return { 'Corto': 'Pelo corto', 'SemiLargo': 'Pelo semilargo', 'Largo': 'Pelo largo', 'DobleCapa': 'Doble capa' }[p] || p; }
+    </script>
+
+    <style>
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal {
+            background: white;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 32px;
+            width: 100%;
+            max-width: 540px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .modal::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .modal::-webkit-scrollbar-thumb {
+            background: #D4C9F5;
+            border-radius: 10px;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.96) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-hdr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-ttl {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background: #f3f4f6;
+            border: 1.5px solid #e5e7eb;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .modal-close:hover {
+            color: #1f2937;
+        }
+
+        .modal-body {
+            margin-bottom: 22px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-sec {
+            background: transparent;
+            border: 1.5px solid #e5e7eb;
+            color: #6b7280;
+            padding: 10px 20px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.15s;
+        }
+
+        .btn-sec:hover {
+            color: #1f2937;
+            border-color: #d1d5db;
+        }
+
+        .btn-primary {
+            background: #8B3CF7;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 9px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(139, 60, 247, 0.3);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: #6D28D9;
+            transform: translateY(-1px);
+        }
+
+        /* Métodos de Pago */
+        .metodos-pago-grid {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .metodo-card {
+            position: relative;
+            padding: 16px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .metodo-card:not(.deshabilitado):hover {
+            border-color: #8B3CF7;
+            background: #faf5ff;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(139, 60, 247, 0.12);
+        }
+
+        .metodo-card.seleccionado {
+            border-color: #8B3CF7;
+            background: #faf5ff;
+            box-shadow: 0 2px 8px rgba(139, 60, 247, 0.15);
+        }
+
+        .metodo-card.deshabilitado {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f9fafb;
+        }
+
+        .metodo-icon {
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .metodo-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .metodo-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #1f2937;
+        }
+
+        .metodo-desc {
+            grid-column: 2 / -1;
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: -4px;
+        }
+
+        .badge-disponible {
+            background: #10b981;
+            color: white;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 5px;
+            width: fit-content;
+            letter-spacing: 0.03em;
+        }
+
+        .badge-proximamente {
+            background: #6b7280;
+            color: white;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 5px;
+            width: fit-content;
+            letter-spacing: 0.03em;
+        }
+
+        .metodo-check {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #8B3CF7;
+            color: white;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .metodo-card.seleccionado .metodo-check {
+            display: flex;
+        }
+
+        .metodo-info-box {
+            background: #fef3c7;
+            border-left: 3px solid #f59e0b;
+            padding: 12px 14px;
+            border-radius: 8px;
+            display: flex;
+            gap: 10px;
+            align-items: start;
+        }
+
+        .metodo-info-box svg {
+            color: #f59e0b;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .metodo-info-box p {
+            margin: 0;
+            color: #92400e;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+    </style>
+</body>
+</html>

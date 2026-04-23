@@ -22,51 +22,6 @@ namespace VenusPos.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Reserva", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Detalles")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Estado")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("FechaActualizacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaReserva")
-                        .HasColumnType("datetime2");
-
-                    b.Property<TimeOnly>("HoraFin")
-                        .HasColumnType("time");
-
-                    b.Property<TimeOnly>("HoraInicio")
-                        .HasColumnType("time");
-
-                    b.Property<int>("IdCliente")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdEmpleado")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdCliente");
-
-                    b.HasIndex("IdEmpleado");
-
-                    b.ToTable("Reservas");
-                });
-
             modelBuilder.Entity("VenusPos.Domain.Entities.Caja", b =>
                 {
                     b.Property<int>("Id")
@@ -166,6 +121,40 @@ namespace VenusPos.Infrastructure.Migrations
                     b.ToTable("Clientes");
                 });
 
+            modelBuilder.Entity("VenusPos.Domain.Entities.ConfiguracionPrecio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Clave")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Valor")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("decimal(5,4)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Clave")
+                        .IsUnique();
+
+                    b.ToTable("ConfiguracionesPrecios");
+                });
+
             modelBuilder.Entity("VenusPos.Domain.Entities.Empleado", b =>
                 {
                     b.Property<int>("Id")
@@ -253,6 +242,9 @@ namespace VenusPos.Infrastructure.Migrations
                     b.Property<int>("IdMascota")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdReserva")
+                        .HasColumnType("int");
+
                     b.Property<string>("Recomendaciones")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -262,6 +254,8 @@ namespace VenusPos.Infrastructure.Migrations
                     b.HasIndex("IdEmpleado");
 
                     b.HasIndex("IdMascota");
+
+                    b.HasIndex("IdReserva");
 
                     b.ToTable("Historiales");
                 });
@@ -338,6 +332,115 @@ namespace VenusPos.Infrastructure.Migrations
                     b.ToTable("MascotaServicios");
                 });
 
+            modelBuilder.Entity("VenusPos.Domain.Entities.MovimientoCaja", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Concepto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EmpleadoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaMovimiento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCaja")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEmpleado")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Monto")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmpleadoId");
+
+                    b.HasIndex("IdCaja");
+
+                    b.HasIndex("IdEmpleado");
+
+                    b.ToTable("MovimientosCaja");
+                });
+
+            modelBuilder.Entity("VenusPos.Domain.Entities.Reserva", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CodigoReserva")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Detalles")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DuracionMinutos")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaReserva")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeOnly>("HoraFin")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("HoraInicio")
+                        .HasColumnType("time");
+
+                    b.Property<int>("IdCliente")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEmpleado")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PrecioTotal")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CodigoReserva")
+                        .IsUnique()
+                        .HasFilter("[CodigoReserva] IS NOT NULL");
+
+                    b.HasIndex("IdCliente");
+
+                    b.HasIndex("IdEmpleado");
+
+                    b.HasIndex("FechaReserva", "IdEmpleado");
+
+                    b.ToTable("Reservas");
+                });
+
             modelBuilder.Entity("VenusPos.Domain.Entities.ReservaMascota", b =>
                 {
                     b.Property<int>("IdReserva")
@@ -351,6 +454,25 @@ namespace VenusPos.Infrastructure.Migrations
                     b.HasIndex("IdMascota");
 
                     b.ToTable("ReservaMascotas");
+                });
+
+            modelBuilder.Entity("VenusPos.Domain.Entities.ReservaServicio", b =>
+                {
+                    b.Property<int>("IdReserva")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdServicio")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PrecioUnitario")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
+                    b.HasKey("IdReserva", "IdServicio");
+
+                    b.HasIndex("IdServicio");
+
+                    b.ToTable("ReservaServicios");
                 });
 
             modelBuilder.Entity("VenusPos.Domain.Entities.Servicio", b =>
@@ -406,7 +528,7 @@ namespace VenusPos.Infrastructure.Migrations
                     b.Property<DateTime>("FechaVenta")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdCaja")
+                    b.Property<int?>("IdCaja")
                         .HasColumnType("int");
 
                     b.Property<int>("IdCliente")
@@ -477,25 +599,6 @@ namespace VenusPos.Infrastructure.Migrations
                     b.ToTable("VentaDetalles");
                 });
 
-            modelBuilder.Entity("Reserva", b =>
-                {
-                    b.HasOne("VenusPos.Domain.Entities.Cliente", "Cliente")
-                        .WithMany("Reserva")
-                        .HasForeignKey("IdCliente")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("VenusPos.Domain.Entities.Empleado", "Empleado")
-                        .WithMany("Reserva")
-                        .HasForeignKey("IdEmpleado")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-
-                    b.Navigation("Empleado");
-                });
-
             modelBuilder.Entity("VenusPos.Domain.Entities.Caja", b =>
                 {
                     b.HasOne("VenusPos.Domain.Entities.Empleado", "Empleado")
@@ -540,9 +643,16 @@ namespace VenusPos.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("VenusPos.Domain.Entities.Reserva", "Reserva")
+                        .WithMany("Historiales")
+                        .HasForeignKey("IdReserva")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Empleado");
 
                     b.Navigation("Mascota");
+
+                    b.Navigation("Reserva");
                 });
 
             modelBuilder.Entity("VenusPos.Domain.Entities.Mascota", b =>
@@ -575,6 +685,48 @@ namespace VenusPos.Infrastructure.Migrations
                     b.Navigation("Servicio");
                 });
 
+            modelBuilder.Entity("VenusPos.Domain.Entities.MovimientoCaja", b =>
+                {
+                    b.HasOne("VenusPos.Domain.Entities.Empleado", null)
+                        .WithMany("MovimientosCaja")
+                        .HasForeignKey("EmpleadoId");
+
+                    b.HasOne("VenusPos.Domain.Entities.Caja", "Caja")
+                        .WithMany("MovimientosCaja")
+                        .HasForeignKey("IdCaja")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("VenusPos.Domain.Entities.Empleado", "Empleado")
+                        .WithMany()
+                        .HasForeignKey("IdEmpleado")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Caja");
+
+                    b.Navigation("Empleado");
+                });
+
+            modelBuilder.Entity("VenusPos.Domain.Entities.Reserva", b =>
+                {
+                    b.HasOne("VenusPos.Domain.Entities.Cliente", "Cliente")
+                        .WithMany("Reserva")
+                        .HasForeignKey("IdCliente")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("VenusPos.Domain.Entities.Empleado", "Empleado")
+                        .WithMany("Reserva")
+                        .HasForeignKey("IdEmpleado")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Empleado");
+                });
+
             modelBuilder.Entity("VenusPos.Domain.Entities.ReservaMascota", b =>
                 {
                     b.HasOne("VenusPos.Domain.Entities.Mascota", "Mascota")
@@ -583,7 +735,7 @@ namespace VenusPos.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Reserva", "Reserva")
+                    b.HasOne("VenusPos.Domain.Entities.Reserva", "Reserva")
                         .WithMany("ReservaMascotas")
                         .HasForeignKey("IdReserva")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -594,13 +746,31 @@ namespace VenusPos.Infrastructure.Migrations
                     b.Navigation("Reserva");
                 });
 
+            modelBuilder.Entity("VenusPos.Domain.Entities.ReservaServicio", b =>
+                {
+                    b.HasOne("VenusPos.Domain.Entities.Reserva", "Reserva")
+                        .WithMany("ReservaServicios")
+                        .HasForeignKey("IdReserva")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("VenusPos.Domain.Entities.Servicio", "Servicio")
+                        .WithMany()
+                        .HasForeignKey("IdServicio")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Reserva");
+
+                    b.Navigation("Servicio");
+                });
+
             modelBuilder.Entity("VenusPos.Domain.Entities.Venta", b =>
                 {
                     b.HasOne("VenusPos.Domain.Entities.Caja", "Caja")
                         .WithMany("Ventas")
                         .HasForeignKey("IdCaja")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("VenusPos.Domain.Entities.Cliente", "Cliente")
                         .WithMany("Ventas")
@@ -614,7 +784,7 @@ namespace VenusPos.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Reserva", "Reserva")
+                    b.HasOne("VenusPos.Domain.Entities.Reserva", "Reserva")
                         .WithMany("Ventas")
                         .HasForeignKey("IdReserva")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -648,15 +818,10 @@ namespace VenusPos.Infrastructure.Migrations
                     b.Navigation("Venta");
                 });
 
-            modelBuilder.Entity("Reserva", b =>
-                {
-                    b.Navigation("ReservaMascotas");
-
-                    b.Navigation("Ventas");
-                });
-
             modelBuilder.Entity("VenusPos.Domain.Entities.Caja", b =>
                 {
+                    b.Navigation("MovimientosCaja");
+
                     b.Navigation("Ventas");
                 });
 
@@ -677,6 +842,8 @@ namespace VenusPos.Infrastructure.Migrations
 
                     b.Navigation("Historial");
 
+                    b.Navigation("MovimientosCaja");
+
                     b.Navigation("Reserva");
 
                     b.Navigation("Ventas");
@@ -689,6 +856,17 @@ namespace VenusPos.Infrastructure.Migrations
                     b.Navigation("MascotaServicios");
 
                     b.Navigation("ReservaMascotas");
+                });
+
+            modelBuilder.Entity("VenusPos.Domain.Entities.Reserva", b =>
+                {
+                    b.Navigation("Historiales");
+
+                    b.Navigation("ReservaMascotas");
+
+                    b.Navigation("ReservaServicios");
+
+                    b.Navigation("Ventas");
                 });
 
             modelBuilder.Entity("VenusPos.Domain.Entities.Servicio", b =>

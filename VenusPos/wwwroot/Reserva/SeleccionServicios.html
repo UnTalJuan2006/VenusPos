@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección de Servicios — VenusMascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Reserva.css">
+    <style>
+        :root {
+            --purple: #8B3CF7;
+            --purple-dark: #6D28D9;
+            --text-dark: #1a1a2e;
+            --text-gray: #6b7280;
+            --border: #E5E7EB;
+            --bg: #F9F8FE;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        /* ══ HEADER DEL FLUJO ══ */
+        .flow-header {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 0 6%;
+        }
+
+        .flow-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .flow-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .flow-logo-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .flow-logo-circle img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+        .flow-logo-name {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--text-dark);
+        }
+
+        .flow-header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .flow-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-gray);
+        }
+
+        .flow-user-ava {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--purple);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .btn-salir {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-gray);
+            background: none;
+            border: 1.5px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s;
+        }
+
+            .btn-salir:hover {
+                border-color: var(--purple);
+                color: var(--purple);
+            }
+
+        /* ══ BARRA DE PROGRESO ══ */
+        .flow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            max-width: 140px;
+            position: relative;
+        }
+
+            .flow-step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 18px;
+                left: calc(50% + 20px);
+                width: calc(100% - 40px);
+                height: 2px;
+                background: var(--border);
+            }
+
+            .flow-step.done::after {
+                background: var(--purple);
+            }
+
+            .flow-step.active::after {
+                background: linear-gradient(90deg, var(--purple), var(--border));
+            }
+
+        .flow-step-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 900;
+            background: var(--border);
+            color: var(--text-gray);
+            z-index: 1;
+            position: relative;
+            transition: all .3s;
+        }
+
+        .flow-step.done .flow-step-num {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(124,58,237,.3);
+        }
+
+        .flow-step.active .flow-step-num {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(124,58,237,.4);
+            transform: scale(1.08);
+        }
+
+        .flow-step-lbl {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-gray);
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        .flow-step.active .flow-step-lbl {
+            color: var(--purple);
+            font-weight: 800;
+        }
+
+        .flow-step.done .flow-step-lbl {
+            color: var(--purple);
+        }
+
+        /* ══ CONTENIDO (sin cambios) ══ */
+        .servicios-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 20px;
+        }
+
+        .servicios-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .servicios-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .servicios-subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .mascota-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #faf5ff;
+            border: 2px solid #e9d5ff;
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin: 16px 0 32px;
+        }
+
+        .mascota-badge-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .mascota-badge-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #7c3aed;
+            margin-bottom: 2px;
+        }
+
+        .mascota-badge-details {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .servicios-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .servicios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .servicio-card {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+            .servicio-card:hover {
+                border-color: #c4b5fd;
+                box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
+            }
+
+            .servicio-card.selected {
+                border-color: #7c3aed;
+                background: #faf5ff;
+                box-shadow: 0 4px 16px rgba(124, 58, 237, 0.15);
+            }
+
+            .servicio-card.included {
+                border-color: #10b981;
+                background: #f0fdf4;
+            }
+
+        .servicio-checkbox {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            transition: all 0.2s;
+        }
+
+        .servicio-card.selected .servicio-checkbox {
+            background: #7c3aed;
+            border-color: #7c3aed;
+        }
+
+        .servicio-card.included .servicio-checkbox {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .servicio-checkbox svg {
+            display: none;
+            color: #fff;
+        }
+
+        .servicio-card.selected .servicio-checkbox svg,
+        .servicio-card.included .servicio-checkbox svg {
+            display: block;
+        }
+
+        .servicio-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #10b981;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .servicio-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 6px;
+        }
+
+        .servicio-description {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .servicio-price {
+            font-size: 20px;
+            font-weight: 900;
+            color: #7c3aed;
+        }
+
+        .resumen-panel {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px;
+            position: sticky;
+            top: 32px;
+        }
+
+        .resumen-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .resumen-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .resumen-item-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .resumen-item-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .resumen-ajuste {
+            background: #fef3c7;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+
+        .resumen-ajuste-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 4px;
+        }
+
+        .resumen-ajuste-text {
+            font-size: 11px;
+            color: #78350f;
+        }
+
+        .resumen-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            margin-top: 12px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .resumen-total-label {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1f2937;
+        }
+
+        .resumen-total-amount {
+            font-size: 28px;
+            font-weight: 900;
+            color: #7c3aed;
+        }
+
+        .btn-continuar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #7c3aed;
+            color: #fff;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 16px;
+        }
+
+            .btn-continuar:hover {
+                background: #6d28d9;
+                transform: translateY(-1px);
+            }
+
+            .btn-continuar:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+        @media (max-width: 968px) {
+            .servicios-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .resumen-panel {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .flow-step-lbl {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ══ HEADER DEL FLUJO ══ -->
+    <header class="flow-header">
+        <div class="flow-header-top">
+            <a href="../AgendaCita.html" class="flow-logo">
+                <div class="flow-logo-circle">
+                    <img src="../img/logoVenus.png" alt="" onerror="this.parentElement.textContent='VP'" />
+                </div>
+                <span class="flow-logo-name">VenusMascotas</span>
+            </a>
+            <div class="flow-header-right">
+                <div class="flow-user">
+                    <div class="flow-user-ava" id="userAva">?</div>
+                    <span id="userName">Cliente</span>
+                </div>
+                <a href="../AgendaCita.html" class="btn-salir">
+                    <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7" /></svg>
+                    Salir
+                </a>
+            </div>
+        </div>
+
+        <!-- Barra de pasos -->
+        <div class="flow-steps">
+            <div class="flow-step done">
+                <div class="flow-step-num">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div class="flow-step-lbl">Registro</div>
+            </div>
+            <div class="flow-step done">
+                <div class="flow-step-num">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div class="flow-step-lbl">Tu Mascota</div>
+            </div>
+            <div class="flow-step active">
+                <div class="flow-step-num">3</div>
+                <div class="flow-step-lbl">Servicios</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-step-num">4</div>
+                <div class="flow-step-lbl">Calendario</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-step-num">5</div>
+                <div class="flow-step-lbl">Confirmacion</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ══ CONTENIDO (sin cambios) ══ -->
+    <div class="servicios-container">
+        <div class="servicios-header">
+            <h1 class="servicios-title">Elige los servicios para <span id="mascotaNombreTitulo">tu mascota</span></h1>
+            <p class="servicios-subtitle">El precio se calcula según el pelaje y tamaño. El baño básico siempre está incluido.</p>
+
+            <div class="mascota-badge" id="mascotaBadge" style="display: none;">
+                <img class="mascota-badge-icon" id="mascotaImagen" src="" alt="">
+                <div class="mascota-badge-info">
+                    <div class="mascota-badge-name" id="mascotaNombre"></div>
+                    <div class="mascota-badge-details" id="mascotaDetalles"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="servicios-layout">
+            <div class="servicios-grid" id="serviciosGrid">
+                <div style="grid-column: 1/-1; text-align: center; padding: 48px;">
+                    <p style="color: #6b7280;">Cargando servicios...</p>
+                </div>
+            </div>
+
+            <div class="resumen-panel">
+                <h3 class="resumen-title">Resumen del servicio</h3>
+                <div id="resumenItems"></div>
+                <div class="resumen-ajuste" id="resumenAjuste">
+                    <div class="resumen-ajuste-title">Ajuste por características</div>
+                    <div class="resumen-ajuste-text" id="ajusteTexto">Calculando...</div>
+                </div>
+                <div class="resumen-total">
+                    <span class="resumen-total-label">Total estimado</span>
+                    <span class="resumen-total-amount" id="totalEstimado">$0</span>
+                </div>
+                <button class="btn-continuar" id="btnContinuar" onclick="continuar()">
+                    Ver disponibilidad
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/reserva-utils.js"></script>
+    <script src="../js/reserva-api.js"></script>
+    <script>
+        let mascota = null;
+        let serviciosDisponibles = [];
+        let serviciosSeleccionados = [];
+        let calculoPrecio = null;
+
+        // Mostrar nombre de usuario
+        const clienteNombre = localStorage.getItem('cliente_nombre') || 'Cliente';
+        document.getElementById('userName').textContent = clienteNombre;
+        document.getElementById('userAva').textContent = clienteNombre.split(' ').map(x => x[0]).join('').substring(0, 2).toUpperCase();
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!NavigationUtils.requireCliente()) return;
+
+            mascota = ReservaStorage.getMascota();
+            if (!mascota) {
+                Toast.warning('No se encontró información de mascota');
+                setTimeout(() => NavigationUtils.goTo('../AgendaCita.html'), 1500);
+                return;
+            }
+
+            mostrarInfoMascota();
+            await cargarServicios();
+        });
+
+        function mostrarInfoMascota() {
+            document.getElementById('mascotaNombreTitulo').textContent = mascota.nombre;
+            document.getElementById('mascotaNombre').textContent = mascota.nombre;
+            document.getElementById('mascotaImagen').src = mascota.imagen || '../img/default-pet.png';
+            document.getElementById('mascotaDetalles').textContent =
+                `${mascota.raza} • ${getTamañoLabel(mascota.tamaño)} • ${getPelajeLabel(mascota.tipoPelaje)}`;
+            document.getElementById('mascotaBadge').style.display = 'inline-flex';
+        }
+
+        async function cargarServicios() {
+            try {
+                const response = await fetch('/api/Servicio');
+                if (!response.ok) throw new Error('Error al cargar servicios');
+                serviciosDisponibles = await response.json();
+                serviciosDisponibles = serviciosDisponibles.filter(s => s.activo);
+                const bañoCompleto = serviciosDisponibles.find(s => s.nombre === 'Baño Completo');
+                if (bañoCompleto) serviciosSeleccionados = [bañoCompleto.id];
+                renderServicios();
+                await calcularPrecio();
+            } catch (error) {
+                Toast.error('Error al cargar servicios: ' + error.message);
+            }
+        }
+
+        function renderServicios() {
+            const grid = document.getElementById('serviciosGrid');
+            grid.innerHTML = '';
+            serviciosDisponibles.forEach(servicio => {
+                const isIncluded = servicio.nombre === 'Baño Completo';
+                const isSelected = serviciosSeleccionados.includes(servicio.id);
+                const card = document.createElement('div');
+                card.className = `servicio-card ${isIncluded ? 'included' : ''} ${isSelected ? 'selected' : ''}`;
+                card.onclick = () => toggleServicio(servicio.id, isIncluded);
+                card.innerHTML = `
+                    <div class="servicio-checkbox">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                            <path d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    ${isIncluded ? '<span class="servicio-badge">Incluido</span>' : ''}
+                    <h3 class="servicio-name">${servicio.nombre}</h3>
+                    <p class="servicio-description">${servicio.descripcion}</p>
+                    <div class="servicio-price">${CurrencyUtils.format(servicio.precio)}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        async function toggleServicio(servicioId, isIncluded) {
+            if (isIncluded) { Toast.info('El baño completo siempre está incluido'); return; }
+            const index = serviciosSeleccionados.indexOf(servicioId);
+            if (index > -1) serviciosSeleccionados.splice(index, 1);
+            else serviciosSeleccionados.push(servicioId);
+            renderServicios();
+            await calcularPrecio();
+        }
+
+        async function calcularPrecio() {
+            try {
+                calculoPrecio = await ReservaAPI.calcularPrecio(mascota.id, serviciosSeleccionados);
+                actualizarResumen();
+                ReservaStorage.setPrecio(calculoPrecio);
+                ReservaStorage.setServicios(serviciosSeleccionados);
+            } catch (error) {
+                Toast.error('Error al calcular precio: ' + error.message);
+            }
+        }
+
+        function actualizarResumen() {
+            const resumenItems = document.getElementById('resumenItems');
+            resumenItems.innerHTML = '';
+            serviciosSeleccionados.forEach(id => {
+                const servicio = serviciosDisponibles.find(s => s.id === id);
+                if (!servicio) return;
+                const item = document.createElement('div');
+                item.className = 'resumen-item';
+                item.innerHTML = `
+                    <span class="resumen-item-name">${servicio.nombre}</span>
+                    <span class="resumen-item-price">${CurrencyUtils.format(servicio.precio)}</span>
+                `;
+                resumenItems.appendChild(item);
+            });
+            const tamañoPercent = (calculoPrecio.multiplicadorTamaño * 100).toFixed(0);
+            const pelajePercent = (calculoPrecio.multiplicadorPelaje * 100).toFixed(0);
+            let ajusteTexto = `Tamaño ${getTamañoLabel(mascota.tamaño)}: +${tamañoPercent}%`;
+            if (calculoPrecio.multiplicadorPelaje > 0) {
+                ajusteTexto += ` • Pelaje ${getPelajeLabel(mascota.tipoPelaje)}: +${pelajePercent}%`;
+            }
+            document.getElementById('ajusteTexto').textContent = ajusteTexto;
+            document.getElementById('totalEstimado').textContent = CurrencyUtils.format(calculoPrecio.precioFinal);
+        }
+
+        function continuar() {
+            if (!calculoPrecio) { Toast.warning('Calculando precio...'); return; }
+            if (serviciosSeleccionados.length === 0) { Toast.warning('Debes seleccionar al menos un servicio'); return; }
+            NavigationUtils.goTo('SeleccionHorario.html');
+        }
+
+        function getTamañoLabel(tamaño) {
+            const labels = { 'Pequeno': 'Pequeño', 'Mediano': 'Mediano', 'Grande': 'Grande' };
+            return labels[tamaño] || tamaño;
+        }
+
+        function getPelajeLabel(pelaje) {
+            const labels = { 'Corto': 'Pelo Corto', 'Largo': 'Pelo Largo', 'DobleCapa': 'Doble Capa' };
+            return labels[pelaje] || pelaje;
+        }
+    </script>
+
+</body>
+</html>

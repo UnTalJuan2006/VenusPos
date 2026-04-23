@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva Confirmada — VenusMascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Index.css">
+    <link rel="stylesheet" href="../css/Reserva.css">
+    <style>
+        .success-container {
+            max-width: 700px;
+            margin: 60px auto;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: scaleIn 0.5s ease-out;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+        }
+
+        .success-icon::before {
+            content: '✓';
+            color: white;
+            font-size: 64px;
+            font-weight: 700;
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1f2937;
+            margin: 0 0 12px 0;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .success-subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            margin: 0 0 32px 0;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .codigo-reserva-card {
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border: 3px solid #8b5cf6;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+
+        .codigo-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #6d28d9;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .codigo-valor {
+            font-size: 42px;
+            font-weight: 900;
+            color: #8b5cf6;
+            letter-spacing: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 32px;
+            animation: fadeInUp 0.6s ease-out 0.5s both;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .info-label {
+            font-size: 13px;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #1f2937;
+            font-weight: 700;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+            text-align: left;
+            animation: fadeInUp 0.6s ease-out 0.6s both;
+        }
+
+        .alert-info p {
+            margin: 0;
+            color: #1e40af;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .alert-info strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: fadeInUp 0.6s ease-out 0.7s both;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .codigo-valor {
+                font-size: 28px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-inner">
+            <a href="../Index.html" class="logo-wrap">
+                <div class="logo-circle">
+                    <img src="../img/logoVenus.png" alt="Logo Venus Mascotas">
+                </div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="../Index.html">Inicio</a></li>
+                    <li><a href="../QuienesSomos.html">Quienes Somos</a></li>
+                    <li><a href="../Servicios.html">Servicios</a></li>
+                    <li><a href="../Index.html#instalaciones">Instalaciones</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="../AgendaCita.html" class="btn-header-primary">Agenda tu Cita</a>
+                <a href="../Index.html#contacto" class="btn-header-link">Contacto</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- PROGRESS HEADER -->
+    <div class="progress-header">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Mascota</div>
+                </div>
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Servicio</div>
+                </div>
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Horario</div>
+                </div>
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Resumen</div>
+                </div>
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Confirmación</div>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-fill" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS CONTENT -->
+    <div class="reserva-container">
+        <div class="success-container">
+            <!-- Success Icon -->
+            <div class="success-icon"></div>
+
+            <!-- Title -->
+            <h1 class="success-title">¡Reserva Confirmada!</h1>
+            <p class="success-subtitle">Tu cita ha sido agendada exitosamente</p>
+
+            <!-- Código de Reserva -->
+            <div class="codigo-reserva-card">
+                <div class="codigo-label">Código de Reserva</div>
+                <p class="codigo-valor" id="codigoReserva">-</p>
+            </div>
+
+            <!-- Info Card -->
+            <div class="info-card">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">📅 Fecha</span>
+                        <span class="info-value" id="infoFecha">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🕐 Hora</span>
+                        <span class="info-value" id="infoHora">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🐾 Mascota</span>
+                        <span class="info-value" id="infoMascota">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">💰 Total</span>
+                        <span class="info-value" id="infoTotal">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Info -->
+            <div class="alert-info">
+                <p>
+                    <strong>📧 Confirmación Enviada</strong>
+                    Hemos enviado un correo electrónico con todos los detalles de tu reserva.
+                    Por favor revisa tu bandeja de entrada y spam.
+                </p>
+            </div>
+
+            <div class="alert-info" style="background: #fef3c7; border-left-color: #f59e0b;">
+                <p style="color: #92400e;">
+                    <strong>📋 Importante</strong>
+                    • Llega 10 minutos antes de tu cita<br>
+                    • Trae la cartilla de vacunación de tu mascota<br>
+                    • Guarda tu código de reserva para tu visita<br>
+                    • El pago se realiza al finalizar el servicio
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary btn-full-width" onclick="nuevaReserva()">
+                    Agendar Nueva Cita
+                </button>
+                <button class="btn btn-secondary btn-full-width" onclick="volverInicio()">
+                    Volver al Inicio
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/reserva-utils.js"></script>
+    <script src="../js/reserva-api.js"></script>
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const reserva = ReservaStorage.getConfirmada();
+
+            if (!reserva) {
+                Toast.error('No se encontró la información de la reserva');
+                setTimeout(() => {
+                    NavigationUtils.goTo('../Index.html');
+                }, 2000);
+                return;
+            }
+
+            loadSuccessInfo(reserva);
+        });
+
+        function loadSuccessInfo(reserva) {
+            // Código
+            document.getElementById('codigoReserva').textContent =
+                reserva.codigoReserva || 'PENDIENTE';
+
+            // Info grid
+            document.getElementById('infoFecha').textContent =
+                DateUtils.formatShortDate(reserva.fechaReserva);
+
+            document.getElementById('infoHora').textContent =
+                DateUtils.formatTimeRange(reserva.horaInicio, reserva.horaFin);
+
+            document.getElementById('infoMascota').textContent =
+                reserva.nombreMascota || 'Tu mascota';
+
+            document.getElementById('infoTotal').textContent =
+                CurrencyUtils.format(reserva.precioTotal);
+        }
+
+        function nuevaReserva() {
+            // Clear storage and start new reservation
+            ReservaStorage.remove(ReservaStorage.KEYS.MASCOTA);
+            ReservaStorage.remove(ReservaStorage.KEYS.SERVICIOS);
+            ReservaStorage.remove(ReservaStorage.KEYS.PRECIO);
+            ReservaStorage.remove(ReservaStorage.KEYS.HORARIO);
+            ReservaStorage.remove(ReservaStorage.KEYS.EMPLEADO);
+            ReservaStorage.remove(ReservaStorage.KEYS.CONFIRMADA);
+
+            // Start new reservation from services (user already has pet)
+            NavigationUtils.goTo('SeleccionServicios.html');
+        }
+
+        function volverInicio() {
+            // Clear all reservation data
+            ReservaStorage.clearAll();
+            NavigationUtils.goTo('../Index.html');
+        }
+    </script>
+
+</body>
+</html>

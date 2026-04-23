@@ -1,0 +1,1016 @@
+/* ═══════════════════════════════════════════════════════
+   RESERVAS ADMIN - Vista por Empleado
+   ═══════════════════════════════════════════════════════ */
+
+.main {
+    overflow: hidden !important;
+}
+
+.content {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 24px;
+}
+
+/* ══════════════════════════════════════════════════════
+   HEADER DE RESERVAS
+   ══════════════════════════════════════════════════════ */
+
+.reservas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.reservas-subtitle {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0 0 4px 0;
+}
+
+.reservas-desc {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    margin: 0;
+}
+
+.btn-nueva-reserva {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--purple);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+}
+
+    .btn-nueva-reserva:hover {
+        background: #6D28D9;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+    }
+
+/* ══════════════════════════════════════════════════════
+   SELECTOR DE FECHA
+   ══════════════════════════════════════════════════════ */
+
+.date-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 24px;
+    margin-bottom: 32px;
+}
+
+.date-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text);
+}
+
+    .date-nav-btn:hover {
+        background: var(--purple-soft);
+        border-color: var(--purple);
+        color: var(--purple);
+    }
+
+.date-display {
+    text-align: center;
+    min-width: 280px;
+}
+
+.date-main {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.date-sub {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+/* ══════════════════════════════════════════════════════
+   CARDS DE EMPLEADOS
+   ══════════════════════════════════════════════════════ */
+
+.empleados-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+    align-items: start;
+}
+
+.empleado-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+
+    .empleado-card:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+    }
+
+/* Header morado sólido */
+.empleado-card-header {
+    background: var(--purple);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.empleado-card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.empleado-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: rgba(255,255,255,0.2);
+    border: 2.5px solid rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 17px;
+    color: #fff;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+    .empleado-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+.empleado-info {
+    flex: 1;
+}
+
+.empleado-nombre {
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 3px 0;
+}
+
+.empleado-reservas-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+}
+
+/* Barra de ocupación */
+.empleado-ocupacion {
+    /* dentro del header morado */
+}
+
+.ocupacion-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: rgba(255,255,255,0.85);
+}
+
+.ocupacion-percent {
+    color: #fff;
+    font-weight: 800;
+}
+
+.ocupacion-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.ocupacion-fill {
+    height: 100%;
+    background: #fff;
+    border-radius: 20px;
+    transition: width 0.4s ease;
+}
+
+/* ── Timeline ── */
+
+.timeline-wrapper {
+    padding: 12px 14px 8px 14px;
+    position: relative;
+    min-height: 540px; /* 9 horas * 60px */
+}
+
+.timeline-grid {
+    position: relative;
+    z-index: 1;
+}
+
+.timeline-row {
+    display: flex;
+    align-items: flex-start;
+    height: 60px; /* Altura fija por hora */
+    position: relative;
+}
+
+.timeline-row-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    width: 38px;
+    flex-shrink: 0;
+    padding-top: 2px;
+}
+
+.timeline-row-content {
+    flex: 1;
+    border-top: 1px dashed var(--border);
+    height: 100%;
+    position: relative;
+}
+
+/* Contenedor de bloques con posicionamiento absoluto */
+.timeline-blocks-container {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    right: 14px;
+    bottom: 8px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Bloque de reserva */
+.tl-block {
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, z-index 0s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    pointer-events: auto;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 1;
+}
+
+    .tl-block:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+        z-index: 10;
+    }
+
+.tl-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.tl-hora {
+    font-size: 11px;
+    font-weight: 800;
+    color: inherit;
+}
+
+.tl-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+}
+
+.tl-servicio {
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 3px;
+}
+
+.tl-mascota {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* Colores por estado */
+.tl-block.confirmada {
+    background: #7C3AED;
+    color: #fff;
+}
+
+    .tl-block.confirmada .tl-badge {
+        background: rgba(255,255,255,0.25);
+        color: #fff;
+    }
+
+.tl-block.pendiente {
+    background: #F59E0B;
+    color: #fff;
+}
+
+    .tl-block.pendiente .tl-badge {
+        background: rgba(255,255,255,0.3);
+        color: #fff;
+    }
+
+.tl-block.completada {
+    background: #10B981;
+    color: #fff;
+}
+
+    .tl-block.completada .tl-badge {
+        background: rgba(255,255,255,0.25);
+        color: #fff;
+    }
+
+.tl-block.cancelada {
+    background: #EF4444;
+    color: #fff;
+}
+
+    .tl-block.cancelada .tl-badge {
+        background: rgba(255,255,255,0.25);
+        color: #fff;
+    }
+
+/* Dark mode timeline blocks */
+[data-theme="dark"] .tl-block.confirmada {
+    background: #6D28D9;
+}
+
+[data-theme="dark"] .tl-block.pendiente {
+    background: #D97706;
+}
+
+[data-theme="dark"] .tl-block.completada {
+    background: #059669;
+}
+
+/* ══════════════════════════════════════════════════════
+   HORARIOS DETALLADOS
+   ══════════════════════════════════════════════════════ */
+
+.horarios-detallados {
+    margin-top: 40px;
+}
+
+    .horarios-detallados > h2 {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--text);
+        margin: 0 0 6px 0;
+    }
+
+.horarios-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+    margin: 0 0 24px 0;
+}
+
+.horario-section {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+/* Header de sección de empleado */
+.horario-empleado-header {
+    background: var(--purple);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.horario-empleado-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.horario-empleado-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: rgba(255,255,255,0.2);
+    border: 2.5px solid rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 17px;
+    color: #fff;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+    .horario-empleado-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+.horario-empleado-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 3px 0;
+}
+
+.horario-empleado-meta {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+}
+
+.horario-ocupacion-right {
+    text-align: right;
+}
+
+.horario-ocupacion-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 2px;
+}
+
+.horario-ocupacion-value {
+    font-size: 26px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+}
+
+/* Body de sección */
+.horario-section-body {
+    padding: 20px;
+}
+
+/* Tabla */
+.horario-tabla-wrap {
+    overflow-x: auto;
+    margin-bottom: 16px;
+}
+
+.horario-tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .horario-tabla thead th {
+        background: var(--bg);
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        text-align: left;
+        padding: 10px 14px;
+        border-bottom: 2px solid var(--border);
+    }
+
+    .horario-tabla tbody tr {
+        border-bottom: 1px solid var(--border);
+        transition: background 0.15s;
+    }
+
+        .horario-tabla tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .horario-tabla tbody tr:hover {
+            background: var(--bg);
+        }
+
+    .horario-tabla tbody td {
+        padding: 13px 14px;
+        font-size: 13px;
+        color: var(--text);
+        vertical-align: middle;
+    }
+
+.hora-col {
+    font-weight: 800;
+    color: var(--purple) !important;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hora-col-td {
+    font-weight: 800;
+    color: var(--purple) !important;
+}
+
+.hora-icon {
+    color: var(--purple);
+    opacity: 0.6;
+}
+
+.duracion-col {
+    font-weight: 700;
+    color: var(--muted) !important;
+}
+
+.servicio-col {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+}
+
+.servicio-icon {
+    color: var(--purple);
+    opacity: 0.7;
+}
+
+.mascota-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mascota-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mascota-icon {
+    color: var(--purple);
+    opacity: 0.6;
+}
+
+.mascota-nombre {
+    font-weight: 700;
+    color: var(--text);
+}
+
+.mascota-tamanio {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+/* Footer de sección */
+.horario-section-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-top: 1.5px solid var(--border);
+    background: var(--bg);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.footer-metricas {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.footer-metrica {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.footer-metrica-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.footer-metrica-value {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+}
+
+    .footer-metrica-value.verde {
+        color: #10B981;
+    }
+
+.btn-nueva-reserva-empleado {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--purple);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+}
+
+    .btn-nueva-reserva-empleado:hover {
+        background: #6D28D9;
+        transform: translateY(-1px);
+    }
+
+/* ══════════════════════════════════════════════════════
+   ESTADOS DE RESERVA
+   ══════════════════════════════════════════════════════ */
+
+.estado-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.estado-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.estado-badge.pendiente {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+    .estado-badge.pendiente .estado-dot {
+        background: #F59E0B;
+    }
+
+.estado-badge.confirmada {
+    background: #EDE9FE;
+    color: #5B21B6;
+}
+
+    .estado-badge.confirmada .estado-dot {
+        background: #7C3AED;
+    }
+
+.estado-badge.completada {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+    .estado-badge.completada .estado-dot {
+        background: #10B981;
+    }
+
+.estado-badge.cancelada {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+    .estado-badge.cancelada .estado-dot {
+        background: #EF4444;
+    }
+
+/* Dark mode estados */
+[data-theme="dark"] .estado-badge.pendiente {
+    background: rgba(245,158,11,0.15);
+    color: #FCD34D;
+}
+
+[data-theme="dark"] .estado-badge.confirmada {
+    background: rgba(124,58,237,0.15);
+    color: #C4B5FD;
+}
+
+[data-theme="dark"] .estado-badge.completada {
+    background: rgba(16,185,129,0.15);
+    color: #34D399;
+}
+
+[data-theme="dark"] .estado-badge.cancelada {
+    background: rgba(239,68,68,0.15);
+    color: #F87171;
+}
+
+/* ══════════════════════════════════════════════════════
+   ACCIONES
+   ══════════════════════════════════════════════════════ */
+
+.act-btn {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+}
+
+    .act-btn:hover {
+        background: var(--purple-soft);
+        border-color: var(--purple);
+        color: var(--purple);
+    }
+
+/* ══════════════════════════════════════════════════════
+   EMPTY STATE
+   ══════════════════════════════════════════════════════ */
+
+.empty-state {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ══════════════════════════════════════════════════════
+   MODAL NUEVA RESERVA
+   ══════════════════════════════════════════════════════ */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transition: background var(--speed), border-color var(--speed);
+}
+
+    .modal::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .modal::-webkit-scrollbar-thumb {
+        background: #D4C9F5;
+        border-radius: 10px;
+    }
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-hdr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.modal-ttl {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+}
+
+    .modal-close:hover {
+        background: #FEE2E2;
+        border-color: #EF4444;
+        color: #EF4444;
+    }
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-lbl {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.form-inp {
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    background: var(--bg);
+    color: var(--text);
+    transition: all 0.2s;
+}
+
+    .form-inp:focus {
+        outline: none;
+        border-color: var(--purple);
+        background: var(--surface);
+    }
+
+    .form-inp::placeholder {
+        color: var(--muted);
+    }
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 8px;
+    background: var(--bg);
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+}
+
+    .checkbox-list::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .checkbox-list::-webkit-scrollbar-thumb {
+        background: #D4C9F5;
+        border-radius: 10px;
+    }
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+    .checkbox-item:hover {
+        background: var(--surface2);
+    }
+
+.modal-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1.5px solid var(--border);
+}
+
+.btn-sec {
+    padding: 11px 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 11px;
+    background: transparent;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .btn-sec:hover {
+        background: var(--surface2);
+        border-color: var(--muted);
+    }
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .empleados-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .reservas-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .horario-section-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .modal {
+        max-width: 100%;
+        padding: 24px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+    }
+
+        .modal-footer button {
+            width: 100%;
+        }
+}

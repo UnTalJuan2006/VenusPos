@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,7 +8,7 @@ namespace VenusPos.Domain.Entities
         public class Venta
         {
             public int Id { get; set; }
-            public int IdCaja { get; set; }
+            public int? IdCaja { get; set; }
             public int IdReserva { get; set; }
             public int IdCliente { get; set; }
             public int IdEmpleado { get; set; }

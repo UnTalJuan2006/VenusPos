@@ -1,15 +1,22 @@
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using VenusPos.Application.Interfaces.Repositories;
 using VenusPos.Application.Interfaces.Services;
-using VenusPos.Application.Services.Cliente;   
+using VenusPos.Application.Services.Cliente;
 using VenusPos.Application.Services.Empleado;
 using VenusPos.Application.Services.Mascota;
 using VenusPos.Application.Services.Servicio;
+using VenusPos.Application.Services.ConfiguracionPrecio;
+using VenusPos.Application.Services.Reserva;
+using VenusPos.Application.Services.Historial;
+using VenusPos.Application.Services.Venta;
 using VenusPos.Infrastructure.Data;
 using VenusPos.Infrastructure.Repositories;
+using VenusPos.Infrastructure.Services;
+using VenusPos.Application.Services.Caja;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +62,30 @@ builder.Services.AddScoped<IServicioService, ServicioService>();
 
 builder.Services.AddScoped<IMascotaRepository, MascotaRepository>();
 builder.Services.AddScoped<IMascotaService, MascotaService>();
+
+builder.Services.AddScoped<ICajaRepository, CajaRepository>();
+builder.Services.AddScoped<ICajaService, CajaService>();
+
+
+// Configuración de Precios
+builder.Services.AddScoped<IConfiguracionPrecioRepository, ConfiguracionPrecioRepository>();
+builder.Services.AddScoped<IConfiguracionPrecioService, ConfiguracionPrecioService>();
+
+// Reservas
+builder.Services.AddScoped<IReservaRepository, ReservaRepository>();
+builder.Services.AddScoped<IReservaService, ReservaService>();
+
+// Historial
+builder.Services.AddScoped<IHistorialRepository, HistorialRepository>();
+builder.Services.AddScoped<IHistorialService, HistorialService>();
+
+// Venta
+builder.Services.AddScoped<IVentaRepository, VentaRepository>();
+builder.Services.AddScoped<IVentaService, VentaService>();
+
+// Email
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 // ── Controladores y OpenAPI ────────────────────────────────────────────────
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();

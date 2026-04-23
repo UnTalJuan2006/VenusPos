@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Reserva — VenusMascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Index.css">
+    <link rel="stylesheet" href="../css/Reserva.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-inner">
+            <a href="../Index.html" class="logo-wrap">
+                <div class="logo-circle">
+                    <img src="../img/logoVenus.png" alt="Logo Venus Mascotas">
+                </div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="../Index.html">Inicio</a></li>
+                    <li><a href="../QuienesSomos.html">Quienes Somos</a></li>
+                    <li><a href="../Servicios.html">Servicios</a></li>
+                    <li><a href="../Index.html#instalaciones">Instalaciones</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="../AgendaCita.html" class="btn-header-primary">Agenda tu Cita</a>
+                <a href="../Index.html#contacto" class="btn-header-link">Contacto</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- PROGRESS HEADER -->
+    <div class="progress-header">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Mascota</div>
+                </div>
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Servicio</div>
+                </div>
+                <div class="step-indicator completed">
+                    <div class="step-circle"></div>
+                    <div class="step-label">Horario</div>
+                </div>
+                <div class="step-indicator active">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Confirmación</div>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-fill" style="width: 80%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="reserva-container">
+        <h1 class="page-title">Resumen de tu Reserva</h1>
+        <p class="page-subtitle">Revisa los detalles antes de confirmar tu cita</p>
+
+        <!-- Summary Card -->
+        <div class="card" style="max-width: 800px; margin: 0 auto 32px;">
+
+            <!-- Cliente Section -->
+            <div style="border-bottom: 2px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 24px;">
+                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
+                    📋 Información del Cliente
+                </h3>
+                <table class="summary-table">
+                    <tr>
+                        <td>Nombre</td>
+                        <td id="clienteNombre">-</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td id="clienteEmail">-</td>
+                    </tr>
+                    <tr>
+                        <td>Teléfono</td>
+                        <td id="clienteTelefono">-</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Mascota Section -->
+            <div style="border-bottom: 2px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 24px;">
+                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
+                    🐾 Mascota
+                </h3>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <img id="mascotaImagen" src="" alt="Mascota"
+                         style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">
+                    <div>
+                        <h4 id="mascotaNombre" style="margin: 0 0 4px 0; font-size: 18px; color: #1f2937;">-</h4>
+                        <p id="mascotaDetalles" style="margin: 0; color: #6b7280; font-size: 14px;">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fecha y Hora Section -->
+            <div style="border-bottom: 2px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 24px;">
+                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
+                    📅 Fecha y Hora
+                </h3>
+                <table class="summary-table">
+                    <tr>
+                        <td>Fecha</td>
+                        <td id="reservaFecha">-</td>
+                    </tr>
+                    <tr>
+                        <td>Horario</td>
+                        <td id="reservaHorario">-</td>
+                    </tr>
+                    <tr>
+                        <td>Duración</td>
+                        <td id="reservaDuracion">-</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Empleado Section -->
+            <div style="border-bottom: 2px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 24px;">
+                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
+                    👨‍⚕️ Profesional Asignado
+                </h3>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #e9d5ff 0%, #c4b5fd 100%); display: flex; align-items: center; justify-content: center; color: #6d28d9; font-weight: 700; font-size: 24px;">
+                        <img id="empleadoImagen" src="" alt="Empleado" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none;">
+                        <span id="empleadoInicial">-</span>
+                    </div>
+                    <div>
+                        <h4 id="empleadoNombre" style="margin: 0 0 4px 0; font-size: 18px; color: #1f2937;">-</h4>
+                        <p id="empleadoCargo" style="margin: 0; color: #6b7280; font-size: 14px;">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Servicio Section -->
+            <div style="border-bottom: 2px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 24px;">
+                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
+                    ✨ Servicio
+                </h3>
+                <div style="background: #faf5ff; border-radius: 8px; padding: 16px;">
+                    <h4 style="margin: 0 0 12px 0; font-size: 16px; color: #1f2937;">Baño Completo Premium</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
+                            <span style="color: #10b981;">✓</span> Baño con shampoo premium
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
+                            <span style="color: #10b981;">✓</span> Secado profesional
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
+                            <span style="color: #10b981;">✓</span> Corte de uñas
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
+                            <span style="color: #10b981;">✓</span> Limpieza de oídos
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
+                            <span style="color: #10b981;">✓</span> Cepillado
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
+                            <span style="color: #10b981;">✓</span> Perfume
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Precio Section -->
+            <div>
+                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
+                    💰 Precio
+                </h3>
+                <table class="summary-table">
+                    <tr>
+                        <td>Precio base</td>
+                        <td id="precioBase">$0</td>
+                    </tr>
+                    <tr>
+                        <td id="tamañoLabel">Tamaño</td>
+                        <td id="tamañoValor">+0%</td>
+                    </tr>
+                    <tr id="pelajeRow" style="display: none;">
+                        <td>Pelaje doble capa</td>
+                        <td id="pelajeValor">+30%</td>
+                    </tr>
+                    <tr>
+                        <td><strong style="font-size: 18px;">Total a Pagar</strong></td>
+                        <td><strong class="summary-total" id="precioTotal" style="font-size: 24px;">$0</strong></td>
+                    </tr>
+                </table>
+
+                <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px; border-radius: 4px; margin-top: 16px;">
+                    <p style="margin: 0; color: #92400e; font-size: 13px;">
+                        <strong>Importante:</strong> El pago se realiza al finalizar el servicio. No se requiere pago por adelantado.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+            <button class="btn btn-secondary" onclick="NavigationUtils.goTo('SeleccionHorario.html')">
+                ← Volver
+            </button>
+            <button id="btnConfirmar" class="btn btn-primary" onclick="confirmarReserva()">
+                Confirmar Reserva
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/reserva-utils.js"></script>
+    <script src="../js/reserva-api.js"></script>
+    <script>
+        let cliente, mascota, horario, empleado, calculoPrecio, serviciosSeleccionados, serviciosData;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check requirements
+            if (!NavigationUtils.requireCliente()) return;
+
+            cliente = ReservaStorage.getCliente();
+            mascota = ReservaStorage.getMascota();
+            horario = ReservaStorage.getHorario();
+            empleado = ReservaStorage.getEmpleado();
+            calculoPrecio = ReservaStorage.getPrecio();
+            serviciosSeleccionados = ReservaStorage.getServicios() || [1];
+
+            // Validate all data
+            if (!mascota || !horario || !empleado || !calculoPrecio) {
+                Toast.error('Faltan datos de la reserva. Por favor completa todos los pasos.');
+                setTimeout(() => {
+                    NavigationUtils.goTo('../AgendaCita.html');
+                }, 2000);
+                return;
+            }
+
+            // Load services data
+            await loadServiciosData();
+
+            // Load summary
+            loadSummary();
+        });
+
+        async function loadServiciosData() {
+            try {
+                const response = await fetch('/api/Servicio');
+                if (!response.ok) throw new Error('Error cargando servicios');
+                const todosServicios = await response.json();
+                serviciosData = todosServicios.filter(s => serviciosSeleccionados.includes(s.id));
+            } catch (error) {
+                console.error('Error loading services:', error);
+                serviciosData = [];
+            }
+        }
+
+        function loadSummary() {
+            // Cliente
+            document.getElementById('clienteNombre').textContent = cliente.nombre;
+            document.getElementById('clienteEmail').textContent = cliente.email;
+            document.getElementById('clienteTelefono').textContent = cliente.telefono || 'No especificado';
+
+            // Mascota
+            document.getElementById('mascotaImagen').src = mascota.imagen || '../img/default-pet.png';
+            document.getElementById('mascotaNombre').textContent = mascota.nombre;
+            document.getElementById('mascotaDetalles').textContent =
+                `${mascota.raza} • ${getTamañoLabel(mascota.tamaño)} • ${getPelajeLabel(mascota.tipoPelaje)}`;
+
+            // Fecha y Hora
+            document.getElementById('reservaFecha').textContent = DateUtils.formatLongDate(horario.fecha);
+            document.getElementById('reservaHorario').textContent =
+                DateUtils.formatTimeRange(horario.horaInicio, horario.horaFin);
+            document.getElementById('reservaDuracion').textContent =
+                `${calculoPrecio.duracionMinutos} minutos`;
+
+            // Empleado
+            if (empleado.imagen) {
+                document.getElementById('empleadoImagen').src = empleado.imagen;
+                document.getElementById('empleadoImagen').style.display = 'block';
+                document.getElementById('empleadoInicial').style.display = 'none';
+            } else {
+                document.getElementById('empleadoInicial').textContent = empleado.nombre.charAt(0);
+            }
+            document.getElementById('empleadoNombre').textContent = empleado.nombre;
+            document.getElementById('empleadoCargo').textContent = empleado.cargo || 'Estilista Profesional';
+
+            // Servicios - Display selected services dynamically
+            renderServicios();
+
+            // Precio
+            document.getElementById('precioBase').textContent =
+                CurrencyUtils.format(calculoPrecio.precioBase);
+
+            document.getElementById('tamañoLabel').textContent =
+                `Tamaño (${getTamañoLabel(mascota.tamaño)})`;
+
+            const tamañoPercent = (calculoPrecio.multiplicadorTamaño * 100).toFixed(0);
+            document.getElementById('tamañoValor').textContent = `+${tamañoPercent}%`;
+
+            if (calculoPrecio.multiplicadorPelaje > 0) {
+                document.getElementById('pelajeRow').style.display = 'table-row';
+                const pelajePercent = (calculoPrecio.multiplicadorPelaje * 100).toFixed(0);
+                document.getElementById('pelajeValor').textContent = `+${pelajePercent}%`;
+            }
+
+            document.getElementById('precioTotal').textContent =
+                CurrencyUtils.format(calculoPrecio.precioFinal);
+        }
+
+        function renderServicios() {
+            const servicioContent = document.querySelector('[style*="background: #faf5ff"]');
+
+            if (!serviciosData || serviciosData.length === 0) return;
+
+            let html = '';
+            serviciosData.forEach((servicio, index) => {
+                html += `
+                    <div style="${index > 0 ? 'margin-top: 16px; padding-top: 16px; border-top: 1px solid #e9d5ff;' : ''}">
+                        <h4 style="margin: 0 0 8px 0; font-size: 16px; color: #1f2937; font-weight: 700;">${servicio.nombre}</h4>
+                        ${servicio.descripcion ? `<p style="margin: 0; font-size: 13px; color: #6b7280; line-height: 1.5;">${servicio.descripcion}</p>` : ''}
+                    </div>
+                `;
+            });
+
+            servicioContent.innerHTML = html;
+        }
+
+        async function confirmarReserva() {
+            const btnConfirmar = document.getElementById('btnConfirmar');
+
+            try {
+                console.log('Iniciando confirmación de reserva...');
+
+                // Obtener método de pago del storage (seleccionado en el paso anterior)
+                const metodoPago = ReservaStorage.getMetodoPago();
+                console.log('Método de pago:', metodoPago);
+
+                btnConfirmar.disabled = true;
+                btnConfirmar.innerHTML = '<span class="spinner"></span> Creando reserva...';
+
+                // Get selected services
+                const serviciosSeleccionados = ReservaStorage.getServicios() || [1];
+                console.log('Servicios seleccionados:', serviciosSeleccionados);
+
+                // Prepare reservation data
+                const reservaData = {
+                    idCliente: cliente.id,
+                    idMascota: mascota.id,
+                    idEmpleado: empleado.id,
+                    fechaReserva: horario.fecha, // Ya está en formato YYYY-MM-DD, no convertir
+                    horaInicio: horario.horaInicio,
+                    idsServicios: serviciosSeleccionados,
+                    detalles: ''
+                };
+
+                console.log('Datos de reserva:', reservaData);
+
+                // 1. Create reservation
+                const reservaCreada = await ReservaAPI.crear(reservaData);
+                console.log('Reserva creada:', reservaCreada);
+
+                // 2. Confirm reservation (generate code and send email)
+                btnConfirmar.innerHTML = '<span class="spinner"></span> Enviando confirmación...';
+                const reservaConfirmada = await ReservaAPI.confirmar(reservaCreada.id);
+                console.log('Reserva confirmada:', reservaConfirmada);
+
+                // 3. Si el método de pago es Efectivo, registrar la venta
+                if (metodoPago === 'Efectivo') {
+                    btnConfirmar.innerHTML = '<span class="spinner"></span> Registrando venta...';
+                    try {
+                        const ventaData = {
+                            idReserva: reservaConfirmada.id,
+                            idCliente: cliente.id,
+                            idEmpleado: empleado.id,
+                            metodoPago: 'Efectivo',
+                            descuento: 0
+                        };
+
+                        console.log('Datos de venta:', ventaData);
+
+                        const response = await fetch('/api/Venta/desde-reserva', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(ventaData)
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json().catch(() => ({}));
+                            console.warn('No se pudo registrar la venta:', errorData.message || 'Error desconocido');
+                            // No fallar la reserva si falla la venta, solo loguear
+                        } else {
+                            const venta = await response.json();
+                            console.log('Venta registrada exitosamente:', venta);
+                        }
+                    } catch (ventaError) {
+                        console.warn('Error al registrar venta:', ventaError);
+                        // No fallar la reserva si falla la venta
+                    }
+                }
+
+                // 4. Store confirmed reservation
+                ReservaStorage.setConfirmada(reservaConfirmada);
+
+                // 5. Success - Mostrar confirmación en la misma página
+                mostrarConfirmacionExitosa(reservaConfirmada, metodoPago);
+
+            } catch (error) {
+                btnConfirmar.disabled = false;
+                btnConfirmar.innerHTML = 'Confirmar Reserva';
+                console.error('Error confirming reservation:', error);
+                Toast.error('Error al confirmar la reserva: ' + error.message);
+            }
+        }
+
+        function mostrarConfirmacionExitosa(reserva, metodoPago) {
+            // Ocultar botones
+            document.querySelector('.button-group').style.display = 'none';
+
+            // Determinar icono y texto del método de pago
+            const metodoPagoIcono = metodoPago === 'Efectivo' ? '💵' :
+                                   metodoPago === 'PSE' ? '🏦' :
+                                   metodoPago === 'Tarjeta' ? '💳' : '💵';
+
+            // Crear sección de confirmación exitosa
+            const confirmacionHTML = `
+                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 16px; padding: 32px; text-align: center; color: white; margin-top: 24px; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);">
+                    <div style="width: 64px; height: 64px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="3">
+                            <path d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <h2 style="font-size: 28px; font-weight: 900; margin: 0 0 8px 0; color: white;">¡Reserva Confirmada!</h2>
+                    <p style="font-size: 16px; margin: 0 0 24px 0; opacity: 0.95;">Tu cita ha sido confirmada exitosamente</p>
+
+                    <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 8px;">Código de Reserva</div>
+                        <div style="font-size: 32px; font-weight: 900; letter-spacing: 2px; font-family: 'Courier New', monospace;">${reserva.codigoReserva || 'N/A'}</div>
+                    </div>
+
+                    <div style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: left;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                            <span style="opacity: 0.9;">📅 Fecha:</span>
+                            <strong>${DateUtils.formatLongDate(horario.fecha)}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                            <span style="opacity: 0.9;">🕐 Horario:</span>
+                            <strong>${DateUtils.formatTimeRange(horario.horaInicio, horario.horaFin)}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                            <span style="opacity: 0.9;">👨‍⚕️ Profesional:</span>
+                            <strong>${empleado.nombre}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                            <span style="opacity: 0.9;">🐾 Mascota:</span>
+                            <strong>${mascota.nombre}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="opacity: 0.9;">${metodoPagoIcono} Método de Pago:</span>
+                            <strong>${metodoPago}</strong>
+                        </div>
+                    </div>
+
+                    <p style="font-size: 13px; opacity: 0.9; margin: 0 0 20px 0;">
+                        📧 Hemos enviado un correo de confirmación a <strong>${cliente.email}</strong>
+                    </p>
+
+                    ${metodoPago === 'Efectivo' ? `
+                    <div style="background: rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; margin-bottom: 20px;">
+                        <p style="margin: 0; font-size: 13px; opacity: 0.95;">
+                            💵 <strong>Pago en Efectivo:</strong> Recuerda llevar el monto exacto al finalizar el servicio
+                        </p>
+                    </div>
+                    ` : ''}
+
+                    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="window.location.href='../Index.html'" style="background: white; color: #059669; border: none; padding: 12px 24px; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.2s;">
+                            🏠 Volver al Inicio
+                        </button>
+                        <button onclick="window.location.href='../AgendaCita.html'" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 12px 24px; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.2s;">
+                            📅 Nueva Reserva
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Insertar confirmación después del card de resumen
+            const container = document.querySelector('.reserva-container');
+            const existingConfirmacion = document.getElementById('confirmacionExitosa');
+            if (existingConfirmacion) {
+                existingConfirmacion.remove();
+            }
+
+            const confirmacionDiv = document.createElement('div');
+            confirmacionDiv.id = 'confirmacionExitosa';
+            confirmacionDiv.innerHTML = confirmacionHTML;
+            container.appendChild(confirmacionDiv);
+
+            // Scroll suave hacia la confirmación
+            confirmacionDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Mostrar toast
+            Toast.success('¡Reserva confirmada exitosamente!');
+        }
+
+        function getTamañoLabel(tamaño) {
+            const labels = {
+                'Pequeno': 'Pequeño',
+                'Mediano': 'Mediano',
+                'Grande': 'Grande'
+            };
+            return labels[tamaño] || tamaño;
+        }
+
+        function getPelajeLabel(pelaje) {
+            const labels = {
+                'Corto': 'Pelo Corto',
+                'Largo': 'Pelo Largo',
+                'DobleCapa': 'Doble Capa'
+            };
+            return labels[pelaje] || pelaje;
+        }
+    </script>
+
+</body>
+</html>

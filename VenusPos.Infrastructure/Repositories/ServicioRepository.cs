@@ -17,6 +17,12 @@ namespace VenusPos.Infrastructure.Repositories
             => await _context.Servicios.ToListAsync();
         public async Task<Servicio?> ObtenerPorIdAsync(int id)
             => await _context.Servicios.FindAsync(id);
+        public async Task<IEnumerable<Servicio>> ObtenerPorIdsAsync(List<int> ids)
+        {
+            return await _context.Servicios
+                .Where(s => ids.Contains(s.Id) && s.Activo)
+                .ToListAsync();
+        }
         public async Task<Servicio> CrearAsync(Servicio servicio)
         {
             _context.Servicios.Add(servicio);

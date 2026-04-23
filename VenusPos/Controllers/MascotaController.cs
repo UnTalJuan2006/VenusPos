@@ -34,12 +34,13 @@ namespace VenusPos.Controllers
 
         // GET /api/Mascota/cliente/{idCliente}
         [HttpGet("cliente/{idCliente:int}")]
+        [AllowAnonymous]
         public async Task<IActionResult> ObtenerPorCliente(int idCliente)
             => Ok(await _service.ObtenerPorClienteAsync(idCliente));
 
-
         // POST /api/Mascota
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Crear([FromBody] CrearMascotaDTO dto)
         {
             try
@@ -84,7 +85,7 @@ namespace VenusPos.Controllers
 
         // POST /api/Mascota/upload-imagen
         [HttpPost("upload-imagen")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> UploadImagen(IFormFile imagen)
         {
             if (imagen is null || imagen.Length == 0)
@@ -100,7 +101,7 @@ namespace VenusPos.Controllers
             if (imagen.Length > maxBytes)
                 return BadRequest(new { message = "El archivo supera el tamaño maximo de 3 MB." });
 
-            var carpeta = Path.Combine(_env.WebRootPath, "img", "mascotas"); 
+            var carpeta = Path.Combine(_env.WebRootPath, "img", "mascotas");
             if (!Directory.Exists(carpeta))
                 Directory.CreateDirectory(carpeta);
 
@@ -112,7 +113,7 @@ namespace VenusPos.Controllers
                 await imagen.CopyToAsync(stream);
             }
 
-            return Ok(new { url = $"/img/mascotas/{nombreArchivo}" }); // ← mascotas
+            return Ok(new { url = $"/img/mascotas/{nombreArchivo}" });
         }
     }
 }
