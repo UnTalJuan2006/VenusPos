@@ -11,16 +11,21 @@ namespace VenusPos.Controllers
     {
         private readonly IEmpleadoService _service;
         private readonly IWebHostEnvironment _env;
+        private readonly IAzureBlobStorageService _azureStorage;
 
-        public EmpleadoController(IEmpleadoService service, IWebHostEnvironment env)
+        public EmpleadoController(
+            IEmpleadoService service,
+            IWebHostEnvironment env,
+            IAzureBlobStorageService azureStorage)
         {
             _service = service;
             _env = env;
+            _azureStorage = azureStorage;
         }
 
         // GET /api/Empleado
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> ObtenerTodos()
             => Ok(await _service.ObtenerTodosAsync());
 
@@ -77,6 +82,38 @@ namespace VenusPos.Controllers
                 return NotFound(new { message = ex.Message });
             }
         }
+        // PUT /api/Empleado/inactivar/{id}
+        [HttpPut("inactivar/{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> Inactivar(int id, [FromBody] InactivarEmpleadoDTO dto)
+        {
+            try
+            {
+                return Ok(await _service.InactivarAsync(id, dto));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+        // PUT /api/Empleado/reactivar/{id}
+        [HttpPut("reactivar/{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> Reactivar(int id)
+        {
+            try
+            {
+                return Ok(await _service.ReactivarAsync(id));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+
+
 
         // POST /api/Empleado/login
         [HttpPost("login")]
@@ -96,10 +133,10 @@ namespace VenusPos.Controllers
         // ══════════════════════════════════════════════════════════════════════
         // POST /api/Empleado/upload-imagen
         //
-        // Flujo completo:
+        // Flujo completo con Azure Blob Storage:
         //   1. Frontend selecciona archivo → lo envía aquí como multipart/form-data
-        //   2. Este endpoint valida y guarda el archivo en wwwroot/img/empleados/
-        //   3. Devuelve { url: "/img/empleados/xxx.jpg" }
+        //   2. Este endpoint valida y sube el archivo a Azure Blob Storage (contenedor: empleados)
+        //   3. Devuelve { url: "https://tuaccount.blob.core.windows.net/empleados/xxx.jpg" }
         //   4. Frontend guarda esa URL en la variable imagenUrl
         //   5. Al crear/editar el empleado, esa URL viaja en el campo "imagen" del JSON
         //   6. El Service la guarda en la BD directamente desde el DTO
@@ -121,21 +158,36 @@ namespace VenusPos.Controllers
             if (imagen.Length > maxBytes)
                 return BadRequest(new { message = "El archivo supera el tamaño máximo de 3 MB." });
 
-            // Crear carpeta si no existe
-            var carpeta = Path.Combine(_env.WebRootPath, "img", "empleados");
-            if (!Directory.Exists(carpeta))
-                Directory.CreateDirectory(carpeta);
-
-            // Nombre único para evitar colisiones entre empleados
-            var nombreArchivo = $"{Guid.NewGuid()}{extension}";
-            var rutaCompleta = Path.Combine(carpeta, nombreArchivo);
-
-            using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+            try
             {
-                await imagen.CopyToAsync(stream);
-            }
+                // Generar nombre único para el archivo
+                var nombreArchivo = $"{Guid.NewGuid()}{extension}";
 
-            return Ok(new { url = $"/img/empleados/{nombreArchivo}" });
+                // Determinar el Content-Type según la extensión
+                var contentType = extension switch
+                {
+                    ".jpg" or ".jpeg" => "image/jpeg",
+                    ".png" => "image/png",
+                    ".webp" => "image/webp",
+                    ".gif" => "image/gif",
+                    _ => "application/octet-stream"
+                };
+
+                // Subir a Azure Blob Storage
+                using var stream = imagen.OpenReadStream();
+                var urlAzure = await _azureStorage.SubirArchivoAsync(
+                    stream,
+                    nombreArchivo,
+                    contentType,
+                    "empleados"
+                );
+
+                return Ok(new { url = urlAzure });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Error al subir imagen: {ex.Message}" });
+            }
         }
     }
 }

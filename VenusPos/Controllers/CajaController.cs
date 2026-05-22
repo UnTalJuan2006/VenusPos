@@ -33,7 +33,7 @@ namespace VenusPos.Controllers
 
         // GET /api/caja/abierta
         [HttpGet("abierta")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> ObtenerCajaAbierta()
         {
             var cajaAbierta = await _cajaService.ObtenerCajaAbiertaAsync();

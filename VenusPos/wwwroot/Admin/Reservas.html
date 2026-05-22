@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VenusMascotas - Reservas</title>
+    <link rel="icon" type="image/png" href="/img/logoVenus.png">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/ClienteAdmin.css" />
-    <link rel="stylesheet" href="../css/ReservasAdmin.css" />
+    <link rel="stylesheet" href="/css/ClienteAdmin.css" />
+    <link rel="stylesheet" href="/css/ReservasAdmin.css" />
 </head>
 <body>
 
@@ -55,9 +56,13 @@
                 </svg>
                 <span class="sb-lbl">Clientes</span>
             </a>
-            <a class="sb-item" href="#" data-tip="Mascotas">
+            <a class="sb-item" href="Mascotas.html" data-tip="Mascotas">
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                    <path d="M12 14c2.5 0 4 1.5 4 3s-1.5 3-4 3-4-1.5-4-3 1.5-3 4-3z" />
+                    <circle cx="7" cy="10" r="1.5" />
+                    <circle cx="11" cy="8" r="1.5" />
+                    <circle cx="15" cy="8" r="1.5" />
+                    <circle cx="17" cy="10" r="1.5" />
                 </svg>
                 <span class="sb-lbl">Mascotas</span>
             </a>
@@ -74,17 +79,17 @@
                 </svg>
                 <span class="sb-lbl">Servicios</span>
             </a>
-            <a class="sb-item" href="#" data-tip="Historial">
+            <a class="sb-item" href="HistorialClinico.html" data-tip="Historial">
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                     <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
-                <span class="sb-lbl">Historial</span>
+                <span class="sb-lbl">Historial </span>
             </a>
-            <a class="sb-item" href="#" data-tip="Notificaciones">
+            <a class="sb-item" href="#Productos" data-tip="Productos">
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
-                <span class="sb-lbl">Notificaciones</span>
+                <span class="sb-lbl">Productos</span>
             </a>
         </nav>
         <div class="sb-bottom">
@@ -242,11 +247,59 @@
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
+    <!-- Modal Detalle de Reserva -->
+    <div class="modal-overlay" id="modalDetalleOverlay" style="display:none" onclick="cerrarModalDetalle(event)">
+        <div class="modal modal-detalle" onclick="event.stopPropagation()">
+            <div class="modal-hdr">
+                <h3 class="modal-ttl">Detalle de Reserva</h3>
+                <button class="modal-close" onclick="cerrarModalDetalle()">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modalDetalleBody">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <div style="display:flex;gap:8px;flex:1">
+                    <button type="button" class="btn-estado btn-confirmar" onclick="cambiarEstadoReserva('Confirmada')" id="btnConfirmar" style="display:none">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path d="M5 13l4 4L19 7" />
+                        </svg>
+                        Confirmar
+                    </button>
+                    <button type="button" class="btn-estado btn-cancelar" onclick="cambiarEstadoReserva('Cancelada')" id="btnCancelar" style="display:none">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn-estado btn-completar" onclick="cambiarEstadoReserva('Completada')" id="btnCompletar" style="display:none">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Completar
+                    </button>
+                </div>
+                <div style="display:flex;gap:8px">
+                    <button type="button" class="btn-sec" onclick="cerrarModalDetalle()">Cerrar</button>
+                    <button type="button" class="btn-primary" onclick="editarDesdeDetalle()">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Editar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Nueva Reserva -->
     <div class="modal-overlay" id="modalOverlay" style="display:none" onclick="cerrarModalReserva(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-hdr">
-                <h3 class="modal-ttl">Nueva Reserva</h3>
+                <h3 class="modal-ttl" id="modalTitulo">Nueva Reserva</h3>
                 <button class="modal-close" onclick="cerrarModalReserva()">
                     <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path d="M6 18L18 6M6 6l12 12" />
@@ -299,13 +352,35 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-sec" onclick="cerrarModalReserva()">Cancelar</button>
-                    <button type="submit" class="btn-primary">
-                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path d="M5 13l4 4L19 7" />
-                        </svg>
-                        Crear Reserva
-                    </button>
+                    <div style="display:flex;gap:8px;flex:1" id="botonesEstadoEdicion">
+                        <button type="button" class="btn-estado btn-confirmar" onclick="cambiarEstadoReservaEdicion('Confirmada')" id="btnConfirmarEdit" style="display:none">
+                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path d="M5 13l4 4L19 7" />
+                            </svg>
+                            Confirmar
+                        </button>
+                        <button type="button" class="btn-estado btn-cancelar" onclick="cambiarEstadoReservaEdicion('Cancelada')" id="btnCancelarEdit" style="display:none">
+                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Cancelar Reserva
+                        </button>
+                        <button type="button" class="btn-estado btn-completar" onclick="cambiarEstadoReservaEdicion('Completada')" id="btnCompletarEdit" style="display:none">
+                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Completar
+                        </button>
+                    </div>
+                    <div style="display:flex;gap:8px">
+                        <button type="button" class="btn-sec" onclick="cerrarModalReserva()">Cancelar</button>
+                        <button type="submit" class="btn-primary">
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path d="M5 13l4 4L19 7" />
+                            </svg>
+                            Crear Reserva
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -536,21 +611,26 @@
             var horaInicio = 8;
             var horaFin = 17;
             var ALTURA_HORA = 60; // Altura base por hora en píxeles (aumentada para mejor visibilidad)
+            var idEmpleado = reservasEmp.length > 0 ? reservasEmp[0].idEmpleado : 0;
             var html = '<div class="timeline-grid">';
 
-            // Crear filas por hora (solo las etiquetas y líneas)
+            // Crear filas por hora (solo las etiquetas y líneas) - ahora clickeables
             for (var h = horaInicio; h <= horaFin; h++) {
                 var horaLabel = String(h).padStart(2, '0') + ':00';
 
                 html += '<div class="timeline-row">' +
                     '<div class="timeline-row-label">' + horaLabel + '</div>' +
-                    '<div class="timeline-row-content"></div>' +
+                    '<div class="timeline-row-content timeline-clickeable" ' +
+                    'data-hora="' + String(h).padStart(2, '0') + ':00" ' +
+                    'data-empleado="' + idEmpleado + '" ' +
+                    'onclick="crearReservaRapida(this)" ' +
+                    'title="Click para crear reserva"></div>' +
                     '</div>';
             }
 
             html += '</div>'; // Cerrar timeline-grid
 
-            // Ahora agregar los bloques de reservas con posicionamiento absoluto
+            // Ahora agregar los bloques de reservas con posicionamiento absoluto y draggable
             html += '<div class="timeline-blocks-container">';
 
             reservasEmp.forEach(r => {
@@ -584,16 +664,33 @@
                 var estadoLabel = r.estado || 'Pendiente';
 
                 html += '<div class="tl-block ' + estadoClass + '" ' +
+                    'draggable="true" ' +
+                    'data-reserva-id="' + r.id + '" ' +
+                    'data-empleado-id="' + r.idEmpleado + '" ' +
+                    'data-duracion="' + duracionMinutos + '" ' +
+                    'data-hora-inicio="' + r.horaInicio + '" ' +
+                    'ondragstart="iniciarArrastre(event)" ' +
+                    'ondragend="finalizarArrastre(event)" ' +
                     'style="position: absolute; top: ' + posicionY + 'px; height: ' + alturaBloque + 'px; left: 38px; right: 0;" ' +
                     'onclick="verDetallesReserva(' + r.id + ')">' +
+                    '<div class="tl-block-content">' +
                     '<div class="tl-block-header">' +
                     '<span class="tl-hora">' + formatHora(r.horaInicio) + ' - ' + formatHora(r.horaFin) + '</span>' +
                     '<span class="tl-badge">' + estadoLabel + '</span>' +
                     '</div>' +
-                    '<div class="tl-servicio">' + serviciosTexto + '</div>' +
+                    '<div class="tl-servicio">' +
+                    '<strong style="color: var(--purple); font-size: 11px;">' + (r.codigoReserva || '#' + r.id) + '</strong> • ' +
+                    serviciosTexto +
+                    '</div>' +
                     '<div class="tl-mascota">' +
                     '<svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' +
                     (r.nombreMascota || 'Mascota') +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="tl-resize-handle-bottom" ' +
+                    'onmousedown="iniciarRedimension(event, ' + r.id + ')" ' +
+                    'title="Arrastrar para cambiar duración">' +
+                    '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5H7z"/></svg>' +
                     '</div>' +
                     '</div>';
             });
@@ -791,6 +888,21 @@
         }
 
         function abrirModalReserva(idEmpleadoPredefinido) {
+            // Resetear modo edición
+            reservaEditando = null;
+
+            // Cambiar título del modal
+            document.getElementById('modalTitulo').textContent = 'Nueva Reserva';
+
+            // Restaurar botón de submit
+            var btnSubmit = document.querySelector('#formNuevaReserva button[type="submit"]');
+            btnSubmit.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7" /></svg> Crear Reserva';
+
+            // Ocultar botones de cambio de estado en modo crear
+            document.getElementById('btnConfirmarEdit').style.display = 'none';
+            document.getElementById('btnCancelarEdit').style.display = 'none';
+            document.getElementById('btnCompletarEdit').style.display = 'none';
+
             // Resetear formulario
             document.getElementById('formNuevaReserva').reset();
             document.getElementById('precioCalculado').style.display = 'none';
@@ -827,6 +939,15 @@
 
         function cerrarModalReserva(event) {
             if (event && event.target.classList.contains('modal')) return;
+
+            // Resetear modo edición
+            reservaEditando = null;
+
+            // Restaurar título y botón
+            document.getElementById('modalTitulo').textContent = 'Nueva Reserva';
+            var btnSubmit = document.querySelector('#formNuevaReserva button[type="submit"]');
+            btnSubmit.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7" /></svg> Crear Reserva';
+
             document.getElementById('modalOverlay').style.display = 'none';
         }
 
@@ -987,40 +1108,863 @@
                 detalles: document.getElementById('modalDetalles').value
             };
 
+            // Si hay duración personalizada de la reserva original, mantenerla
+            if (reservaEditando && reservaEditando.duracionMinutos) {
+                datos.duracionPersonalizadaMinutos = reservaEditando.duracionMinutos;
+            }
+
             try {
-                var res = await fetch(API + '/api/Reserva', {
-                    method: 'POST',
-                    headers: authHeaders(),
-                    body: JSON.stringify(datos)
-                });
+                var res;
+                var mensaje;
+
+                if (reservaEditando) {
+                    // Modo edición
+                    res = await fetch(API + '/api/Reserva/' + reservaEditando.id, {
+                        method: 'PUT',
+                        headers: authHeaders(),
+                        body: JSON.stringify(datos)
+                    });
+                    mensaje = 'Reserva actualizada exitosamente';
+                } else {
+                    // Modo creación
+                    res = await fetch(API + '/api/Reserva', {
+                        method: 'POST',
+                        headers: authHeaders(),
+                        body: JSON.stringify(datos)
+                    });
+                    mensaje = 'Reserva creada exitosamente';
+                }
 
                 if (res.ok) {
-                    var nuevaReserva = await res.json();
-                    toast('Reserva creada exitosamente. Código: ' + (nuevaReserva.codigoReserva || '#' + nuevaReserva.id), 'success');
+                    var reserva = await res.json();
+                    console.log('✅ Reserva guardada:', reserva);
+
+                    // Reproducir sonido y guardar notificación solo al crear (no al editar)
+                    if (!reservaEditando) {
+                        console.log('📣 Creando nueva reserva - Reproduciendo sonido y agregando notificación');
+                        reproducirSonidoNotificacion();
+                        agregarNotificacion(reserva);
+                        mensaje += '. Código: ' + (reserva.codigoReserva || '#' + reserva.id);
+                    } else {
+                        console.log('📝 Editando reserva existente - No se reproduce sonido ni notificación');
+                    }
+
+                    toast(mensaje, 'success');
                     cerrarModalReserva();
                     cargarDatos();
                 } else {
                     var error = await res.json();
-                    toast(error.message || 'Error al crear la reserva', 'error');
+                    toast(error.message || 'Error al guardar la reserva', 'error');
                 }
             } catch (err) {
-                console.error('Error al crear reserva:', err);
-                toast('Error al crear la reserva', 'error');
+                console.error('Error al guardar reserva:', err);
+                toast('Error al guardar la reserva', 'error');
             }
         }
 
         function verDetallesReserva(id) {
             var r = reservas.find(res => res.id === id);
             if (!r) return;
-            alert(
-                'Código: ' + (r.codigoReserva || '#' + r.id) + '\n' +
-                'Fecha: ' + formatFecha(r.fechaReserva) + ' ' + formatHora(r.horaInicio) + '\n' +
-                'Cliente: ' + (r.nombreCliente || '-') + '\n' +
-                'Mascota: ' + (r.nombreMascota || '-') + '\n' +
-                'Empleado: ' + (r.nombreEmpleado || '-') + '\n' +
-                'Estado: ' + r.estado + '\n' +
-                'Total: $' + (r.precioTotal || 0).toLocaleString('es-CO')
-            );
+
+            // Procesar servicios
+            var serviciosTexto = '-';
+            if (r.servicios && Array.isArray(r.servicios) && r.servicios.length > 0) {
+                serviciosTexto = r.servicios.map(s => s.nombreServicio || s.nombre || s).join(', ');
+            }
+
+            var durMin = r.duracionMinutos || 60;
+            var durH = Math.floor(durMin / 60);
+            var durM = durMin % 60;
+            var durText = durH > 0 ? durH + 'h ' + (durM > 0 ? durM + 'm' : '') : durM + 'm';
+
+            // Construir contenido del modal
+            var html = '<div class="detalle-reserva">' +
+                '<div class="detalle-header">' +
+                '<div class="detalle-codigo">' + (r.codigoReserva || '#' + r.id) + '</div>' +
+                renderEstado(r.estado) +
+                '</div>' +
+                '<div class="detalle-section">' +
+                '<div class="detalle-label">Fecha y Hora</div>' +
+                '<div class="detalle-value">' +
+                '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>' +
+                formatFecha(r.fechaReserva) + ' • ' + formatHora(r.horaInicio) + ' - ' + formatHora(r.horaFin) +
+                '</div>' +
+                '</div>' +
+                '<div class="detalle-section">' +
+                '<div class="detalle-label">Cliente</div>' +
+                '<div class="detalle-value">' +
+                '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>' +
+                (r.nombreCliente || '-') +
+                (r.emailCliente ? '<br><small style="color:var(--muted);font-size:12px">' + r.emailCliente + '</small>' : '') +
+                '</div>' +
+                '</div>' +
+                '<div class="detalle-section">' +
+                '<div class="detalle-label">Mascota</div>' +
+                '<div class="detalle-value">' +
+                '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' +
+                (r.nombreMascota || '-') +
+                (r.razaMascota ? ' (' + r.razaMascota + ')' : '') +
+                (r.tamañoMascota || r.tamanioMascota ? '<br><small style="color:var(--muted);font-size:12px">Tamaño: ' + (r.tamañoMascota || r.tamanioMascota) + '</small>' : '') +
+                '</div>' +
+                '</div>' +
+                '<div class="detalle-section">' +
+                '<div class="detalle-label">Empleado</div>' +
+                '<div class="detalle-value">' +
+                '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>' +
+                (r.nombreEmpleado || '-') +
+                '</div>' +
+                '</div>' +
+                '<div class="detalle-section">' +
+                '<div class="detalle-label">Servicios</div>' +
+                '<div class="detalle-value">' +
+                '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>' +
+                serviciosTexto +
+                '</div>' +
+                '</div>' +
+                '<div class="detalle-section">' +
+                '<div class="detalle-label">Duración</div>' +
+                '<div class="detalle-value">' +
+                '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' +
+                durText +
+                '</div>' +
+                '</div>' +
+                '<div class="detalle-section">' +
+                '<div class="detalle-label">Precio Total</div>' +
+                '<div class="detalle-precio">$' + (r.precioTotal || 0).toLocaleString('es-CO') + '</div>' +
+                '</div>' +
+                (r.detalles ? '<div class="detalle-section"><div class="detalle-label">Observaciones</div><div class="detalle-value">' + r.detalles + '</div></div>' : '') +
+                '</div>';
+
+            document.getElementById('modalDetalleBody').innerHTML = html;
+            document.getElementById('modalDetalleBody').dataset.reservaId = id;
+
+            // Mostrar botones de cambio de estado según el estado actual
+            var btnConfirmar = document.getElementById('btnConfirmar');
+            var btnCancelar = document.getElementById('btnCancelar');
+            var btnCompletar = document.getElementById('btnCompletar');
+
+            // Ocultar todos primero
+            btnConfirmar.style.display = 'none';
+            btnCancelar.style.display = 'none';
+            btnCompletar.style.display = 'none';
+
+            // Mostrar botones según el estado
+            if (r.estado === 'Pendiente') {
+                btnConfirmar.style.display = 'inline-flex';
+                btnCancelar.style.display = 'inline-flex';
+            } else if (r.estado === 'Confirmada') {
+                btnCancelar.style.display = 'inline-flex';
+                btnCompletar.style.display = 'inline-flex';
+            } else if (r.estado === 'Completada') {
+                // Solo mostrar botón de cancelar si es necesario
+            } else if (r.estado === 'Cancelada') {
+                // No mostrar botones para reservas canceladas
+            }
+
+            document.getElementById('modalDetalleOverlay').style.display = 'flex';
+        }
+
+        function cerrarModalDetalle(event) {
+            if (event && event.target.classList.contains('modal-detalle')) return;
+            document.getElementById('modalDetalleOverlay').style.display = 'none';
+        }
+
+        async function cambiarEstadoReserva(nuevoEstado) {
+            var idReserva = parseInt(document.getElementById('modalDetalleBody').dataset.reservaId);
+            var reserva = reservas.find(r => r.id === idReserva);
+
+            if (!reserva) {
+                toast('Reserva no encontrada', 'error');
+                return;
+            }
+
+            // Confirmación para cancelar
+            if (nuevoEstado === 'Cancelada') {
+                if (!confirm('¿Está seguro de cancelar esta reserva? Esta acción no se puede deshacer.')) {
+                    return;
+                }
+            }
+
+            try {
+                var res = await fetch(API + '/api/Reserva/' + idReserva + '/estado', {
+                    method: 'PUT',
+                    headers: authHeaders(),
+                    body: JSON.stringify({ estado: nuevoEstado })
+                });
+
+                if (res.ok) {
+                    var actualizada = await res.json();
+                    var mensajes = {
+                        'Confirmada': 'Reserva confirmada exitosamente',
+                        'Cancelada': 'Reserva cancelada exitosamente',
+                        'Completada': 'Reserva marcada como completada'
+                    };
+                    toast(mensajes[nuevoEstado] || 'Estado actualizado', 'success');
+                    cerrarModalDetalle();
+                    await cargarDatos();
+                } else {
+                    var error = await res.json();
+                    toast(error.message || 'Error al cambiar el estado', 'error');
+                }
+            } catch (err) {
+                console.error('Error al cambiar estado:', err);
+                toast('Error al cambiar el estado de la reserva', 'error');
+            }
+        }
+
+        async function cambiarEstadoReservaEdicion(nuevoEstado) {
+            if (!reservaEditando) {
+                toast('No hay reserva en edición', 'error');
+                return;
+            }
+
+            // Confirmación para cancelar
+            if (nuevoEstado === 'Cancelada') {
+                if (!confirm('¿Está seguro de cancelar esta reserva? Esta acción no se puede deshacer.')) {
+                    return;
+                }
+            }
+
+            try {
+                var res = await fetch(API + '/api/Reserva/' + reservaEditando.id + '/estado', {
+                    method: 'PUT',
+                    headers: authHeaders(),
+                    body: JSON.stringify({ estado: nuevoEstado })
+                });
+
+                if (res.ok) {
+                    var actualizada = await res.json();
+                    var mensajes = {
+                        'Confirmada': 'Reserva confirmada exitosamente',
+                        'Cancelada': 'Reserva cancelada exitosamente',
+                        'Completada': 'Reserva marcada como completada'
+                    };
+                    toast(mensajes[nuevoEstado] || 'Estado actualizado', 'success');
+                    cerrarModalReserva();
+                    await cargarDatos();
+                } else {
+                    var error = await res.json();
+                    toast(error.message || 'Error al cambiar el estado', 'error');
+                }
+            } catch (err) {
+                console.error('Error al cambiar estado:', err);
+                toast('Error al cambiar el estado de la reserva', 'error');
+            }
+        }
+
+        var reservaEditando = null; // Variable para modo edición
+
+        function editarDesdeDetalle() {
+            var idReserva = parseInt(document.getElementById('modalDetalleBody').dataset.reservaId);
+            var reserva = reservas.find(r => r.id === idReserva);
+
+            if (!reserva) {
+                toast('Reserva no encontrada', 'error');
+                return;
+            }
+
+            cerrarModalDetalle();
+            abrirModalEdicion(reserva);
+        }
+
+        function abrirModalEdicion(reserva) {
+            reservaEditando = reserva;
+
+            // Cambiar título del modal
+            document.getElementById('modalTitulo').textContent = 'Editar Reserva #' + (reserva.codigoReserva || reserva.id);
+
+            // Cargar clientes
+            var selectCliente = document.getElementById('modalCliente');
+            selectCliente.innerHTML = '<option value="">Seleccione un cliente</option>' +
+                clientes.map(c => '<option value="' + c.id + '"' + (c.id === reserva.idCliente ? ' selected' : '') + '>' + c.nombre + ' - ' + c.telefono + '</option>').join('');
+
+            // Cargar mascotas del cliente
+            var mascotasCliente = mascotas.filter(m => m.idCliente === reserva.idCliente);
+            var selectMascota = document.getElementById('modalMascota');
+            selectMascota.innerHTML = '<option value="">Seleccione una mascota</option>' +
+                mascotasCliente.map(m => '<option value="' + m.id + '"' + (m.id === reserva.idMascota ? ' selected' : '') + '>' + m.nombre + ' (' + m.raza + ' - ' + m.tamaño + ')</option>').join('');
+
+            // Cargar servicios como checkboxes y marcar los seleccionados
+            var serviciosList = document.getElementById('serviciosCheckboxList');
+            serviciosList.innerHTML = servicios.map(s => {
+                var isChecked = reserva.servicios && reserva.servicios.some(rs => (rs.id || rs.idServicio) === s.id);
+                return '<label class="checkbox-item" style="display:flex;align-items:center;gap:10px;padding:10px;cursor:pointer;border-radius:8px;transition:background 0.2s" onmouseover="this.style.background=\'var(--surface2)\'" onmouseout="this.style.background=\'transparent\'">' +
+                    '<input type="checkbox" name="servicios" value="' + s.id + '"' + (isChecked ? ' checked' : '') + ' onchange="calcularPrecioReserva()" style="width:18px;height:18px;cursor:pointer">' +
+                    '<div style="flex:1"><div style="font-weight:600;color:var(--text)">' + s.nombre + '</div>' +
+                    '<div style="font-size:12px;color:var(--muted)">' + s.descripcion + ' - $' + s.precio.toLocaleString('es-CO') + '</div></div>' +
+                    '</label>';
+            }).join('');
+
+            // Setear fecha y hora
+            var fechaReserva = reserva.fechaReserva.split('T')[0];
+            document.getElementById('modalFecha').value = fechaReserva;
+            document.getElementById('modalHora').value = reserva.horaInicio.substring(0, 5);
+
+            // Cargar empleados disponibles
+            verificarDisponibilidad();
+
+            // Setear detalles
+            document.getElementById('modalDetalles').value = reserva.detalles || '';
+
+            // Calcular precio
+            calcularPrecioReserva();
+
+            // Cambiar texto del botón de submit
+            var btnSubmit = document.querySelector('#formNuevaReserva button[type="submit"]');
+            btnSubmit.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7" /></svg> Guardar Cambios';
+
+            // Mostrar botones de cambio de estado según el estado actual
+            var btnConfirmarEdit = document.getElementById('btnConfirmarEdit');
+            var btnCancelarEdit = document.getElementById('btnCancelarEdit');
+            var btnCompletarEdit = document.getElementById('btnCompletarEdit');
+
+            // Ocultar todos primero
+            btnConfirmarEdit.style.display = 'none';
+            btnCancelarEdit.style.display = 'none';
+            btnCompletarEdit.style.display = 'none';
+
+            // Mostrar botones según el estado
+            if (reserva.estado === 'Pendiente') {
+                btnConfirmarEdit.style.display = 'inline-flex';
+                btnCancelarEdit.style.display = 'inline-flex';
+            } else if (reserva.estado === 'Confirmada') {
+                btnCancelarEdit.style.display = 'inline-flex';
+                btnCompletarEdit.style.display = 'inline-flex';
+            } else if (reserva.estado === 'Completada') {
+                // Solo permitir cancelar si es necesario
+                btnCancelarEdit.style.display = 'inline-flex';
+            }
+
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        // ═══════════════════════════════════════════
+        // CREAR RESERVA RÁPIDA (Click en calendario)
+        // ═══════════════════════════════════════════
+
+        function crearReservaRapida(element) {
+            var hora = element.dataset.hora;
+            var idEmpleado = parseInt(element.dataset.empleado);
+
+            // Pre-llenar modal con datos
+            document.getElementById('modalFecha').value = formatFechaAPI(fechaSeleccionada);
+            document.getElementById('modalHora').value = hora;
+
+            // Guardar empleado predefinido
+            document.getElementById('modalEmpleado').dataset.empleadoPredefinido = idEmpleado;
+
+            document.getElementById('modalTitulo').textContent = 'Nueva Reserva - ' + hora;
+
+            abrirModalReserva(idEmpleado);
+        }
+
+        // ═══════════════════════════════════════════
+        // DRAG AND DROP DE RESERVAS
+        // ═══════════════════════════════════════════
+
+        var reservaArrastrada = null;
+
+        function iniciarArrastre(event) {
+            reservaArrastrada = {
+                id: parseInt(event.target.dataset.reservaId),
+                empleadoId: parseInt(event.target.dataset.empleadoId),
+                duracion: parseInt(event.target.dataset.duracion),
+                element: event.target
+            };
+
+            event.target.style.opacity = '0.5';
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/html', event.target.innerHTML);
+
+            // Agregar indicadores visuales
+            agregarIndicadoresDropZone();
+        }
+
+        function finalizarArrastre(event) {
+            event.target.style.opacity = '1';
+            reservaArrastrada = null;
+            quitarIndicadoresDropZone();
+        }
+
+        function agregarIndicadoresDropZone() {
+            // Agregar clase a todas las celdas clickeables para indicar drop zone
+            var celdas = document.querySelectorAll('.timeline-clickeable');
+            celdas.forEach(function(celda) {
+                celda.classList.add('drop-zone-active');
+                celda.addEventListener('dragover', permitirDrop);
+                celda.addEventListener('drop', soltarReserva);
+            });
+        }
+
+        function quitarIndicadoresDropZone() {
+            var celdas = document.querySelectorAll('.timeline-clickeable');
+            celdas.forEach(function(celda) {
+                celda.classList.remove('drop-zone-active', 'drop-zone-hover');
+                celda.removeEventListener('dragover', permitirDrop);
+                celda.removeEventListener('drop', soltarReserva);
+            });
+        }
+
+        function permitirDrop(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+            event.currentTarget.classList.add('drop-zone-hover');
+
+            // Remover hover de otras celdas
+            var celdas = document.querySelectorAll('.timeline-clickeable');
+            celdas.forEach(function(celda) {
+                if (celda !== event.currentTarget) {
+                    celda.classList.remove('drop-zone-hover');
+                }
+            });
+        }
+
+        async function soltarReserva(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!reservaArrastrada) return;
+
+            var nuevaHora = event.currentTarget.dataset.hora;
+            var nuevoEmpleadoId = parseInt(event.currentTarget.dataset.empleado);
+
+            // Confirmar el movimiento
+            var reserva = reservas.find(r => r.id === reservaArrastrada.id);
+            if (!reserva) {
+                toast('Error: Reserva no encontrada', 'error');
+                return;
+            }
+
+            var mensaje = '¿Mover reserva de ' + reserva.nombreMascota + ' a ' + nuevaHora + '?';
+            if (nuevoEmpleadoId !== reservaArrastrada.empleadoId) {
+                var nuevoEmpleado = empleados.find(e => e.id === nuevoEmpleadoId);
+                mensaje += '\nEmpleado: ' + (nuevoEmpleado ? nuevoEmpleado.nombre : 'Desconocido');
+            }
+
+            if (!confirm(mensaje)) {
+                quitarIndicadoresDropZone();
+                return;
+            }
+
+            // Actualizar reserva
+            await actualizarHorarioReserva(reservaArrastrada.id, nuevaHora, nuevoEmpleadoId);
+        }
+
+        async function actualizarHorarioReserva(idReserva, nuevaHora, nuevoEmpleadoId) {
+            try {
+                // Obtener reserva actual
+                var reserva = reservas.find(r => r.id === idReserva);
+                if (!reserva) throw new Error('Reserva no encontrada');
+
+                // Asegurar que la hora tenga el formato correcto HH:mm:ss
+                var horaFormateada = nuevaHora.length === 5 ? nuevaHora + ':00' : nuevaHora;
+
+                // Obtener IDs de servicios de la reserva actual
+                var idsServicios = [];
+                if (reserva.servicios && Array.isArray(reserva.servicios)) {
+                    // Primero intentar obtener los IDs directamente
+                    idsServicios = reserva.servicios
+                        .map(s => s.id || s.idServicio)
+                        .filter(id => id !== undefined && id !== null);
+
+                    // Si no hay IDs, buscar por nombre en la lista de servicios global
+                    if (idsServicios.length === 0) {
+                        idsServicios = reserva.servicios
+                            .map(s => {
+                                var nombre = s.nombreServicio || s.nombre;
+                                var servicio = servicios.find(sv => sv.nombre === nombre);
+                                return servicio ? servicio.id : null;
+                            })
+                            .filter(id => id !== null);
+                    }
+                }
+
+                // Si aún no hay servicios, usar al menos uno por defecto
+                if (idsServicios.length === 0) {
+                    // Buscar "Baño Completo" como servicio por defecto
+                    var servicioDefault = servicios.find(s => s.nombre === 'Baño Completo');
+                    if (servicioDefault) {
+                        idsServicios = [servicioDefault.id];
+                    } else if (servicios.length > 0) {
+                        // Si no existe "Baño Completo", usar el primer servicio disponible
+                        idsServicios = [servicios[0].id];
+                    }
+                }
+
+                console.log('Actualizando reserva:', {
+                    id: idReserva,
+                    horaAnterior: reserva.horaInicio,
+                    nuevaHora: horaFormateada,
+                    empleadoAnterior: reserva.idEmpleado,
+                    nuevoEmpleado: nuevoEmpleadoId,
+                    idsServicios: idsServicios
+                });
+
+                // Preparar datos para actualizar
+                var datosActualizacion = {
+                    idCliente: reserva.idCliente,
+                    idMascota: reserva.idMascota,
+                    idEmpleado: nuevoEmpleadoId,
+                    fechaReserva: reserva.fechaReserva,
+                    horaInicio: horaFormateada,
+                    idsServicios: idsServicios,
+                    detalles: reserva.detalles || '',
+                    duracionPersonalizadaMinutos: reserva.duracionMinutos // Mantener duración actual
+                };
+
+                // Llamar API para actualizar
+                var res = await fetch(API + '/api/Reserva/' + idReserva, {
+                    method: 'PUT',
+                    headers: authHeaders(),
+                    body: JSON.stringify(datosActualizacion)
+                });
+
+                if (res.ok) {
+                    toast('Reserva actualizada exitosamente', 'success');
+                    await cargarDatos();
+                } else {
+                    var error = await res.json();
+                    toast(error.message || 'Error al actualizar la reserva', 'error');
+                }
+            } catch (err) {
+                console.error('Error al actualizar reserva:', err);
+                toast('Error al actualizar la reserva: ' + err.message, 'error');
+            } finally {
+                quitarIndicadoresDropZone();
+            }
+        }
+
+        // ═══════════════════════════════════════════
+        // REDIMENSIONAMIENTO DE RESERVAS
+        // ═══════════════════════════════════════════
+
+        var reservaRedimensionando = null;
+        var alturaInicial = 0;
+        var duracionInicial = 0;
+        var mouseYInicial = 0;
+
+        function iniciarRedimension(event, idReserva) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            var bloque = event.target.closest('.tl-block');
+            if (!bloque) return;
+
+            bloque.setAttribute('draggable', 'false');
+            bloque.classList.add('resizing');
+
+            var reserva = reservas.find(r => r.id === idReserva);
+            if (!reserva) return;
+
+            reservaRedimensionando = {
+                id: idReserva,
+                bloque: bloque,
+                reserva: reserva
+            };
+
+            alturaInicial = bloque.offsetHeight;
+            duracionInicial = reserva.duracionMinutos;
+            mouseYInicial = event.clientY;
+
+            document.addEventListener('mousemove', redimensionar);
+            document.addEventListener('mouseup', finalizarRedimension);
+        }
+
+        function redimensionar(event) {
+            if (!reservaRedimensionando) return;
+
+            var deltaY = event.clientY - mouseYInicial;
+            var ALTURA_HORA = 60;
+            var nuevaAltura = Math.max(30, alturaInicial + deltaY); // Mínimo 30 min (mitad de hora)
+
+            // Calcular nueva duración en incrementos de 30 minutos
+            var nuevaDuracion = Math.round((nuevaAltura / ALTURA_HORA) * 60 / 30) * 30;
+            nuevaDuracion = Math.max(30, nuevaDuracion); // Mínimo 30 minutos
+
+            // Actualizar visualmente
+            reservaRedimensionando.bloque.style.height = ((nuevaDuracion / 60) * ALTURA_HORA) + 'px';
+
+            // Actualizar etiqueta de hora fin
+            var horaInicio = reservaRedimensionando.bloque.dataset.horaInicio;
+            if (horaInicio) {
+                var partesHora = horaInicio.split(':');
+                var horaInicioDate = new Date();
+                horaInicioDate.setHours(parseInt(partesHora[0]), parseInt(partesHora[1]), 0);
+
+                var horaFinDate = new Date(horaInicioDate);
+                horaFinDate.setMinutes(horaFinDate.getMinutes() + nuevaDuracion);
+
+                var horaFinStr = String(horaFinDate.getHours()).padStart(2, '0') + ':' +
+                    String(horaFinDate.getMinutes()).padStart(2, '0');
+
+                var horaLabel = reservaRedimensionando.bloque.querySelector('.tl-hora');
+                if (horaLabel) {
+                    horaLabel.textContent = formatHora(horaInicio) + ' - ' + formatHora(horaFinStr + ':00');
+                }
+            }
+        }
+
+        async function finalizarRedimension(event) {
+            if (!reservaRedimensionando) return;
+
+            document.removeEventListener('mousemove', redimensionar);
+            document.removeEventListener('mouseup', finalizarRedimension);
+
+            var bloque = reservaRedimensionando.bloque;
+            bloque.setAttribute('draggable', 'true');
+            bloque.classList.remove('resizing');
+
+            var deltaY = event.clientY - mouseYInicial;
+            var ALTURA_HORA = 60;
+            var nuevaAltura = Math.max(30, alturaInicial + deltaY);
+            var nuevaDuracion = Math.round((nuevaAltura / ALTURA_HORA) * 60 / 30) * 30;
+            nuevaDuracion = Math.max(30, nuevaDuracion);
+
+            // Si la duración no cambió, no hacer nada
+            if (nuevaDuracion === duracionInicial) {
+                reservaRedimensionando = null;
+                return;
+            }
+
+            // Confirmar cambio
+            var reserva = reservaRedimensionando.reserva;
+            var durH = Math.floor(nuevaDuracion / 60);
+            var durM = nuevaDuracion % 60;
+            var durText = durH > 0 ? durH + 'h ' + (durM > 0 ? durM + 'm' : '') : durM + 'm';
+
+            var mensaje = '¿Cambiar duración de reserva de ' + reserva.nombreMascota + ' a ' + durText + '?';
+
+            if (!confirm(mensaje)) {
+                // Restaurar altura original
+                bloque.style.height = ((duracionInicial / 60) * ALTURA_HORA) + 'px';
+                var horaLabel = bloque.querySelector('.tl-hora');
+                if (horaLabel) {
+                    horaLabel.textContent = formatHora(reserva.horaInicio) + ' - ' + formatHora(reserva.horaFin);
+                }
+                reservaRedimensionando = null;
+                return;
+            }
+
+            // Actualizar duración
+            await actualizarDuracionReserva(reserva.id, nuevaDuracion);
+            reservaRedimensionando = null;
+        }
+
+        async function actualizarDuracionReserva(idReserva, nuevaDuracion) {
+            try {
+                var reserva = reservas.find(r => r.id === idReserva);
+                if (!reserva) throw new Error('Reserva no encontrada');
+
+                // Calcular nueva hora fin
+                var partesHora = reserva.horaInicio.split(':');
+                var horaInicioDate = new Date(reserva.fechaReserva);
+                horaInicioDate.setHours(parseInt(partesHora[0]), parseInt(partesHora[1]), 0);
+
+                var horaFinDate = new Date(horaInicioDate);
+                horaFinDate.setMinutes(horaFinDate.getMinutes() + nuevaDuracion);
+
+                var horaFin = String(horaFinDate.getHours()).padStart(2, '0') + ':' +
+                    String(horaFinDate.getMinutes()).padStart(2, '0');
+
+                // Obtener IDs de servicios
+                var idsServicios = [];
+                if (reserva.servicios && Array.isArray(reserva.servicios)) {
+                    idsServicios = reserva.servicios
+                        .map(s => s.idServicio || s.id)
+                        .filter(id => id !== undefined && id !== null);
+
+                    if (idsServicios.length === 0) {
+                        idsServicios = reserva.servicios
+                            .map(s => {
+                                var nombre = s.nombreServicio || s.nombre;
+                                var servicio = servicios.find(sv => sv.nombre === nombre);
+                                return servicio ? servicio.id : null;
+                            })
+                            .filter(id => id !== null);
+                    }
+                }
+
+                if (idsServicios.length === 0) {
+                    var servicioDefault = servicios.find(s => s.nombre === 'Baño Completo');
+                    if (servicioDefault) {
+                        idsServicios = [servicioDefault.id];
+                    }
+                }
+
+                // Preparar datos para actualizar con la nueva duración
+                var datosActualizacion = {
+                    idCliente: reserva.idCliente,
+                    idMascota: reserva.idMascota,
+                    idEmpleado: reserva.idEmpleado,
+                    fechaReserva: reserva.fechaReserva,
+                    horaInicio: reserva.horaInicio,
+                    idsServicios: idsServicios,
+                    detalles: reserva.detalles || '',
+                    duracionPersonalizadaMinutos: nuevaDuracion // Usar la nueva duración del resize
+                };
+
+                // Llamar API para actualizar
+                var res = await fetch(API + '/api/Reserva/' + idReserva, {
+                    method: 'PUT',
+                    headers: authHeaders(),
+                    body: JSON.stringify(datosActualizacion)
+                });
+
+                if (res.ok) {
+                    toast('Duración actualizada exitosamente', 'success');
+                    await cargarDatos();
+                } else {
+                    var error = await res.json();
+                    toast(error.message || 'Error al actualizar la duración', 'error');
+                    await cargarDatos(); // Recargar para restaurar estado correcto
+                }
+            } catch (err) {
+                console.error('Error al actualizar duración:', err);
+                toast('Error al actualizar la duración: ' + err.message, 'error');
+                await cargarDatos();
+            }
+        }
+
+        // ═══════════════════════════════════════════
+        // SISTEMA DE NOTIFICACIONES
+        // ═══════════════════════════════════════════
+
+        function agregarNotificacion(reserva) {
+            try {
+                console.log('🔔 Agregando notificación para reserva:', reserva);
+
+                // Obtener notificaciones existentes
+                var notificaciones = JSON.parse(localStorage.getItem('venuspos_notificaciones') || '[]');
+                console.log('📊 Notificaciones existentes:', notificaciones.length);
+
+                // Crear nueva notificación
+                var nuevaNotificacion = {
+                    id: Date.now(),
+                    tipo: 'reserva_nueva',
+                    titulo: 'Nueva Reserva Creada',
+                    mensaje: 'Reserva ' + (reserva.codigoReserva || '#' + reserva.id) + ' para ' + (reserva.nombreMascota || 'mascota'),
+                    fecha: new Date().toISOString(),
+                    leida: false,
+                    icono: '📅',
+                    datos: {
+                        idReserva: reserva.id,
+                        codigoReserva: reserva.codigoReserva,
+                        nombreMascota: reserva.nombreMascota,
+                        nombreCliente: reserva.nombreCliente,
+                        fechaReserva: reserva.fechaReserva,
+                        horaInicio: reserva.horaInicio
+                    }
+                };
+
+                console.log('📋 Nueva notificación creada:', nuevaNotificacion);
+
+                // Agregar al inicio del array
+                notificaciones.unshift(nuevaNotificacion);
+
+                // Mantener solo las últimas 50 notificaciones
+                if (notificaciones.length > 50) {
+                    notificaciones = notificaciones.slice(0, 50);
+                }
+
+                // Guardar en localStorage
+                localStorage.setItem('venuspos_notificaciones', JSON.stringify(notificaciones));
+                console.log('✅ Notificación guardada. Total de notificaciones:', notificaciones.length);
+
+                // Verificar que se guardó correctamente
+                var verificar = localStorage.getItem('venuspos_notificaciones');
+                console.log('✅ Verificación - Datos en localStorage:', verificar ? 'OK' : 'ERROR');
+
+            } catch (error) {
+                console.error('❌ Error al guardar notificación:', error);
+            }
+        }
+
+        // ═══════════════════════════════════════════
+        // SONIDO DE NOTIFICACIÓN
+        // ═══════════════════════════════════════════
+
+        // Variable global para el contexto de audio
+        var audioContextGlobal = null;
+
+        function inicializarAudio() {
+            if (!audioContextGlobal) {
+                try {
+                    audioContextGlobal = new (window.AudioContext || window.webkitAudioContext)();
+                    console.log('🔊 Contexto de audio inicializado');
+                } catch (error) {
+                    console.error('❌ Error al inicializar contexto de audio:', error);
+                }
+            }
+            return audioContextGlobal;
+        }
+
+        function reproducirSonidoNotificacion() {
+            try {
+                console.log('🔊 Reproduciendo sonido de notificación...');
+
+                var ctx = inicializarAudio();
+                if (!ctx) {
+                    console.error('❌ No se pudo inicializar el contexto de audio');
+                    return;
+                }
+
+                // Reanudar el contexto si está suspendido
+                if (ctx.state === 'suspended') {
+                    console.log('⚠️ Contexto suspendido, resumiendo...');
+                    ctx.resume().then(function() {
+                        console.log('✅ Contexto resumido');
+                        reproducirTonos(ctx);
+                    }).catch(function(error) {
+                        console.error('❌ Error al resumir contexto:', error);
+                    });
+                } else {
+                    reproducirTonos(ctx);
+                }
+
+            } catch (error) {
+                console.error('❌ Error al reproducir sonido:', error);
+            }
+        }
+
+        function reproducirTonos(ctx) {
+            try {
+                var now = ctx.currentTime;
+
+                // Primer tono - más alto
+                var osc1 = ctx.createOscillator();
+                var gain1 = ctx.createGain();
+
+                osc1.type = 'sine';
+                osc1.frequency.value = 800; // Frecuencia fija
+                osc1.connect(gain1);
+
+                gain1.gain.setValueAtTime(0.3, now);
+                gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                gain1.connect(ctx.destination);
+
+                osc1.start(now);
+                osc1.stop(now + 0.15);
+
+                // Segundo tono - un poco más bajo
+                var osc2 = ctx.createOscillator();
+                var gain2 = ctx.createGain();
+
+                osc2.type = 'sine';
+                osc2.frequency.value = 600;
+                osc2.connect(gain2);
+
+                gain2.gain.setValueAtTime(0.25, now + 0.1);
+                gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                gain2.connect(ctx.destination);
+
+                osc2.start(now + 0.1);
+                osc2.stop(now + 0.3);
+
+                console.log('✅ Sonido reproducido');
+
+            } catch (error) {
+                console.error('❌ Error al reproducir tonos:', error);
+            }
         }
 
         // ═══════════════════════════════════════════

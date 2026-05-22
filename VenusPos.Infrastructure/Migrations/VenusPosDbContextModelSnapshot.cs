@@ -163,6 +163,9 @@ namespace VenusPos.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Cargo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -186,6 +189,12 @@ namespace VenusPos.Infrastructure.Migrations
 
                     b.Property<string>("Imagen")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("InactivoDesde")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InactivoHasta")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -377,6 +386,49 @@ namespace VenusPos.Infrastructure.Migrations
                     b.HasIndex("IdEmpleado");
 
                     b.ToTable("MovimientosCaja");
+                });
+
+            modelBuilder.Entity("VenusPos.Domain.Entities.Notificacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaLectura")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Icono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("IdReserva")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Leida")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Mensaje")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdReserva");
+
+                    b.ToTable("Notificaciones");
                 });
 
             modelBuilder.Entity("VenusPos.Domain.Entities.Reserva", b =>
@@ -706,6 +758,16 @@ namespace VenusPos.Infrastructure.Migrations
                     b.Navigation("Caja");
 
                     b.Navigation("Empleado");
+                });
+
+            modelBuilder.Entity("VenusPos.Domain.Entities.Notificacion", b =>
+                {
+                    b.HasOne("VenusPos.Domain.Entities.Reserva", "Reserva")
+                        .WithMany()
+                        .HasForeignKey("IdReserva")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Reserva");
                 });
 
             modelBuilder.Entity("VenusPos.Domain.Entities.Reserva", b =>

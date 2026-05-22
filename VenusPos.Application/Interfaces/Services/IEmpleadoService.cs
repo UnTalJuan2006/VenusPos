@@ -13,5 +13,7 @@ namespace VenusPos.Application.Interfaces.Services
         Task<EmpleadoDTO> ActualizarAsync(int id, ActualizarEmpleadoDTO dto);
         Task<bool> EliminarAsync(int id);
         Task<string> LoginAsync(LoginEmpleadoDTO dto); // retorna JWT token
+        Task<EmpleadoDTO> InactivarAsync(int id, InactivarEmpleadoDTO dto);
+        Task<EmpleadoDTO> ReactivarAsync(int id);
     }
 }

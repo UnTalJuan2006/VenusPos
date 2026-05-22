@@ -277,6 +277,27 @@ namespace VenusPos.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<ServicioVendidoDTO>> ObtenerServiciosMasVendidosAsync(int top)
+        {
+            var serviciosVendidos = await _context.VentaDetalles
+                .Include(vd => vd.Servicio)
+                .Include(vd => vd.Venta)
+                .Where(vd => vd.Venta.Estado == "Confirmada") // Solo ventas confirmadas
+                .GroupBy(vd => new { vd.IdServicio, vd.Servicio.Nombre })
+                .Select(g => new ServicioVendidoDTO
+                {
+                    IdServicio = g.Key.IdServicio,
+                    NombreServicio = g.Key.Nombre ?? "Servicio",
+                    CantidadVendida = g.Sum(vd => vd.Cantidad),
+                    TotalIngresos = g.Sum(vd => vd.Subtotal)
+                })
+                .OrderByDescending(s => s.CantidadVendida)
+                .Take(top)
+                .ToListAsync();
+
+            return serviciosVendidos;
+        }
+
         private VentaDTO MapToDTO(Venta venta)
         {
             return new VentaDTO

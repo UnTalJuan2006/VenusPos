@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VenusMascotas — Empleados</title>
+    <link rel="icon" type="image/png" href="/img/logoVenus.png">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/Empleado.css" />
+    <link rel="stylesheet" href="/css/Empleado.css" />
 </head>
 <body>
 
@@ -21,11 +22,12 @@
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
                 <span class="sb-lbl">Dashboard</span>
             </a>
-            <a class="sb-item" href="#" data-tip="Reservas">
+            <a class="sb-item" href="Reservas.html" data-tip="Reservas">
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
-                <span class="sb-lbl">Reservas</span><span class="sb-badge">4</span>
+                <span class="sb-lbl">Reservas</span>
+                <span class="sb-badge" id="badgeReservas">0</span>
             </a>
-            <a class="sb-item" href="#" data-tip="Caja">
+            <a class="sb-item" href="Caja.html" data-tip="Caja">
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
                 <span class="sb-lbl">Caja</span>
             </a>
@@ -34,8 +36,14 @@
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
                 <span class="sb-lbl">Clientes</span>
             </a>
-            <a class="sb-item" href="#" data-tip="Mascotas">
-                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+            <a class="sb-item" href="Mascotas.html" data-tip="Mascotas">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 14c2.5 0 4 1.5 4 3s-1.5 3-4 3-4-1.5-4-3 1.5-3 4-3z" />
+                    <circle cx="7" cy="10" r="1.5" />
+                    <circle cx="11" cy="8" r="1.5" />
+                    <circle cx="15" cy="8" r="1.5" />
+                    <circle cx="17" cy="10" r="1.5" />
+                </svg>
                 <span class="sb-lbl">Mascotas</span>
             </a>
             <a class="sb-item active" href="Empleados.html" data-tip="Empleados">
@@ -46,13 +54,15 @@
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" /></svg>
                 <span class="sb-lbl">Servicios</span>
             </a>
-            <a class="sb-item" href="#" data-tip="Historial">
+            <a class="sb-item" href="HistorialClinico.html" data-tip="Historial">
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                 <span class="sb-lbl">Historial</span>
             </a>
-            <a class="sb-item" href="#" data-tip="Notificaciones">
-                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                <span class="sb-lbl">Notificaciones</span>
+            <a class="sb-item" href="#Productos" data-tip="Productos">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                <span class="sb-lbl">Productos</span>
             </a>
         </nav>
 
@@ -126,8 +136,11 @@
                     <div class="kpi-big-ico"><svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
                 </div>
                 <div class="kpi-big">
-                    <div><div class="kpi-big-lbl">Roles Diferentes</div><div class="kpi-big-val" id="statRoles">—</div></div>
-                    <div class="kpi-big-ico"><svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></div>
+                    <div>
+                        <div class="kpi-big-lbl">Próximo Colaborador a Cumplir</div>
+                        <div class="kpi-big-val" id="statProximoCumple" style="font-size: 16px; line-height: 1.3;">—</div>
+                    </div>
+                    <div class="kpi-big-ico"><svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.9)" stroke-width="1.8"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M8 2v2M16 2v2"/></svg></div>
                 </div>
             </div>
 
@@ -145,6 +158,31 @@
 
     <!-- Toast -->
     <div class="toast" id="toast"></div>
+
+    <!-- Modal Suspender Empleado -->
+    <div class="overlay" id="overlayInactivar">
+        <div class="modal" style="max-width: 500px;">
+            <div class="modal-hdr">
+                <h2 class="modal-ttl">Suspender Empleado Temporalmente</h2>
+                <button class="modal-close" onclick="cerrarModalInactivar()">✕</button>
+            </div>
+            <div style="padding: 20px; color: var(--text);">
+                <p style="margin-bottom: 20px;">Selecciona el período durante el cual <strong id="nombreEmpleadoSuspender"></strong> no podrá ser asignado a nuevas reservas.</p>
+                <div class="field full">
+                    <label>Suspender desde</label>
+                    <input type="datetime-local" id="fInactivoDesde" />
+                </div>
+                <div class="field full">
+                    <label>Suspender hasta</label>
+                    <input type="datetime-local" id="fInactivoHasta" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="cerrarModalInactivar()">Cancelar</button>
+                <button class="btn-save" id="btnSuspender" onclick="suspenderEmpleado()">Suspender</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Input file oculto -->
     <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none" onchange="handleImagenSeleccionada(this)" />
@@ -202,7 +240,7 @@
                         <option value="Groomer">Groomer</option>
                     </select>
                 </div>
-                <div class="field full">
+                <div class="field">
                     <label>Dirección</label>
                     <input type="text" id="fDireccion" placeholder="Calle 123 # 45-67" />
                 </div>
@@ -210,6 +248,13 @@
                     <label>Fecha de nacimiento</label>
                     <input type="date" id="fFechaNacimiento" />
                 </div>
+            </div>
+            <div class="field full">
+                <label>Estado</label>
+                <select id="fActivo">
+                    <option value="true">Activo</option>
+                    <option value="false">Inactivo</option>
+                </select>
             </div>
             <div class="modal-footer">
                 <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
@@ -225,6 +270,7 @@
         let editandoId = null;
         let imagenUrl = null;
         let subiendoImagen = false;
+        let empleadoSuspendiendo = null;
 
         function check() {
             if (!localStorage.getItem('token'))
@@ -413,9 +459,66 @@
 
         function actualizarStats() {
             document.getElementById('statTotal').textContent = empleados.length;
-            document.getElementById('statActivos').textContent = empleados.length;
-            const roles = new Set(empleados.map(e => e.cargo).filter(Boolean));
-            document.getElementById('statRoles').textContent = roles.size;
+
+            // Contar empleados activos (no permanentemente inactivos)
+            const activos = empleados.filter(e => e.activo).length;
+            document.getElementById('statActivos').textContent = activos;
+
+            // Calcular próximo empleado a cumplir años
+            const proximoCumple = calcularProximoCumpleaños();
+            const statProximoCumple = document.getElementById('statProximoCumple');
+
+            if (proximoCumple) {
+                const diasRestantes = proximoCumple.dias;
+                const textoTiempo = diasRestantes === 0 ? '¡Hoy!' :
+                                   diasRestantes === 1 ? 'Mañana' :
+                                   `En ${diasRestantes} días`;
+
+                statProximoCumple.innerHTML = `
+                    <div style="font-size: 14px; font-weight: 700; margin-bottom: 2px;">${proximoCumple.nombre}</div>
+                    <div style="font-size: 13px; opacity: 0.9;">${proximoCumple.fecha} • ${textoTiempo}</div>
+                `;
+            } else {
+                statProximoCumple.textContent = 'Sin datos';
+            }
+        }
+
+        function calcularProximoCumpleaños() {
+            if (!empleados.length) return null;
+
+            const hoy = new Date();
+            const añoActual = hoy.getFullYear();
+
+            // Calcular días hasta el próximo cumpleaños de cada empleado
+            const empleadosConDias = empleados.map(emp => {
+                if (!emp.fechaNacimiento) return null;
+
+                const fechaNac = new Date(emp.fechaNacimiento);
+                // Crear fecha de cumpleaños de este año
+                let proximoCumple = new Date(añoActual, fechaNac.getMonth(), fechaNac.getDate());
+
+                // Si ya pasó este año, usar el próximo año
+                if (proximoCumple < hoy) {
+                    proximoCumple = new Date(añoActual + 1, fechaNac.getMonth(), fechaNac.getDate());
+                }
+
+                // Calcular días de diferencia
+                const diffTime = proximoCumple - hoy;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                return {
+                    nombre: emp.nombre,
+                    fecha: proximoCumple.toLocaleDateString('es-CO', { day: 'numeric', month: 'short' }),
+                    dias: diffDays,
+                    fechaCompleta: proximoCumple
+                };
+            }).filter(e => e !== null);
+
+            if (!empleadosConDias.length) return null;
+
+            // Ordenar por días restantes y tomar el primero
+            empleadosConDias.sort((a, b) => a.dias - b.dias);
+            return empleadosConDias[0];
         }
 
         /* ── Filtro ── */
@@ -442,6 +545,48 @@
                 : i;
         }
 
+        /* ── Helpers estado empleado ── */
+        function estaInactivo(e) {
+            // Inactivación permanente
+            if (!e.activo) return true;
+
+            // Suspensión temporal
+            if (e.inactivoDesde && e.inactivoHasta) {
+                const ahora = new Date();
+                const desde = new Date(e.inactivoDesde);
+                const hasta = new Date(e.inactivoHasta);
+                return ahora >= desde && ahora <= hasta;
+            }
+
+            return false;
+        }
+
+        function estaSuspendidoTemporalmente(e) {
+            if (!e.activo) return false; // No es suspensión temporal, es permanente
+            if (!e.inactivoDesde || !e.inactivoHasta) return false;
+
+            const ahora = new Date();
+            const desde = new Date(e.inactivoDesde);
+            const hasta = new Date(e.inactivoHasta);
+            return ahora >= desde && ahora <= hasta;
+        }
+
+        function obtenerEstadoBadge(e) {
+            // Inactivación permanente
+            if (!e.activo) {
+                return `<div style="background:#FEE2E2; color:#991B1B; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; margin-top:8px;">🚫 Inactivo permanentemente</div>`;
+            }
+
+            // Suspensión temporal
+            if (estaSuspendidoTemporalmente(e)) {
+                const hasta = new Date(e.inactivoHasta);
+                const fechaHasta = hasta.toLocaleDateString('es-CO', { day: 'numeric', month: 'short' });
+                return `<div style="background:#FEF3C7; color:#92400E; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; margin-top:8px;">⏸ Suspendido hasta ${fechaHasta}</div>`;
+            }
+
+            return '';
+        }
+
         /* ── Render Cards ── */
         function renderCards() {
             const grid = document.getElementById('cardsGrid');
@@ -451,14 +596,50 @@
             }
             grid.innerHTML = filtrados.map(e => {
                 const fecha = e.fechaNacimiento ? new Date(e.fechaNacimiento).toLocaleDateString('es-CO') : '—';
+                const inactivo = estaInactivo(e);
+                const suspendidoTemp = estaSuspendidoTemporalmente(e);
+                const estadoBadge = obtenerEstadoBadge(e);
+
+                // Botón de suspensión solo para empleados activos
+                let botonSuspension = '';
+                if (!e.activo) {
+                    // Si está inactivo permanentemente, no mostrar botón de suspensión
+                    botonSuspension = '';
+                } else if (suspendidoTemp) {
+                    // Si está suspendido temporalmente, mostrar botón de reactivación
+                    botonSuspension = `<button class="card-btn" onclick="reactivarEmpleado(${e.id},'${e.nombre.replace(/'/g, "\\'")}')">
+                         <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                         Reactivar
+                       </button>`;
+                } else {
+                    // Si está activo, mostrar botón de suspensión
+                    botonSuspension = `<button class="card-btn" onclick="abrirModalSuspender(${e.id},'${e.nombre.replace(/'/g, "\\'")}')">
+                         <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                         Suspender
+                       </button>`;
+                }
+
+                // Estilos según estado
+                let cardStyle = '';
+                let dotStyle = '';
+                if (!e.activo) {
+                    // Inactivo permanente: borde rojo
+                    cardStyle = 'opacity:0.6; border:2px solid #FCA5A5;';
+                    dotStyle = 'background:#EF4444;';
+                } else if (suspendidoTemp) {
+                    // Suspendido temporal: borde amarillo
+                    cardStyle = 'border:2px solid #FCD34D;';
+                    dotStyle = 'background:#F59E0B;';
+                }
+
                 return `
-              <div class="emp-card">
+              <div class="emp-card" style="${cardStyle}">
                 <div class="emp-card-top">
                   <div class="emp-avatar-wrap">
                     <div class="emp-avatar">
                       ${avatarCard(e)}
                     </div>
-                    <span class="emp-status-dot"></span>
+                    <span class="emp-status-dot" style="${dotStyle}"></span>
                   </div>
                   <div class="emp-info">
                     <div class="emp-name">${e.nombre}</div>
@@ -478,19 +659,19 @@
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
                     <span>Desde ${fecha}</span>
                   </div>
+                  ${estadoBadge}
                 </div>
                 <div class="emp-card-footer">
                   <button class="card-btn" onclick="abrirModalEditar(${e.id})">
                     <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                     Editar
                   </button>
+                  ${botonSuspension}
                   <button class="card-btn danger" onclick="eliminar(${e.id},'${e.nombre.replace(/'/g, "\\'")}')">
                     <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                     Eliminar
                   </button>
-                  <button class="card-btn-icon" title="Enviar correo" onclick="window.location='mailto:${e.email}'">
-                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                  </button>
+               
                 </div>
               </div>`;
             }).join('');
@@ -519,6 +700,7 @@
             document.getElementById('fCargo').value = e.cargo || '';
             document.getElementById('fDireccion').value = e.direccion || '';
             document.getElementById('fFechaNacimiento').value = e.fechaNacimiento ? e.fechaNacimiento.substring(0, 10) : '';
+            document.getElementById('fActivo').value = e.activo ? 'true' : 'false';
 
             const prev = document.getElementById('imgPreview');
             if (e.imagen) {
@@ -544,6 +726,7 @@
             ['fNombre', 'fEmail', 'fPassword', 'fTelefono', 'fDireccion', 'fFechaNacimiento']
                 .forEach(id => document.getElementById(id).value = '');
             document.getElementById('fCargo').value = '';
+            document.getElementById('fActivo').value = 'true';
             imagenUrl = null;
             document.getElementById('imgPreview').innerHTML = `<span id="imgIni">?</span>`;
             document.getElementById('imgRemove').style.display = 'none';
@@ -574,7 +757,8 @@
                             cargo: document.getElementById('fCargo').value,
                             direccion: document.getElementById('fDireccion').value.trim(),
                             fechaNacimiento: document.getElementById('fFechaNacimiento').value || null,
-                            imagen: imagenUrl
+                            imagen: imagenUrl,
+                            activo: document.getElementById('fActivo').value === 'true'
                         })
                     });
                 } else {
@@ -586,7 +770,8 @@
                             cargo: document.getElementById('fCargo').value,
                             direccion: document.getElementById('fDireccion').value.trim(),
                             fechaNacimiento: document.getElementById('fFechaNacimiento').value || null,
-                            imagen: imagenUrl
+                            imagen: imagenUrl,
+                            activo: document.getElementById('fActivo').value === 'true'
                         })
                     });
                 }
@@ -612,6 +797,103 @@
         document.getElementById('overlay').addEventListener('click', e => {
             if (e.target === e.currentTarget) cerrarModal();
         });
+
+        document.getElementById('overlayInactivar').addEventListener('click', e => {
+            if (e.target === e.currentTarget) cerrarModalInactivar();
+        });
+
+        /* ── Modal suspender empleado ── */
+        function abrirModalSuspender(id, nombre) {
+            empleadoSuspendiendo = id;
+            document.getElementById('nombreEmpleadoSuspender').textContent = nombre;
+            // Establecer fechas por defecto: desde hoy hasta dentro de 7 días
+            const ahora = new Date();
+            const dentroDeUnaSemana = new Date(ahora.getTime() + 7 * 24 * 60 * 60 * 1000);
+            document.getElementById('fInactivoDesde').value = formatDateTimeLocal(ahora);
+            document.getElementById('fInactivoHasta').value = formatDateTimeLocal(dentroDeUnaSemana);
+            document.getElementById('overlayInactivar').classList.add('open');
+        }
+
+        function cerrarModalInactivar() {
+            document.getElementById('overlayInactivar').classList.remove('open');
+            empleadoSuspendiendo = null;
+        }
+
+        function formatDateTimeLocal(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+
+        async function suspenderEmpleado() {
+            if (!empleadoSuspendiendo) return;
+            const btn = document.getElementById('btnSuspender');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Suspendiendo...';
+
+            try {
+                const desde = document.getElementById('fInactivoDesde').value;
+                const hasta = document.getElementById('fInactivoHasta').value;
+
+                if (!desde || !hasta) {
+                    toast('Debes seleccionar ambas fechas', 'error');
+                    return;
+                }
+
+                if (new Date(desde) >= new Date(hasta)) {
+                    toast('La fecha inicial debe ser anterior a la fecha final', 'error');
+                    return;
+                }
+
+                const res = await fetch(`${API}/api/Empleado/inactivar/${empleadoSuspendiendo}`, {
+                    method: 'PUT',
+                    headers: headers(),
+                    body: JSON.stringify({
+                        activo: true,
+                        inactivoDesde: desde,
+                        inactivoHasta: hasta
+                    })
+                });
+
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.message || 'Error al suspender empleado');
+                }
+
+                cerrarModalInactivar();
+                toast('✓ Empleado suspendido temporalmente');
+                await cargarEmpleados();
+            } catch (err) {
+                toast(err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Suspender';
+            }
+        }
+
+        async function reactivarEmpleado(id, nombre) {
+            if (!confirm(`¿Reactivar a ${nombre}?`)) return;
+
+            try {
+                const res = await fetch(`${API}/api/Empleado/reactivar/${id}`, {
+                    method: 'PUT',
+                    headers: headers()
+                });
+
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.message || 'Error al reactivar empleado');
+                }
+
+                toast(`✓ ${nombre} ha sido reactivado`);
+                await cargarEmpleados();
+            } catch (err) {
+                toast(err.message, 'error');
+            }
+        }
 
         cargarEmpleados();
     </script>

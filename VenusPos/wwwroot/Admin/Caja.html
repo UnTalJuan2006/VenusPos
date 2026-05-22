@@ -1,18 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VenusMascotas - Caja</title>
+    <link rel="icon" type="image/png" href="/img/logoVenus.png">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/ClienteAdmin.css" />
-    <link rel="stylesheet" href="../css/Caja.css" />
+    <link rel="stylesheet" href="/css/ClienteAdmin.css" />
+    <link rel="stylesheet" href="/css/Caja.css" />
 </head>
 <body>
 
-    <!-- SIDEBAR -->  
-
+    <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
         <div class="sb-brand">
             <div class="sb-logo">
@@ -58,7 +57,11 @@
             </a>
             <a class="sb-item" href="Mascotas.html" data-tip="Mascotas">
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                    <path d="M12 14c2.5 0 4 1.5 4 3s-1.5 3-4 3-4-1.5-4-3 1.5-3 4-3z" />
+                    <circle cx="7" cy="10" r="1.5" />
+                    <circle cx="11" cy="8" r="1.5" />
+                    <circle cx="15" cy="8" r="1.5" />
+                    <circle cx="17" cy="10" r="1.5" />
                 </svg>
                 <span class="sb-lbl">Mascotas</span>
             </a>
@@ -81,7 +84,13 @@
                 </svg>
                 <span class="sb-lbl">Historial</span>
             </a>
-        </nav>
+            <a class="sb-item" href="#Productos" data-tip="Productos">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                <span class="sb-lbl">Productos</span>
+            </a>
+        </nav> 
         <div class="sb-bottom">
             <button class="sb-collapse-btn" onclick="toggleSidebar()">
                 <div class="sb-collapse-ico">
@@ -99,7 +108,7 @@
         <header class="topbar">
             <div class="tb-left">
                 <div class="tb-sect">Finanzas</div>
-                <h2>Gestión de Caja</h2>
+                <h2>Caja</h2>
                 <p id="fechaHoy"></p>
             </div>
             <div class="tb-right">
@@ -123,9 +132,7 @@
                             <span class="tb-pname" id="tbName">Admin</span>
                             <span class="tb-prole" id="tbRole">Administrador</span>
                         </div>
-                        <svg class="tb-chev" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path d="M6 9l6 6 6-6" />
-                        </svg>
+                        <svg class="tb-chev" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6" /></svg>
                     </div>
                     <div class="tb-dropdown" id="tbDrop">
                         <div class="dd-top">
@@ -133,17 +140,12 @@
                             <div class="dd-email" id="ddEmail"></div>
                         </div>
                         <a href="/" class="dd-item">
-                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                                <polyline points="9 22 9 12 15 12 15 22" />
-                            </svg>
+                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
                             Ir al sitio web
                         </a>
                         <div class="dd-sep"></div>
                         <div class="dd-item red" onclick="logout()">
-                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>
+                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                             Cerrar Sesión
                         </div>
                     </div>
@@ -153,30 +155,32 @@
 
         <div class="content">
 
-            <!-- Acciones principales -->
-            <div class="caja-header" id="cajaHeader">
+            <!-- Header de Caja + Botones -->
+            <div class="caja-header">
                 <div>
-                    <h1>Control de Caja</h1>
+                    <h1>Gestion de Caja</h1>
                     <p id="empleadoCaja">No hay caja abierta</p>
                 </div>
-                <div class="caja-actions" id="cajaActions">
-                    <button class="btn-primary" id="btnAbrirCaja" onclick="abrirModalAbrirCaja()" style="display:none">
+                <div style="display:flex;gap:10px;align-items:center">
+                    <button class="btn-primary" onclick="abrirModalRegistrarVenta()" style="background:#0891B2">
                         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path d="M12 5v14M5 12h14" />
+                            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                         </svg>
+                        Registrar Venta
+                    </button>
+                    <button class="btn-primary" id="btnAbrirCaja" onclick="abrirModalAbrirCaja()" style="display:none">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14" /></svg>
                         Abrir Caja
                     </button>
                     <button class="btn-danger" id="btnCerrarCaja" onclick="abrirModalCerrarCaja()" style="display:none">
-                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 18L18 6M6 6l12 12" /></svg>
                         Cerrar Caja
                     </button>
                 </div>
             </div>
 
-            <!-- KPIs de Caja -->
-            <div class="stats-grid" id="statsGrid">
+            <!-- KPIs Principales -->
+            <div class="stats-grid">
                 <div class="kpi-card total">
                     <div class="kpi-icon">
                         <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -184,7 +188,7 @@
                         </svg>
                     </div>
                     <div>
-                        <div class="kpi-label">Total Ventas</div>
+                        <div class="kpi-label">Total Ventas (Hoy)</div>
                         <div class="kpi-value" id="totalVentas">$0</div>
                     </div>
                 </div>
@@ -210,6 +214,10 @@
                         <div class="kpi-value" id="totalTarjeta">$0</div>
                     </div>
                 </div>
+            </div>
+
+            <!-- KPIs Secundarios -->
+            <div class="stats-grid">
                 <div class="kpi-card transferencia">
                     <div class="kpi-icon">
                         <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -219,6 +227,28 @@
                     <div>
                         <div class="kpi-label">Transferencia</div>
                         <div class="kpi-value" id="totalTransferencia">$0</div>
+                    </div>
+                </div>
+                <div class="kpi-card total">
+                    <div class="kpi-icon">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="kpi-label">Total Cajas Registradas</div>
+                        <div class="kpi-value" id="statTotalCajas">0</div>
+                    </div>
+                </div>
+                <div class="kpi-card efectivo">
+                    <div class="kpi-icon">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="kpi-label">Total Ventas Registradas</div>
+                        <div class="kpi-value" id="statTotalVentas">0</div>
                     </div>
                 </div>
             </div>
@@ -257,31 +287,154 @@
                             </tr>
                         </thead>
                         <tbody id="ventasTableBody">
-                            <tr>
-                                <td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">
-                                    No hay ventas registradas
-                                </td>
-                            </tr>
+                            <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">No hay ventas registradas</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-        </div>
-    </div>
+            <!-- ══ PANEL CON TABS: Cajas + Ventas ══ -->
+            <div class="tablas-panel">
 
+                <!-- Tab bar -->
+                <div class="tab-bar">
+                    <button class="tab-btn active" onclick="switchTab('tab-cajas', this)">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                        Cajas
+                        <span class="tab-count" id="tabCountCajas">0</span>
+                        <span id="countCajas" style="display:none">0</span>
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('tab-ventas', this)">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                        Ventas
+                        <span class="tab-count" id="tabCountVentas">0</span>
+                        <span id="countTodasVentas" style="display:none">0</span>
+                    </button>
+                </div>
+
+                <!-- Tab: Cajas -->
+                <div class="tab-pane active" id="tab-cajas">
+                    <!-- Filtros cajas -->
+                    <div class="panel-filtros">
+                        <div style="flex:1;max-width:280px">
+                            <label>Filtrar por Empleado</label>
+                            <select id="filtroCajaEmpleado" class="form-inp">
+                                <option value="">Todos los empleados</option>
+                            </select>
+                        </div>
+                        <div style="display:flex;gap:8px;align-items:flex-end">
+                            <button onclick="aplicarFiltrosCajas()" class="btn-primary" style="padding:10px 18px;font-size:13px">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
+                                Filtrar
+                            </button>
+                            <button onclick="limpiarFiltrosCajas()" class="btn-sec" style="padding:10px 18px;font-size:13px">Limpiar</button>
+                        </div>
+                    </div>
+                    <!-- Tabla cajas -->
+                    <div class="tabla-wrapper">
+                        <table class="data-table" id="cajasTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Empleado</th>
+                                    <th>Fecha Apertura</th>
+                                    <th>Fecha Cierre</th>
+                                    <th>Monto Apertura</th>
+                                    <th>Total Efectivo</th>
+                                    <th>Total Tarjeta</th>
+                                    <th>Total Transferencia</th>
+                                    <th>Monto Cierre</th>
+                                    <th>Faltante</th>
+                                    <th>Sobrante</th>
+                                    <th>Observaciones</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cajasTableBody">
+                                <tr><td colspan="13" style="text-align:center;padding:40px;color:var(--muted)">Cargando registro de cajas...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="paginationCajas" style="display:none">
+                        <div class="pag-info" id="pagInfoCajas"></div>
+                        <div class="pag-btns" id="pagBtnsCajas"></div>
+                    </div>
+                </div>
+
+                <!-- Tab: Ventas -->
+                <div class="tab-pane" id="tab-ventas">
+                    <!-- Filtros ventas -->
+                    <div class="panel-filtros">
+                        <div style="flex:1;min-width:160px">
+                            <label>Desde</label>
+                            <input type="date" id="filtroVentaFechaDesde" class="form-inp">
+                        </div>
+                        <div style="flex:1;min-width:160px">
+                            <label>Hasta</label>
+                            <input type="date" id="filtroVentaFechaHasta" class="form-inp">
+                        </div>
+                        <div style="flex:1;min-width:160px">
+                            <label>Método de Pago</label>
+                            <select id="filtroVentaMetodoPago" class="form-inp">
+                                <option value="">Todos los métodos</option>
+                                <option value="Efectivo">Efectivo</option>
+                                <option value="Tarjeta">Tarjeta</option>
+                                <option value="Transferencia">Transferencia</option>
+                                <option value="PSE">PSE</option>
+                            </select>
+                        </div>
+                        <div style="display:flex;gap:8px;align-items:flex-end">
+                            <button onclick="aplicarFiltrosVentas()" class="btn-primary" style="padding:10px 18px;font-size:13px">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
+                                Filtrar
+                            </button>
+                            <button onclick="limpiarFiltrosVentas()" class="btn-sec" style="padding:10px 18px;font-size:13px">Limpiar</button>
+                        </div>
+                    </div>
+                    <!-- Tabla ventas -->
+                    <div class="tabla-wrapper">
+                        <table class="data-table" id="todasVentasTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>ID Reserva</th>
+                                    <th>Fecha</th>
+                                    <th>Empleado</th>
+                                    <th>Servicios</th>
+                                    <th>Método Pago</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="todasVentasTableBody">
+                                <tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted)">Cargando historial de ventas...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="paginationVentas" style="display:none">
+                        <div class="pag-info" id="pagInfoVentas"></div>
+                        <div class="pag-btns" id="pagBtnsVentas"></div>
+                    </div>
+                </div>
+
+            </div><!-- /tablas-panel -->
+
+        </div><!-- /content -->
+    </div><!-- /main -->
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
     <!-- Modal Abrir Caja -->
-    <div class="modal-overlay" id="modalAbrirCaja" style="display:none" onclick="cerrarModal(event, 'modalAbrirCaja')">
+    <div class="modal-overlay" id="modalAbrirCaja" style="display:none" onclick="cerrarModal(event,'modalAbrirCaja')">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-hdr">
                 <h3 class="modal-ttl">Abrir Caja</h3>
-                <button class="modal-close" onclick="cerrarModal(null, 'modalAbrirCaja')">
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                <button class="modal-close" onclick="cerrarModal(null,'modalAbrirCaja')">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
             </div>
             <form id="formAbrirCaja" onsubmit="abrirCaja(event)">
@@ -297,7 +450,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-sec" onclick="cerrarModal(null, 'modalAbrirCaja')">Cancelar</button>
+                    <button type="button" class="btn-sec" onclick="cerrarModal(null,'modalAbrirCaja')">Cancelar</button>
                     <button type="submit" class="btn-primary">Abrir Caja</button>
                 </div>
             </form>
@@ -305,32 +458,21 @@
     </div>
 
     <!-- Modal Cerrar Caja -->
-    <div class="modal-overlay" id="modalCerrarCaja" style="display:none" onclick="cerrarModal(event, 'modalCerrarCaja')">
+    <div class="modal-overlay" id="modalCerrarCaja" style="display:none" onclick="cerrarModal(event,'modalCerrarCaja')">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-hdr">
                 <h3 class="modal-ttl">Cerrar Caja</h3>
-                <button class="modal-close" onclick="cerrarModal(null, 'modalCerrarCaja')">
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                <button class="modal-close" onclick="cerrarModal(null,'modalCerrarCaja')">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
             </div>
             <form id="formCerrarCaja" onsubmit="cerrarCaja(event)">
                 <div class="modal-body">
                     <div class="resumen-cierre">
                         <h4>Resumen del Día</h4>
-                        <div class="resumen-row">
-                            <span>Monto Apertura:</span>
-                            <strong id="resumenApertura">$0</strong>
-                        </div>
-                        <div class="resumen-row">
-                            <span>Total Efectivo:</span>
-                            <strong id="resumenEfectivo">$0</strong>
-                        </div>
-                        <div class="resumen-row total">
-                            <span>Monto Esperado:</span>
-                            <strong id="resumenEsperado">$0</strong>
-                        </div>
+                        <div class="resumen-row"><span>Monto Apertura:</span><strong id="resumenApertura">$0</strong></div>
+                        <div class="resumen-row"><span>Total Efectivo:</span><strong id="resumenEfectivo">$0</strong></div>
+                        <div class="resumen-row total"><span>Monto Esperado:</span><strong id="resumenEsperado">$0</strong></div>
                     </div>
                     <div class="form-group">
                         <label class="form-lbl">Monto Real Contado *</label>
@@ -347,14 +489,122 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-sec" onclick="cerrarModal(null, 'modalCerrarCaja')">Cancelar</button>
+                    <button type="button" class="btn-sec" onclick="cerrarModal(null,'modalCerrarCaja')">Cancelar</button>
                     <button type="submit" class="btn-danger">Cerrar Caja</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script src="../js/Caja.js"></script>
+    <!-- Modal Registrar Venta -->
+    <div class="modal-overlay" id="modalRegistrarVenta" style="display:none" onclick="cerrarModal(event,'modalRegistrarVenta')">
+        <div class="modal" onclick="event.stopPropagation()" style="max-width:600px">
+            <div class="modal-hdr">
+                <h3 class="modal-ttl">Registrar Venta desde Reserva</h3>
+                <button class="modal-close" onclick="cerrarModal(null,'modalRegistrarVenta')">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <form id="formRegistrarVenta" onsubmit="registrarVentaDesdeReserva(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-lbl">Seleccionar Reserva *</label>
+                        <select class="form-inp" id="selectReservaVenta" required onchange="cargarDetallesReserva()">
+                            <option value="">Cargando reservas...</option>
+                        </select>
+                        <small class="form-hint">Solo se muestran reservas confirmadas sin venta registrada</small>
+                    </div>
+
+                    <!-- Detalles de la reserva seleccionada -->
+                    <div id="detallesReservaVenta" style="display:none; background:var(--bg); border:1.5px solid var(--border); border-radius:12px; padding:16px; margin-bottom:16px;">
+                        <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px;">Detalles de la Reserva</div>
+                        <div style="display:grid; gap:8px; font-size:13px;">
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:var(--muted);">Cliente:</span>
+                                <strong id="detalleCliente">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:var(--muted);">Mascota:</span>
+                                <strong id="detalleMascota">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:var(--muted);">Fecha:</span>
+                                <strong id="detalleFecha">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="color:var(--muted);">Servicios:</span>
+                                <strong id="detalleServicios">-</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; padding-top:8px; border-top:1.5px solid var(--border); margin-top:4px;">
+                                <span style="font-weight:700; color:var(--text);">Total:</span>
+                                <strong id="detalleTotal" style="font-size:18px; color:var(--purple);">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-lbl">Método de Pago *</label>
+                        <select class="form-inp" id="metodoPagoVenta" required>
+                            <option value="">Seleccionar método</option>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Transferencia">Transferencia</option>
+                            <option value="PSE">PSE</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-lbl">Descuento (opcional)</label>
+                        <input type="number" class="form-inp" id="descuentoVenta" min="0" step="0.01" value="0" placeholder="0.00">
+                        <small class="form-hint">Descuento adicional a aplicar a la venta</small>
+                    </div>
+
+                    <div style="background:#FEF3C7; border:1.5px solid #FCD34D; border-radius:10px; padding:12px; margin-top:16px;">
+                        <div style="display:flex; gap:10px; align-items:flex-start;">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#D97706" stroke-width="2" style="flex-shrink:0;">
+                                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div style="font-size:12px; color:#92400E; line-height:1.5;">
+                                La venta se creará en estado <strong>Pendiente</strong>. Deberás confirmarla manualmente desde la sección de "Ventas Pendientes" para que se registre en la caja.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-sec" onclick="cerrarModal(null,'modalRegistrarVenta')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Registrar Venta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/Caja.js?v=2.1"></script>
+
+    <!-- Tab switching + sync contadores -->
+    <script>
+        function switchTab(paneId, btn) {
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(paneId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // Sincronizar contadores: cuando Caja.js actualice countCajas/countTodasVentas
+        // los reflejamos en los tab-count visibles
+        const countObserver = new MutationObserver(() => {
+            const cEl = document.getElementById('countCajas');
+            const vEl = document.getElementById('countTodasVentas');
+            if (cEl) document.getElementById('tabCountCajas').textContent = cEl.textContent;
+            if (vEl) document.getElementById('tabCountVentas').textContent = vEl.textContent;
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cajasEl = document.getElementById('countCajas');
+            const ventasEl = document.getElementById('countTodasVentas');
+            if (cajasEl) countObserver.observe(cajasEl, { childList: true, characterData: true, subtree: true });
+            if (ventasEl) countObserver.observe(ventasEl, { childList: true, characterData: true, subtree: true });
+        });
+    </script>
 
 </body>
 </html>

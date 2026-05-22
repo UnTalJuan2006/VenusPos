@@ -18,7 +18,7 @@ namespace VenusPos.Controllers
 
         // GET /api/venta
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> ObtenerTodas()
             => Ok(await _ventaService.ObtenerTodasAsync());
 
@@ -33,7 +33,7 @@ namespace VenusPos.Controllers
 
         // GET /api/venta/caja/{idCaja}
         [HttpGet("caja/{idCaja:int}")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> ObtenerPorCaja(int idCaja)
             => Ok(await _ventaService.ObtenerPorCajaAsync(idCaja));
 
@@ -50,6 +50,15 @@ namespace VenusPos.Controllers
         {
             var venta = await _ventaService.ObtenerPorReservaAsync(idReserva);
             return venta is null ? NotFound() : Ok(venta);
+        }
+
+        // GET /api/venta/servicios-mas-vendidos?top=10
+        [HttpGet("servicios-mas-vendidos")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ObtenerServiciosMasVendidos([FromQuery] int top = 10)
+        {
+            var servicios = await _ventaService.ObtenerServiciosMasVendidosAsync(top);
+            return Ok(servicios);
         }
 
         // POST /api/venta

@@ -17,5 +17,6 @@ namespace VenusPos.Application.Interfaces.Repositories
         Task<VentaDTO> RegistrarVentaAsync(RegistrarVentaDTO venta);
         Task<VentaDTO> ConfirmarVentaAsync(int id);
         Task ActualizarVentaAsync(int id, ActualizarVentaDTO venta);
+        Task<IEnumerable<ServicioVendidoDTO>> ObtenerServiciosMasVendidosAsync(int top);
     }
 }

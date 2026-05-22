@@ -38,7 +38,7 @@ namespace VenusPos.Application.Services.Empleado
             if (await _repo.ExisteEmailAsync(dto.Email))
                 throw new InvalidOperationException("El email ya está registrado.");
 
-            var empleado = new Domain.Entities.Empleado   // ✅ corregido
+            var empleado = new Domain.Entities.Empleado  
             {
                 Nombre = dto.Nombre,
                 Email = dto.Email,
@@ -48,7 +48,9 @@ namespace VenusPos.Application.Services.Empleado
                 Cargo = dto.Cargo,
                 FechaNacimiento = dto.FechaNacimiento,
                 FechaCreacion = DateTime.UtcNow,
-                Imagen = dto.Imagen
+                Imagen = dto.Imagen,
+                Activo = dto.Activo
+           
             };
 
             var creado = await _repo.CrearAsync(empleado);
@@ -67,6 +69,7 @@ namespace VenusPos.Application.Services.Empleado
             empleado.FechaNacimiento = dto.FechaNacimiento;
             empleado.Imagen = dto.Imagen;
             empleado.FechaActualizacion = DateTime.UtcNow;
+            empleado.Activo = dto.Activo; 
 
             var actualizado = await _repo.ActualizarAsync(empleado);
             return MapToDTO(actualizado);
@@ -77,6 +80,35 @@ namespace VenusPos.Application.Services.Empleado
             if (await _repo.ObtenerPorIdAsync(id) is null)
                 throw new KeyNotFoundException("Empleado no encontrado.");
             return await _repo.EliminarAsync(id);
+        }
+
+        public async Task<EmpleadoDTO> InactivarAsync(int id, InactivarEmpleadoDTO dto)
+        {
+            var empleado = await _repo.ObtenerPorIdAsync(id)
+                ?? throw new KeyNotFoundException("Empleado no encontrado.");
+
+            // Para suspensión temporal, NO cambiar el campo Activo
+            // Solo establecer las fechas de suspensión
+            empleado.InactivoDesde = dto.InactivoDesde;
+            empleado.InactivoHasta = dto.InactivoHasta;
+            empleado.FechaActualizacion = DateTime.UtcNow;
+
+            var actualizado = await _repo.ActualizarAsync(empleado);
+            return MapToDTO(actualizado);
+        }
+
+        public async Task<EmpleadoDTO> ReactivarAsync(int id)
+        {
+            var empleado = await _repo.ObtenerPorIdAsync(id)
+                ?? throw new KeyNotFoundException("Empleado no encontrado.");
+
+            empleado.Activo = true;
+            empleado.InactivoDesde = default;
+            empleado.InactivoHasta = default;
+            empleado.FechaActualizacion = DateTime.UtcNow;
+
+            var actualizado = await _repo.ActualizarAsync(empleado);
+            return MapToDTO(actualizado);
         }
 
         public async Task<string> LoginAsync(LoginEmpleadoDTO dto)
@@ -114,6 +146,7 @@ namespace VenusPos.Application.Services.Empleado
                 new Claim(ClaimTypes.Email,          empleado.Email),
                 new Claim(ClaimTypes.Name,           empleado.Nombre),
                 new Claim(ClaimTypes.Role,           empleado.Cargo),
+                
             };
 
             var token = new JwtSecurityToken(
@@ -126,7 +159,7 @@ namespace VenusPos.Application.Services.Empleado
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private static EmpleadoDTO MapToDTO(Domain.Entities.Empleado e) => new()  
+        private static EmpleadoDTO MapToDTO(Domain.Entities.Empleado e) => new()
         {
             Id = e.Id,
             Nombre = e.Nombre,
@@ -136,7 +169,10 @@ namespace VenusPos.Application.Services.Empleado
             Cargo = e.Cargo,
             FechaNacimiento = e.FechaNacimiento,
             FechaCreacion = e.FechaCreacion,
-            Imagen = e.Imagen
+            Imagen = e.Imagen,
+            Activo = e.Activo,
+            InactivoDesde = e.InactivoDesde,
+            InactivoHasta = e.InactivoHasta
         };
     }
 }

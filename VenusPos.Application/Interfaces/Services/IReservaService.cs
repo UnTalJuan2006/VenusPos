@@ -13,6 +13,7 @@ namespace VenusPos.Application.Interfaces.Services
         Task<IEnumerable<ReservaDTO>> ObtenerPorMascotaAsync(int idMascota);
         Task<ReservaDTO> CrearReservaAsync(CrearReservaDTO dto);
         Task<ReservaDTO> ActualizarEstadoAsync(int id, ActualizarEstadoReservaDTO dto);
+        Task<ReservaDTO> ActualizarReservaAsync(int id, ActualizarReservaDTO dto);
         Task<bool> CancelarReservaAsync(int id);
 
         // Disponibilidad
@@ -24,5 +25,8 @@ namespace VenusPos.Application.Interfaces.Services
 
         // Confirmación
         Task<ReservaDTO> ConfirmarReservaAsync(int id);
+
+        // Consultas especiales
+        Task<IEnumerable<ReservaDTO>> ObtenerReservasSinVentaAsync();
     }
 }

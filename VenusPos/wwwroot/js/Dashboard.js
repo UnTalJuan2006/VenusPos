@@ -10,6 +10,20 @@ const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', '
 const HORAS_HEATMAP = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 const DIAS_SEMANA = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 
+// Configuración de caché
+const CACHE_KEYS = {
+    CLIENTES: 'venus_cache_clientes',
+    MASCOTAS: 'venus_cache_mascotas',
+    RESERVAS: 'venus_cache_reservas',
+    VENTAS: 'venus_cache_ventas',
+    EMPLEADOS: 'venus_cache_empleados',
+    SERVICIOS: 'venus_cache_servicios',
+    TIMESTAMP: 'venus_cache_timestamp'
+};
+
+const CACHE_DURATION = 3 * 60 * 1000; // 3 minutos
+const BACKGROUND_REFRESH = 30 * 1000; // 30 segundos para actualizaciones en background
+
 // Variables globales
 let dark = false;
 let uName = 'Admin';
@@ -146,7 +160,40 @@ function getRandomColor(index) {
     return colors[index % colors.length];
 }
 
-// ── API CALLS ───────────────────────────────────────────────────────
+// ── SISTEMA DE CACHÉ ───────────────────────────────────────────────
+
+function getCachedData(key) {
+    try {
+        const cached = localStorage.getItem(key);
+        return cached ? JSON.parse(cached) : null;
+    } catch (error) {
+        console.error(`Error reading cache ${key}:`, error);
+        return null;
+    }
+}
+
+function setCachedData(key, data) {
+    try {
+        localStorage.setItem(key, JSON.stringify(data));
+    } catch (error) {
+        console.error(`Error writing cache ${key}:`, error);
+    }
+}
+
+function isCacheValid() {
+    const timestamp = localStorage.getItem(CACHE_KEYS.TIMESTAMP);
+    if (!timestamp) return false;
+
+    const now = Date.now();
+    const cacheAge = now - parseInt(timestamp, 10);
+    return cacheAge < CACHE_DURATION;
+}
+
+function updateCacheTimestamp() {
+    localStorage.setItem(CACHE_KEYS.TIMESTAMP, Date.now().toString());
+}
+
+// ── API CALLS CON CACHÉ ─────────────────────────────────────────────
 
 async function apiGet(endpoint) {
     try {
@@ -162,6 +209,43 @@ async function apiGet(endpoint) {
         console.error(`Error fetching ${endpoint}:`, error);
         return null;
     }
+}
+
+async function apiGetWithCache(endpoint, cacheKey) {
+    // Intentar cargar desde caché primero
+    const cached = getCachedData(cacheKey);
+
+    // Si hay caché válida, usarla
+    if (cached && isCacheValid()) {
+        console.log(`✓ Usando caché para ${endpoint}`);
+
+        // Actualizar en background si el caché tiene más de 30 segundos
+        const timestamp = localStorage.getItem(CACHE_KEYS.TIMESTAMP);
+        const cacheAge = Date.now() - parseInt(timestamp, 10);
+
+        if (cacheAge > BACKGROUND_REFRESH) {
+            console.log(`🔄 Actualizando ${endpoint} en background...`);
+            apiGet(endpoint).then(data => {
+                if (data) {
+                    setCachedData(cacheKey, data);
+                    updateCacheTimestamp();
+                }
+            });
+        }
+
+        return cached;
+    }
+
+    // Si no hay caché válida, hacer petición
+    console.log(`🌐 Cargando ${endpoint} desde API...`);
+    const data = await apiGet(endpoint);
+
+    if (data) {
+        setCachedData(cacheKey, data);
+        updateCacheTimestamp();
+    }
+
+    return data;
 }
 
 // ── DATOS DEL DASHBOARD ─────────────────────────────────────────────
@@ -198,17 +282,28 @@ let dashboardData = {
 
 // ── CARGAR DATOS DESDE API ─────────────────────────────────────────
 
-async function cargarDashboard() {
+async function cargarDashboard(forzarRecarga = false) {
     try {
-        // Cargar todos los datos en paralelo
-        const [clientes, mascotas, reservas, cajaAbierta, ventas, empleados, servicios] = await Promise.all([
-            apiGet('/Cliente'),
-            apiGet('/Mascota'),
-            apiGet('/Reserva'),
-            apiGet('/Caja/abierta'),
-            apiGet('/Venta'),
-            apiGet('/Empleado'),
-            apiGet('/Servicio')
+        // Mostrar indicador de carga si es forzado
+        if (forzarRecarga) {
+            mostrarIndicadorCarga(true);
+        }
+
+        // Si forzamos recarga, limpiar caché
+        if (forzarRecarga) {
+            limpiarCache();
+        }
+
+        // Cargar datos con sistema de caché inteligente
+        const [clientes, mascotas, reservas, cajaAbierta, ventas, empleados, servicios, serviciosVendidos] = await Promise.all([
+            apiGetWithCache('/Cliente', CACHE_KEYS.CLIENTES),
+            apiGetWithCache('/Mascota', CACHE_KEYS.MASCOTAS),
+            apiGetWithCache('/Reserva', CACHE_KEYS.RESERVAS),
+            apiGet('/Caja/abierta'), // No cachear la caja, siempre actualizada
+            apiGetWithCache('/Venta', CACHE_KEYS.VENTAS),
+            apiGetWithCache('/Empleado', CACHE_KEYS.EMPLEADOS),
+            apiGetWithCache('/Servicio', CACHE_KEYS.SERVICIOS),
+            apiGet('/Venta/servicios-mas-vendidos?top=5') // No cachear estadísticas dinámicas
         ]);
 
         // ── MÉTRICAS BÁSICAS ────────────────────────────────────
@@ -222,18 +317,52 @@ async function cargarDashboard() {
 
         // ── RESERVAS DEL DÍA ────────────────────────────────────
         if (reservas) {
-            const hoyStr = hoy.toISOString().split('T')[0];
-            const reservasDelDia = reservas.filter(r => r.fecha?.startsWith(hoyStr));
-            dashboardData.metricas.reservasDia = reservasDelDia.length;
+            // Obtener fecha local en formato YYYY-MM-DD (corregido para zona horaria local)
+            const hoyLocal = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+            const hoyStr = `${hoyLocal.getFullYear()}-${String(hoyLocal.getMonth() + 1).padStart(2, '0')}-${String(hoyLocal.getDate()).padStart(2, '0')}`;
 
-            // Procesar agenda (primeras 6 reservas del día)
-            dashboardData.agenda = procesarAgenda(reservasDelDia.slice(0, 6), clientes, mascotas, servicios);
+            console.log('📅 Fecha de hoy (Local):', hoyStr);
+            console.log('📅 Total de reservas:', reservas.length);
+
+            const reservasDelDia = reservas.filter(r => {
+                // Usar FechaReserva en lugar de fecha
+                if (!r.fechaReserva) {
+                    console.log('⚠️ Reserva sin fechaReserva:', r);
+                    return false;
+                }
+
+                // Obtener solo la parte de fecha (YYYY-MM-DD)
+                const fechaReserva = r.fechaReserva.split('T')[0];
+                const coincide = fechaReserva === hoyStr;
+
+                if (coincide) {
+                    console.log('✅ Reserva del día encontrada:', r.id, 'Fecha:', fechaReserva);
+                }
+
+                return coincide;
+            });
+
+            dashboardData.metricas.reservasDia = reservasDelDia.length;
+            console.log('✅ Reservas del día:', reservasDelDia.length, 'de un total de', reservas.length);
+
+            if (reservasDelDia.length > 0) {
+                console.log('📋 Reservas del día:', reservasDelDia);
+            }
+
+            // Procesar agenda (TODAS las reservas del día actual)
+            dashboardData.agenda = procesarAgenda(reservasDelDia, clientes, mascotas, servicios, empleados);
+            console.log('✅ Agenda procesada:', dashboardData.agenda.length, 'reservas del día actual');
 
             // Actualizar badges
-            const pendientes = reservasDelDia.filter(r => r.estado === 0);
-            document.getElementById('badgeReservas').textContent = pendientes.length;
-            document.getElementById('reservasHoy').textContent = reservasDelDia.length;
-            document.getElementById('reservasPendientes').innerHTML = `<strong>${pendientes.length} pendientes</strong>`;
+            // Estado es string: "Pendiente", "Confirmada", "EnCurso", "Completada", "Cancelada"
+            const pendientes = reservasDelDia.filter(r => r.estado === 'Pendiente');
+            const badgeEl = document.getElementById('badgeReservas');
+            const reservasHoyEl = document.getElementById('reservasHoy');
+            const reservasPendientesEl = document.getElementById('reservasPendientes');
+
+            if (badgeEl) badgeEl.textContent = pendientes.length;
+            if (reservasHoyEl) reservasHoyEl.textContent = reservasDelDia.length;
+            if (reservasPendientesEl) reservasPendientesEl.innerHTML = `<strong>${pendientes.length} pendiente${pendientes.length !== 1 ? 's' : ''}</strong>`;
 
             // Generar heatmap con reservas reales
             dashboardData.heatmap = generarHeatmapDesdeReservas(reservas);
@@ -244,17 +373,32 @@ async function cargarDashboard() {
 
         // ── VENTAS E INGRESOS ───────────────────────────────────
         if (ventas) {
-            const hoyStr = hoy.toISOString().split('T')[0];
-            const ventasDelDia = ventas.filter(v => v.fecha?.startsWith(hoyStr) && v.estado === 1);
+            const hoyLocal = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+            const hoyStr = `${hoyLocal.getFullYear()}-${String(hoyLocal.getMonth() + 1).padStart(2, '0')}-${String(hoyLocal.getDate()).padStart(2, '0')}`;
+            const ventasDelDia = ventas.filter(v => {
+                const fechaVenta = (v.fechaVenta || v.fecha);
+                return fechaVenta?.startsWith(hoyStr) && (v.estado === 1 || v.estado === 'Confirmada');
+            });
 
             // Ingresos del día
             dashboardData.metricas.ingresosDia = ventasDelDia.reduce((sum, v) => sum + (v.total || 0), 0);
+            console.log('✅ Ingresos del día:', formatCurrency(dashboardData.metricas.ingresosDia), 'de', ventasDelDia.length, 'ventas');
 
             // Ingresos de la semana (últimos 7 días)
             dashboardData.ingresos = calcularIngresosSemana(ventas);
 
-            // Servicios ranking
-            dashboardData.serviciosRanking = calcularRankingServicios(reservas, servicios, ventas);
+            // Servicios ranking (rendimiento de servicios) - Usar datos del endpoint
+            if (serviciosVendidos && serviciosVendidos.length > 0) {
+                dashboardData.serviciosRanking = serviciosVendidos.map(sv => ({
+                    nombre: sv.nombreServicio,
+                    cantidad: sv.cantidadVendida,
+                    ingresos: sv.totalIngresos
+                }));
+                console.log('✅ Servicios Ranking cargados desde API:', dashboardData.serviciosRanking);
+            } else {
+                dashboardData.serviciosRanking = [];
+                console.log('⚠️ No hay servicios vendidos disponibles');
+            }
 
             // Top clientes (por mascota)
             if (clientes && mascotas) {
@@ -309,7 +453,7 @@ async function cargarDashboard() {
         }
 
         // ── ACTIVIDADES RECIENTES ───────────────────────────────
-        dashboardData.actividades = generarActividadesRecientes(reservas, ventas, clientes, mascotas, cajaAbierta);
+        dashboardData.actividades = generarActividadesRecientes(reservas, ventas, clientes, mascotas, cajaAbierta, empleados, servicios);
 
         // Renderizar todo
         renderMetricas();
@@ -322,6 +466,9 @@ async function cargarDashboard() {
         renderAgenda();
         renderEquipo();
         renderActividades();
+
+        // Ocultar indicador de carga
+        mostrarIndicadorCarga(false);
 
     } catch (error) {
         console.error('Error cargando dashboard:', error);
@@ -336,6 +483,36 @@ async function cargarDashboard() {
         renderAgenda();
         renderEquipo();
         renderActividades();
+
+        mostrarIndicadorCarga(false);
+    }
+}
+
+// ── UTILIDADES DE CACHÉ ────────────────────────────────────────────
+
+function limpiarCache() {
+    console.log('🗑️ Limpiando caché...');
+    Object.values(CACHE_KEYS).forEach(key => {
+        localStorage.removeItem(key);
+    });
+}
+
+function mostrarIndicadorCarga(mostrar) {
+    const statusEl = document.getElementById('cajaStatus');
+    if (!statusEl) return;
+
+    if (mostrar) {
+        const originalHTML = statusEl.innerHTML;
+        statusEl.dataset.original = originalHTML;
+        statusEl.innerHTML = '<div class="live-dot" style="animation: pulse 1.5s infinite;"></div>Actualizando...';
+        statusEl.style.background = '#EFF6FF';
+        statusEl.style.borderColor = '#BFDBFE';
+        statusEl.style.color = '#1E40AF';
+    } else {
+        if (statusEl.dataset.original) {
+            // No restaurar, dejar que se actualice naturalmente
+            delete statusEl.dataset.original;
+        }
     }
 }
 
@@ -343,40 +520,68 @@ async function cargarDashboard() {
 
 // ── PROCESAMIENTO DE DATOS DESDE API ───────────────────────────────
 
-function procesarAgenda(reservasDelDia, clientes, mascotas, servicios) {
-    if (!reservasDelDia || reservasDelDia.length === 0) return [];
+function procesarAgenda(reservasDelDia, clientes, mascotas, servicios, empleados) {
+    if (!reservasDelDia || reservasDelDia.length === 0) {
+        console.log('⚠️ No hay reservas del día para procesar agenda');
+        return [];
+    }
 
-    return reservasDelDia
-        .sort((a, b) => new Date(a.fecha) - new Date(b.fecha)) // Ordenar por hora
+    console.log('📋 Procesando agenda con', reservasDelDia.length, 'reservas');
+
+    const agendaItems = reservasDelDia
+        .sort((a, b) => {
+            // Ordenar por HoraInicio
+            const horaA = a.horaInicio || '00:00:00';
+            const horaB = b.horaInicio || '00:00:00';
+            return horaA.localeCompare(horaB);
+        })
         .map(reserva => {
-            const mascota = mascotas?.find(m => m.id === reserva.idMascota);
-            const servicio = servicios?.find(s => s.id === reserva.idServicio);
+            // La reserva ya tiene los datos incluidos en el DTO
+            const nombreMascota = reserva.nombreMascota || 'Mascota';
+            const raza = reserva.razaMascota || 'Raza';
+            const nombreEmpleado = reserva.nombreEmpleado || 'Sin asignar';
 
-            const nombreMascota = mascota?.nombre || 'Mascota';
-            const raza = mascota?.raza || 'Raza';
-            const nombreServicio = servicio?.nombre || 'Servicio';
+            // Los servicios vienen en la lista Servicios
+            const serviciosNombres = reserva.servicios && reserva.servicios.length > 0
+                ? reserva.servicios.map(s => s.nombre || s.nombreServicio).join(', ')
+                : 'Servicio';
 
-            const hora = reserva.fecha ? new Date(reserva.fecha).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }) : '00:00';
+            // Formatear hora desde HoraInicio (formato TimeOnly "HH:mm:ss")
+            const hora = reserva.horaInicio
+                ? reserva.horaInicio.substring(0, 5) // Tomar solo HH:mm
+                : '00:00';
 
+            // Estado es string: "Pendiente", "Confirmada", "EnCurso", "Completada", "Cancelada"
             let estadoTexto = 'pendiente';
-            if (reserva.estado === 1) estadoTexto = 'confirmada';
-            else if (reserva.estado === 2) estadoTexto = 'en-curso';
-            else if (reserva.estado === 3) estadoTexto = 'completada';
+            if (reserva.estado === 'Confirmada') estadoTexto = 'confirmada';
+            else if (reserva.estado === 'EnCurso') estadoTexto = 'en-curso';
+            else if (reserva.estado === 'Completada') estadoTexto = 'completada';
+            else if (reserva.estado === 'Cancelada') estadoTexto = 'cancelada';
 
             return {
                 hora: hora,
                 cliente: `${nombreMascota} - ${raza}`,
-                servicio: nombreServicio,
+                servicio: serviciosNombres,
+                groomer: nombreEmpleado,
                 estado: estadoTexto
             };
         });
+
+    console.log('✅ Items de agenda procesados:', agendaItems);
+    return agendaItems;
 }
 
 function generarHeatmapDesdeReservas(reservas) {
+    if (!reservas || reservas.length === 0) {
+        console.log('No hay reservas para generar heatmap');
+        return [];
+    }
+
     const data = [];
     const ahora = new Date();
     const inicioSemana = new Date(ahora);
     inicioSemana.setDate(ahora.getDate() - ahora.getDay() + 1); // Lunes de esta semana
+    inicioSemana.setHours(0, 0, 0, 0);
 
     // Inicializar matriz 7 días x 11 horas
     for (let d = 0; d < 7; d++) {
@@ -385,55 +590,72 @@ function generarHeatmapDesdeReservas(reservas) {
         }
     }
 
-    // Contar reservas por día y hora
-    reservas.forEach(reserva => {
-        if (!reserva.fecha) return;
+    console.log('Generando heatmap desde', inicioSemana, 'con', reservas.length, 'reservas');
 
-        const fechaReserva = new Date(reserva.fecha);
+    // Contar reservas por día y hora
+    let contadas = 0;
+    reservas.forEach(reserva => {
+        if (!reserva.fechaReserva) return;
+
+        const fechaReserva = new Date(reserva.fechaReserva);
         const diffDias = Math.floor((fechaReserva - inicioSemana) / (1000 * 60 * 60 * 24));
 
         if (diffDias >= 0 && diffDias < 7) {
-            const hora = fechaReserva.getHours();
+            // Obtener la hora desde horaInicio (formato "HH:mm:ss")
+            let hora = 0;
+            if (reserva.horaInicio) {
+                const horaStr = reserva.horaInicio.split(':')[0];
+                hora = parseInt(horaStr, 10);
+            }
             const horaIndex = hora - 8; // 8:00 es índice 0
 
             if (horaIndex >= 0 && horaIndex < HORAS_HEATMAP.length) {
                 const cell = data.find(c => c.dia === diffDias && c.hora === horaIndex);
-                if (cell) cell.cantidad++;
+                if (cell) {
+                    cell.cantidad++;
+                    contadas++;
+                }
             }
         }
     });
 
+    console.log('Heatmap generado:', contadas, 'reservas contadas');
     return data;
 }
 
 function calcularServiciosSolicitados(reservas, servicios) {
-    if (!servicios || !reservas || reservas.length === 0) {
+    if (!reservas || reservas.length === 0) {
         return [];
     }
 
     const conteo = {};
-    let totalReservas = 0;
+    let totalServicios = 0;
 
-    // Contar reservas por servicio
+    // Contar servicios en todas las reservas
     reservas.forEach(reserva => {
-        const idServicio = reserva.idServicio;
-        if (idServicio) {
-            conteo[idServicio] = (conteo[idServicio] || 0) + 1;
-            totalReservas++;
+        // Cada reserva tiene una lista de servicios
+        if (reserva.servicios && reserva.servicios.length > 0) {
+            reserva.servicios.forEach(servicio => {
+                const nombreServicio = servicio.nombre || servicio.nombreServicio || 'Servicio';
+                if (!conteo[nombreServicio]) {
+                    conteo[nombreServicio] = 0;
+                }
+                conteo[nombreServicio]++;
+                totalServicios++;
+            });
         }
     });
 
-    // Si no hay reservas con servicios, retornar vacío
-    if (totalReservas === 0) return [];
+    // Si no hay servicios, retornar vacío
+    if (totalServicios === 0) return [];
 
     // Convertir a array y ordenar
     const resultado = Object.entries(conteo)
-        .map(([idServicio, cantidad]) => {
-            const servicio = servicios.find(s => s.id == idServicio);
+        .map(([nombre, cantidad]) => {
             return {
-                nombre: servicio?.nombre || 'Servicio',
+                nombre: nombre,
                 cantidad: cantidad,
-                total: totalReservas
+                total: totalServicios
             };
         })
         .sort((a, b) => b.cantidad - a.cantidad)
@@ -480,11 +702,14 @@ function calcularIngresosSemana(ventas) {
 
     // Sumar ventas confirmadas por día
     ventas.forEach(venta => {
-        // Solo ventas confirmadas (estado 1)
+        // Solo ventas confirmadas (estado 1 o "Confirmada")
         if (venta.estado !== 1 && venta.estado !== 'Confirmada') return;
 
-        const fechaVenta = venta.fecha?.split('T')[0];
-        if (!fechaVenta) return;
+        // Usar fechaVenta en lugar de fecha
+        const fechaVentaCompleta = venta.fechaVenta || venta.fecha;
+        if (!fechaVentaCompleta) return;
+
+        const fechaVenta = fechaVentaCompleta.split('T')[0];
 
         const dia = diasSemana.find(d => d.fecha === fechaVenta);
         if (dia) {
@@ -493,7 +718,8 @@ function calcularIngresosSemana(ventas) {
         }
 
         // Sumar por método de pago (solo del día actual)
-        const hoyStr = ahora.toISOString().split('T')[0];
+        const hoyLocal = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate());
+        const hoyStr = `${hoyLocal.getFullYear()}-${String(hoyLocal.getMonth() + 1).padStart(2, '0')}-${String(hoyLocal.getDate()).padStart(2, '0')}`;
         if (fechaVenta === hoyStr) {
             const metodoPago = venta.metodoPago;
 
@@ -511,44 +737,46 @@ function calcularIngresosSemana(ventas) {
     return resultado;
 }
 
-function calcularRankingServicios(reservas, servicios, ventas) {
-    if (!servicios || !ventas || ventas.length === 0) {
+function calcularRankingServicios(reservas, servicios) {
+    // SIMPLIFICADO: Solo contar cuántas veces se eligió cada servicio
+    if (!servicios || servicios.length === 0) {
+        console.log('⚠️ No hay servicios disponibles');
         return [];
     }
 
-    const ranking = {};
+    if (!reservas || reservas.length === 0) {
+        console.log('⚠️ No hay reservas disponibles para ranking');
+        return [];
+    }
 
-    // Iterar sobre ventas confirmadas
-    ventas.forEach(venta => {
-        if (venta.estado !== 1 && venta.estado !== 'Confirmada') return;
+    const conteoServicios = {};
 
-        // Encontrar la reserva asociada
-        const reserva = reservas?.find(r => r.id === venta.idReserva);
-        if (!reserva || !reserva.idServicio) return;
-
-        const idServicio = reserva.idServicio;
-
-        if (!ranking[idServicio]) {
-            ranking[idServicio] = { cantidad: 0, ingresos: 0 };
+    // Contar cuántas veces se eligió cada servicio en las reservas
+    reservas.forEach(reserva => {
+        if (reserva.idServicio) {
+            if (!conteoServicios[reserva.idServicio]) {
+                conteoServicios[reserva.idServicio] = 0;
+            }
+            conteoServicios[reserva.idServicio]++;
         }
-
-        ranking[idServicio].cantidad++;
-        ranking[idServicio].ingresos += venta.total || 0;
     });
 
-    // Convertir a array y ordenar por ingresos
-    const resultado = Object.entries(ranking)
-        .map(([idServicio, datos]) => {
+    console.log('📊 Conteo de servicios:', conteoServicios);
+
+    // Convertir a array y ordenar por cantidad
+    const resultado = Object.entries(conteoServicios)
+        .map(([idServicio, cantidad]) => {
             const servicio = servicios.find(s => s.id == idServicio);
             return {
                 nombre: servicio?.nombre || 'Servicio',
-                cantidad: datos.cantidad,
-                ingresos: datos.ingresos
+                cantidad: cantidad,
+                ingresos: 0 // No mostrar ingresos, solo cantidad
             };
         })
-        .sort((a, b) => b.ingresos - a.ingresos)
+        .sort((a, b) => b.cantidad - a.cantidad)
         .slice(0, 5);
 
+    console.log('✅ Ranking de servicios:', resultado);
     return resultado;
 }
 
@@ -592,7 +820,8 @@ function procesarUltimasVentas(ventas, reservas, mascotas) {
     return ventas.map(venta => {
         const reserva = reservas?.find(r => r.id === venta.idReserva);
         const mascota = mascotas?.find(m => m.id === reserva?.idMascota);
-        const hora = venta.fecha ? new Date(venta.fecha).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }) : '--:--';
+        const fechaVenta = venta.fechaVenta || venta.fecha;
+        const hora = fechaVenta ? new Date(fechaVenta).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }) : '--:--';
 
         let descripcion = 'Venta directa';
         if (reserva && mascota) {
@@ -610,18 +839,26 @@ function procesarUltimasVentas(ventas, reservas, mascotas) {
 }
 
 function calcularRendimientoEquipo(empleados, reservas, ventas) {
-    if (!empleados || empleados.length === 0) return [];
+    if (!empleados || empleados.length === 0) {
+        console.log('⚠️ No hay empleados disponibles');
+        return [];
+    }
 
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
-    const hoyStr = hoy.toISOString().split('T')[0];
+    const hoyLocal = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+    const hoyStr = `${hoyLocal.getFullYear()}-${String(hoyLocal.getMonth() + 1).padStart(2, '0')}-${String(hoyLocal.getDate()).padStart(2, '0')}`;
+    console.log('📅 Calculando rendimiento de equipo para:', hoyStr);
 
     // Calcular el máximo de reservas del día entre todos los empleados
     let maxReservasHoy = 0;
 
     const empleadosData = empleados.map(empleado => {
         const reservasEmpleado = reservas?.filter(r => r.idEmpleado === empleado.id) || [];
-        const reservasHoy = reservasEmpleado.filter(r => r.fecha?.startsWith(hoyStr));
+        const reservasHoy = reservasEmpleado.filter(r => {
+            if (!r.fechaReserva) return false;
+            return r.fechaReserva.startsWith(hoyStr);
+        });
 
         if (reservasHoy.length > maxReservasHoy) {
             maxReservasHoy = reservasHoy.length;
@@ -634,20 +871,24 @@ function calcularRendimientoEquipo(empleados, reservas, ventas) {
 
         const ingresosHoy = ventas?.filter(v => {
             const reserva = reservas?.find(r => r.id === v.idReserva);
+            const fechaVenta = v.fechaVenta || v.fecha;
             return reserva?.idEmpleado === empleado.id &&
-                   v.fecha?.startsWith(hoyStr) &&
+                   fechaVenta?.startsWith(hoyStr) &&
                    (v.estado === 1 || v.estado === 'Confirmada');
         }).reduce((sum, v) => sum + (v.total || 0), 0) || 0;
 
         let estado = 'disponible';
-        const tieneReservaEnCurso = reservasHoy.some(r => r.estado === 2);
-        const tieneReservasPendientes = reservasHoy.some(r => r.estado === 0 || r.estado === 1);
+        // Estado es string: "Pendiente", "Confirmada", "EnCurso", "Completada", "Cancelada"
+        const tieneReservaEnCurso = reservasHoy.some(r => r.estado === 'EnCurso');
+        const tieneReservasPendientes = reservasHoy.some(r => r.estado === 'Pendiente' || r.estado === 'Confirmada');
 
         if (tieneReservaEnCurso) {
             estado = 'ocupado';
         } else if (tieneReservasPendientes) {
             estado = 'servicio';
         }
+
+        console.log(`👤 ${empleado.nombre}: ${reservasHoy.length} reservas hoy, ${formatCurrency(ingresosHoy)} ingresos, estado: ${estado}`);
 
         return {
             nombre: empleado.nombre || 'Empleado',
@@ -668,67 +909,176 @@ function calcularRendimientoEquipo(empleados, reservas, ventas) {
         emp.porcentaje = maxParaPorcentaje > 0 ? Math.min(100, (emp.reservasHoy / maxParaPorcentaje) * 100) : 0;
     });
 
+    console.log('✅ Rendimiento de equipo calculado:', empleadosData.length, 'empleados');
+
     // Ordenar por número de reservas del día (más ocupados primero)
     return empleadosData
         .sort((a, b) => b.reservasHoy - a.reservasHoy)
         .slice(0, 4);
 }
 
-function generarActividadesRecientes(reservas, ventas, clientes, mascotas, cajaAbierta) {
+function generarActividadesRecientes(reservas, ventas, clientes, mascotas, cajaAbierta, empleados, servicios) {
     const actividades = [];
+    const ahora = new Date();
+    const hace24Horas = new Date(ahora.getTime() - (24 * 60 * 60 * 1000)); // 24 horas atrás
+    const hace3Dias = new Date(ahora.getTime() - (3 * 24 * 60 * 60 * 1000)); // 3 días atrás (fallback)
 
-    // Últimas 3 reservas
-    if (reservas) {
-        const ultimasReservas = [...reservas]
-            .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-            .slice(0, 2);
+    // Función auxiliar para verificar si una fecha es reciente
+    const esReciente = (fecha, usarFallback = false) => {
+        if (!fecha) return false;
+        const fechaObj = new Date(fecha);
+        const limite = usarFallback ? hace3Dias : hace24Horas;
+        return fechaObj >= limite;
+    };
 
-        ultimasReservas.forEach(reserva => {
-            const mascota = mascotas?.find(m => m.id === reserva.idMascota);
-            const cliente = clientes?.find(c => c.id === reserva.idCliente);
-            const hora = new Date(reserva.fecha).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+    // Agregar reservas recientes
+    if (reservas && reservas.length > 0) {
+        const reservasRecientes = reservas
+            .filter(r => r.fechaReserva && esReciente(r.fechaReserva, true))
+            .sort((a, b) => new Date(b.fechaReserva) - new Date(a.fechaReserva))
+            .slice(0, 5);
+
+        reservasRecientes.forEach(reserva => {
+            const nombreMascota = reserva.nombreMascota || 'Mascota';
+            const nombreCliente = reserva.nombreCliente || 'Cliente';
+
+            // Los servicios vienen en la lista
+            const serviciosNombres = reserva.servicios && reserva.servicios.length > 0
+                ? reserva.servicios.map(s => s.nombre || s.nombreServicio).join(', ')
+                : 'Servicio';
+
+            const fecha = new Date(reserva.fechaReserva);
+
+            // Estado es string
+            let estadoTexto = reserva.estado || 'Pendiente';
+
+            // Crear timestamp combinando fecha + hora
+            const horaInicio = reserva.horaInicio || '00:00:00';
+            const [horas, minutos] = horaInicio.split(':');
+            const timestampFecha = new Date(reserva.fechaReserva);
+            timestampFecha.setHours(parseInt(horas, 10), parseInt(minutos, 10));
 
             actividades.push({
                 tipo: 'reserva',
-                titulo: `Nueva reserva - ${mascota?.nombre || 'Mascota'}`,
-                desc: `${cliente?.nombre || 'Cliente'} · ${mascota?.raza || 'Raza'}`,
-                hora: hora
+                titulo: `Reserva ${estadoTexto.toLowerCase()} - ${nombreMascota}`,
+                desc: `${nombreCliente} · ${serviciosNombres}`,
+                hora: horaInicio.substring(0, 5),
+                timestamp: timestampFecha.getTime()
             });
         });
     }
 
-    // Últimas 2 ventas
-    if (ventas) {
-        const ultimasVentas = [...ventas]
-            .filter(v => v.estado === 1)
-            .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-            .slice(0, 2);
+    // Agregar ventas/pagos recientes
+    if (ventas && ventas.length > 0) {
+        const ventasRecientes = ventas
+            .filter(v => {
+                const fechaVenta = v.fechaVenta || v.fecha;
+                return (v.estado === 1 || v.estado === 'Confirmada') &&
+                       fechaVenta &&
+                       esReciente(fechaVenta, true);
+            })
+            .sort((a, b) => {
+                const fechaA = new Date(a.fechaVenta || a.fecha);
+                const fechaB = new Date(b.fechaVenta || b.fecha);
+                return fechaB - fechaA;
+            })
+            .slice(0, 5);
 
-        ultimasVentas.forEach(venta => {
-            const hora = new Date(venta.fecha).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
-            const metodoPago = venta.metodoPago === 0 ? 'Efectivo' : venta.metodoPago === 1 ? 'Tarjeta' : 'Transferencia';
+        ventasRecientes.forEach(venta => {
+            const fecha = new Date(venta.fechaVenta || venta.fecha);
+            let metodoPago = 'Efectivo';
+            if (venta.metodoPago === 1 || venta.metodoPago === 'Tarjeta') metodoPago = 'Tarjeta';
+            else if (venta.metodoPago === 2 || venta.metodoPago === 'Transferencia') metodoPago = 'Transferencia';
 
             actividades.push({
                 tipo: 'pago',
                 titulo: `Pago recibido - ${formatCurrency(venta.total)}`,
-                desc: `${metodoPago}`,
-                hora: hora
+                desc: `Método: ${metodoPago}`,
+                hora: fecha.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }),
+                timestamp: fecha.getTime()
             });
         });
     }
 
-    // Caja abierta
-    if (cajaAbierta) {
-        const horaApertura = new Date(cajaAbierta.fechaApertura).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
-        actividades.push({
-            tipo: 'caja',
-            titulo: 'Caja abierta',
-            desc: `Monto inicial: ${formatCurrency(cajaAbierta.montoInicial || 0)}`,
-            hora: horaApertura
+    // Agregar caja abierta (si se abrió hoy)
+    if (cajaAbierta && cajaAbierta.fechaApertura) {
+        const fechaApertura = new Date(cajaAbierta.fechaApertura);
+        if (esReciente(cajaAbierta.fechaApertura, true)) {
+            actividades.push({
+                tipo: 'caja',
+                titulo: 'Caja abierta',
+                desc: `Monto inicial: ${formatCurrency(cajaAbierta.montoApertura || 0)}`,
+                hora: fechaApertura.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }),
+                timestamp: fechaApertura.getTime()
+            });
+        }
+    }
+
+    // Agregar clientes nuevos (solo de los últimos 3 días)
+    if (clientes && clientes.length > 0) {
+        const clientesRecientes = clientes
+            .filter(c => {
+                const fecha = c.fechaRegistro || c.fechaCreacion;
+                return fecha && esReciente(fecha, true);
+            })
+            .sort((a, b) => {
+                const fechaA = new Date(a.fechaRegistro || a.fechaCreacion);
+                const fechaB = new Date(b.fechaRegistro || b.fechaCreacion);
+                return fechaB - fechaA;
+            })
+            .slice(0, 3);
+
+        clientesRecientes.forEach(cliente => {
+            const fecha = new Date(cliente.fechaRegistro || cliente.fechaCreacion);
+            const hora = fecha.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+
+            actividades.push({
+                tipo: 'cliente',
+                titulo: `Cliente registrado - ${cliente.nombre}`,
+                desc: `${cliente.telefono || 'Sin teléfono'}`,
+                hora: hora,
+                timestamp: fecha.getTime()
+            });
         });
     }
 
-    return actividades.slice(0, 5);
+    // Agregar mascotas nuevas (solo de los últimos 3 días)
+    if (mascotas && mascotas.length > 0) {
+        const mascotasRecientes = mascotas
+            .filter(m => {
+                const fecha = m.fechaRegistro || m.fechaCreacion;
+                return fecha && esReciente(fecha, true);
+            })
+            .sort((a, b) => {
+                const fechaA = new Date(a.fechaRegistro || a.fechaCreacion);
+                const fechaB = new Date(b.fechaRegistro || b.fechaCreacion);
+                return fechaB - fechaA;
+            })
+            .slice(0, 3);
+
+        mascotasRecientes.forEach(mascota => {
+            const cliente = clientes?.find(c => c.id === mascota.idCliente);
+            const fecha = new Date(mascota.fechaRegistro || mascota.fechaCreacion);
+            const hora = fecha.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+
+            actividades.push({
+                tipo: 'mascota',
+                titulo: `Mascota registrada - ${mascota.nombre}`,
+                desc: `${cliente?.nombre || 'Cliente'} · ${mascota.raza || 'Raza'}`,
+                hora: hora,
+                timestamp: fecha.getTime()
+            });
+        });
+    }
+
+    // Ordenar todas las actividades por timestamp (más reciente primero) y tomar las primeras 8
+    const actividadesOrdenadas = actividades
+        .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0))
+        .slice(0, 8);
+
+    console.log(`✅ Actividades recientes generadas: ${actividadesOrdenadas.length} (filtradas de las últimas 24h-3 días)`);
+
+    return actividadesOrdenadas;
 }
 
 // ── RENDER FUNCIONES ────────────────────────────────────────────────
@@ -894,6 +1244,13 @@ function renderHeatmap() {
     const container = document.getElementById('heatmapContainer');
     if (!container) return;
 
+    console.log('Renderizando heatmap con datos:', dashboardData.heatmap);
+
+    if (!dashboardData.heatmap || dashboardData.heatmap.length === 0) {
+        container.innerHTML = '<div style="padding: 20px; text-align: center; color: #6B7280;">No hay datos de actividad semanal</div>';
+        return;
+    }
+
     let html = '<div class="heatmap-grid">';
 
     // Header vacío
@@ -915,7 +1272,7 @@ function renderHeatmap() {
 
             html += `
                 <div class="hm-cell level-${level}" title="${cantidad} reserva${cantidad !== 1 ? 's' : ''}">
-                    ${cantidad || ''}
+                    ${cantidad > 0 ? cantidad : ''}
                 </div>
             `;
         }
@@ -958,43 +1315,41 @@ function renderServiciosRanking() {
     const container = document.getElementById('serviceRanking');
     if (!container) return;
 
+    console.log('Renderizando servicios ranking:', dashboardData.serviciosRanking);
+
     if (!dashboardData.serviciosRanking || dashboardData.serviciosRanking.length === 0) {
-        container.innerHTML = '<div style="padding: 20px; text-align: center; color: #6B7280;">No hay datos de ranking de servicios</div>';
+        container.innerHTML = '<div style="padding: 20px; text-align: center; color: #6B7280;">No hay datos de rendimiento de servicios</div>';
         return;
     }
 
-    const totalServicios = dashboardData.serviciosRanking.reduce((sum, s) => sum + s.cantidad, 0);
-    const totalIngresos = dashboardData.serviciosRanking.reduce((sum, s) => sum + s.ingresos, 0);
+    // El máximo de cantidad para calcular el ancho de la barra
+    const maxCantidad = Math.max(...dashboardData.serviciosRanking.map(s => s.cantidad), 1);
 
-    let html = dashboardData.serviciosRanking.map((servicio, idx) => `
-        <div class="sr-item">
-            <div class="sr-rank">${idx + 1}</div>
-            <div class="sr-name">${servicio.nombre}</div>
-            <div class="sr-stat">
-                <div class="sr-label">Servicios</div>
-                <div class="sr-value">${servicio.cantidad}</div>
-            </div>
-            <div class="sr-stat">
-                <div class="sr-label">Ingresos</div>
-                <div class="sr-value">${formatCurrency(servicio.ingresos)}</div>
-            </div>
-        </div>
-    `).join('');
+    // Colores para cada barra (gradientes)
+    const colors = [
+        'linear-gradient(135deg, #7C3AED, #A78BFA)',
+        'linear-gradient(135deg, #3B82F6, #60A5FA)',
+        'linear-gradient(135deg, #10B981, #34D399)',
+        'linear-gradient(135deg, #F59E0B, #FBBF24)',
+        'linear-gradient(135deg, #EC4899, #F472B6)',
+        'linear-gradient(135deg, #8B5CF6, #C4B5FD)'
+    ];
 
-    html += `
-        <div class="sr-total">
-            <div class="sr-total-item">
-                <div class="sr-total-label">Total Servicios</div>
-                <div class="sr-total-value">${totalServicios}</div>
-            </div>
-            <div class="sr-total-item">
-                <div class="sr-total-label">Total Ingresos</div>
-                <div class="sr-total-value">${formatCurrency(totalIngresos)}</div>
-            </div>
-        </div>
-    `;
+    container.innerHTML = dashboardData.serviciosRanking.map((servicio, idx) => {
+        const porcentajeBarra = maxCantidad > 0 ? (servicio.cantidad / maxCantidad) * 100 : 0;
 
-    container.innerHTML = html;
+        return `
+            <div class="sr-item">
+                <div class="sr-rank">${idx + 1}</div>
+                <div class="sr-name">${servicio.nombre}</div>
+                <div class="sr-bar-wrap">
+                    <div class="sr-bar" style="width:${porcentajeBarra}%;background:${colors[idx % colors.length]};box-shadow:0 2px 4px rgba(0,0,0,0.1)"></div>
+                </div>
+                <div class="sr-ingresos">${formatCurrency(servicio.ingresos || 0)}</div>
+                <div class="sr-count">${servicio.cantidad} ventas</div>
+            </div>
+        `;
+    }).join('');
 }
 
 function renderCaja() {
@@ -1043,6 +1398,28 @@ function renderAgenda() {
     const container = document.getElementById('agendaList');
     if (!container) return;
 
+    // Actualizar subtítulo con el total de reservas
+    const subtitleEl = document.getElementById('agendaSubtitle');
+    if (subtitleEl && dashboardData.agenda) {
+        const total = dashboardData.agenda.length;
+        subtitleEl.textContent = `${total} reserva${total !== 1 ? 's' : ''} programada${total !== 1 ? 's' : ''}`;
+    }
+
+    // Contar por estado
+    if (dashboardData.agenda && dashboardData.agenda.length > 0) {
+        const confirmadas = dashboardData.agenda.filter(a => a.estado === 'confirmada').length;
+        const pendientes = dashboardData.agenda.filter(a => a.estado === 'pendiente').length;
+        const completadas = dashboardData.agenda.filter(a => a.estado === 'completada').length;
+
+        const tabConfirmadas = document.getElementById('tabConfirmadas');
+        const tabPendientes = document.getElementById('tabPendientes');
+        const tabCompletadas = document.getElementById('tabCompletadas');
+
+        if (tabConfirmadas) tabConfirmadas.textContent = `${confirmadas} Confirmada${confirmadas !== 1 ? 's' : ''}`;
+        if (tabPendientes) tabPendientes.textContent = `${pendientes} Pendiente${pendientes !== 1 ? 's' : ''}`;
+        if (tabCompletadas) tabCompletadas.textContent = `${completadas} Completada${completadas !== 1 ? 's' : ''}`;
+    }
+
     if (!dashboardData.agenda || dashboardData.agenda.length === 0) {
         container.innerHTML = '<div style="padding: 20px; text-align: center; color: #6B7280;">No hay reservas para hoy</div>';
         return;
@@ -1050,15 +1427,20 @@ function renderAgenda() {
 
     container.innerHTML = dashboardData.agenda.map(item => `
         <div class="ag-item">
-            <div class="ag-time">${item.hora || '00:00'}</div>
+            <div class="ag-time" data-time="${item.hora || '00:00'}"></div>
+            <div class="ag-icon">
+                <svg fill="none" viewBox="0 0 24 24">
+                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                </svg>
+            </div>
             <div class="ag-info">
                 <div class="ag-client">${item.cliente || 'Cliente'}</div>
-                <div class="ag-service">${item.servicio || 'Servicio'}</div>
+                <div class="ag-service">${item.servicio || 'Servicio'} · ${item.groomer || 'Sin asignar'}</div>
             </div>
             <div class="ag-status ${item.estado || 'pendiente'}">${
-                item.estado === 'confirmada' ? 'Confirmada' :
-                item.estado === 'en-curso' ? 'En curso' :
-                item.estado === 'completada' ? 'Completada' : 'Pendiente'
+                item.estado === 'confirmada' ? '✓ Confirmada' :
+                item.estado === 'en-curso' ? '● En curso' :
+                item.estado === 'completada' ? '✓ Completada' : '⏱ Pendiente'
             }</div>
         </div>
     `).join('');
@@ -1068,6 +1450,8 @@ function renderEquipo() {
     const container = document.getElementById('teamRanking');
     if (!container) return;
 
+    console.log('Renderizando equipo:', dashboardData.equipo);
+
     if (!dashboardData.equipo || dashboardData.equipo.length === 0) {
         container.innerHTML = '<div style="padding: 20px; text-align: center; color: #6B7280;">No hay datos de empleados</div>';
         return;
@@ -1075,38 +1459,52 @@ function renderEquipo() {
 
     container.innerHTML = dashboardData.equipo.map(empleado => {
         const initials = getInitials(empleado.nombre);
-        const porcentaje = empleado.porcentaje || 0;
+        const reservasHoy = empleado.reservasHoy || 0;
 
-        // Color de la barra según la carga de trabajo
-        let barColor = '#10B981'; // Verde (baja carga)
-        if (porcentaje > 70) barColor = '#EF4444'; // Rojo (alta carga)
-        else if (porcentaje > 40) barColor = '#F59E0B'; // Naranja (media carga)
+        // Color de la barra según el número de reservas
+        let barColor = '#10B981'; // Verde (poca carga)
+        let barWidth = Math.min(100, (reservasHoy / 10) * 100); // Máximo 10 reservas = 100%
+
+        if (reservasHoy >= 8) {
+            barColor = '#EF4444'; // Rojo (alta carga)
+        } else if (reservasHoy >= 5) {
+            barColor = '#F59E0B'; // Naranja (media carga)
+        } else if (reservasHoy >= 3) {
+            barColor = '#3B82F6'; // Azul (normal)
+        }
+
+        let estadoClass = empleado.estado === 'disponible' ? 'disponible' :
+                         empleado.estado === 'servicio' ? 'en-servicio' : 'ocupado';
 
         return `
-            <div class="tr-item">
-                <div class="tr-avatar">${initials}</div>
-                <div class="tr-info">
-                    <div class="tr-name">${empleado.nombre}</div>
-                    <div class="tr-role">${empleado.rol}</div>
+            <div class="tr-card">
+                <div class="tr-head">
+                    <div class="tr-avatar" style="background: linear-gradient(135deg, #7C3AED, #A78BFA);">${initials}</div>
+                    <div class="tr-info">
+                        <div class="tr-name">${empleado.nombre}</div>
+                        <div class="tr-role">${empleado.rol}</div>
+                    </div>
+                    <div class="tr-status ${estadoClass}">${
+                        empleado.estado === 'disponible' ? 'Disponible' :
+                        empleado.estado === 'servicio' ? 'Con reservas' : 'Ocupado'
+                    }</div>
                 </div>
-                <div class="tr-stat">
-                    <div class="tr-stat-value">${empleado.reservasHoy || 0}</div>
-                    <div class="tr-stat-label">Hoy</div>
+                <div class="tr-meta">
+                    <div class="tr-meta-item">
+                        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                        ${reservasHoy} reservas
+                    </div>
+                    <div class="tr-earn">${formatCurrency(empleado.ingresos)}</div>
                 </div>
-                <div class="tr-stat" style="flex: 1; min-width: 120px;">
-                    <div class="tr-stat-label" style="margin-bottom: 4px;">Carga: ${Math.round(porcentaje)}%</div>
-                    <div style="background: #E5E7EB; border-radius: 4px; height: 8px; overflow: hidden;">
-                        <div style="background: ${barColor}; height: 100%; width: ${porcentaje}%; transition: width 0.3s;"></div>
+                <div class="tr-bars">
+                    <div class="tr-bar-row">
+                        <span class="tr-bar-lbl">Ocupación</span>
+                        <div class="tr-bar-track">
+                            <div class="tr-bar-fill" style="width: ${barWidth}%; background: ${barColor};"></div>
+                        </div>
+                        <span class="tr-bar-pct">${Math.round(barWidth)}%</span>
                     </div>
                 </div>
-                <div class="tr-stat">
-                    <div class="tr-stat-value">${formatCurrency(empleado.ingresos)}</div>
-                    <div class="tr-stat-label">Ingresos Hoy</div>
-                </div>
-                <div class="tr-status ${empleado.estado}">${
-                    empleado.estado === 'disponible' ? 'Disponible' :
-                    empleado.estado === 'servicio' ? 'Con reservas' : 'Ocupado'
-                }</div>
             </div>
         `;
     }).join('');
@@ -1116,6 +1514,13 @@ function renderActividades() {
     const container = document.getElementById('activityList');
     if (!container) return;
 
+    console.log('Renderizando actividades:', dashboardData.actividades);
+
+    if (!dashboardData.actividades || dashboardData.actividades.length === 0) {
+        container.innerHTML = '<div style="padding: 20px; text-align: center; color: #6B7280;">No hay actividades recientes</div>';
+        return;
+    }
+
     const iconos = {
         reserva: '📅',
         completado: '✅',
@@ -1123,6 +1528,8 @@ function renderActividades() {
         mascota: '🐾',
         caja: '💵',
         cliente: '👤',
+        empleado: '👨‍💼',
+        servicio: '⚙️',
         cancelacion: '❌'
     };
 
@@ -1165,11 +1572,277 @@ function updateChartColors() {
     chartIngresos.update();
 }
 
+// ── FUNCIONES DE ACTUALIZACIÓN ─────────────────────────────────────
+
+function actualizarDatos() {
+    console.log('🔄 Actualización manual solicitada');
+    const refreshBtn = document.getElementById('refreshBtn');
+
+    if (refreshBtn) {
+        refreshBtn.classList.add('rotating');
+        refreshBtn.disabled = true;
+    }
+
+    cargarDashboard(true).finally(() => {
+        if (refreshBtn) {
+            setTimeout(() => {
+                refreshBtn.classList.remove('rotating');
+                refreshBtn.disabled = false;
+            }, 500);
+        }
+    });
+}
+
+// ── SISTEMA DE NOTIFICACIONES ──────────────────────────────────────
+
+let ultimasCantidadNotificaciones = 0;
+
+// Reproducir sonido de notificación usando Web Audio API
+function reproducirSonidoNotificacion() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Crear dos tonos para un sonido de notificación agradable
+        const playTone = (frequency, startTime, duration) => {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, startTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.start(startTime);
+            oscillator.stop(startTime + duration);
+        };
+
+        // Dos tonos: E6 y C6
+        playTone(1318.51, audioContext.currentTime, 0.1);
+        playTone(1046.50, audioContext.currentTime + 0.1, 0.15);
+
+        console.log('🔊 Sonido de notificación reproducido');
+    } catch (error) {
+        console.error('❌ Error al reproducir sonido:', error);
+    }
+}
+
+async function cargarNotificaciones() {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('ℹ️ No hay token, saltando carga de notificaciones');
+            return [];
+        }
+
+        const response = await fetch(`${API_BASE}/Notificacion/no-leidas`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            console.error('❌ Error al cargar notificaciones:', response.status);
+            return [];
+        }
+
+        const notificaciones = await response.json();
+        const noLeidas = notificaciones.length;
+
+        console.log('🔔 Notificaciones cargadas:', notificaciones.length, 'no leídas');
+
+        // Reproducir sonido si hay nuevas notificaciones
+        if (noLeidas > ultimasCantidadNotificaciones && ultimasCantidadNotificaciones > 0) {
+            reproducirSonidoNotificacion();
+        }
+        ultimasCantidadNotificaciones = noLeidas;
+
+        // Actualizar badge
+        const badge = document.getElementById('notifBadge');
+        if (badge) {
+            if (noLeidas > 0) {
+                badge.style.display = 'block';
+                badge.textContent = noLeidas > 9 ? '9+' : noLeidas;
+                console.log('✅ Badge actualizado:', noLeidas);
+            } else {
+                badge.style.display = 'none';
+                console.log('ℹ️ Badge oculto (no hay notificaciones no leídas)');
+            }
+        } else {
+            console.warn('⚠️ Elemento notifBadge no encontrado');
+        }
+
+        return notificaciones;
+    } catch (error) {
+        console.error('❌ Error al cargar notificaciones:', error);
+        return [];
+    }
+}
+
+async function renderNotificaciones() {
+    console.log('📋 Renderizando notificaciones...');
+    const notificaciones = await cargarNotificaciones();
+    const container = document.getElementById('notifList');
+
+    if (!container) {
+        console.error('❌ Elemento notifList no encontrado');
+        return;
+    }
+
+    console.log('📊 Total de notificaciones a renderizar:', notificaciones.length);
+
+    if (notificaciones.length === 0) {
+        container.innerHTML = '<div style="padding: 40px 20px; text-align: center; color: var(--muted);">No hay notificaciones</div>';
+        console.log('ℹ️ No hay notificaciones para mostrar');
+        return;
+    }
+
+    container.innerHTML = notificaciones.map(notif => {
+        const fecha = new Date(notif.fechaCreacion);
+        const ahora = new Date();
+        const diffMinutos = Math.floor((ahora - fecha) / 60000);
+
+        let tiempoTexto;
+        if (diffMinutos < 1) {
+            tiempoTexto = 'Ahora';
+        } else if (diffMinutos < 60) {
+            tiempoTexto = `Hace ${diffMinutos} min`;
+        } else if (diffMinutos < 1440) {
+            const horas = Math.floor(diffMinutos / 60);
+            tiempoTexto = `Hace ${horas} hora${horas > 1 ? 's' : ''}`;
+        } else {
+            const dias = Math.floor(diffMinutos / 1440);
+            tiempoTexto = `Hace ${dias} día${dias > 1 ? 's' : ''}`;
+        }
+
+        return `
+            <div class="notif-item unread" onclick="marcarNotificacionLeida(${notif.id})">
+                <div class="notif-icon">${notif.icono || '📋'}</div>
+                <div class="notif-content">
+                    <div class="notif-title">${notif.titulo}</div>
+                    <div class="notif-message">${notif.mensaje}</div>
+                    <div class="notif-time">${tiempoTexto}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function toggleNotificaciones() {
+    console.log('🔔 Toggle notificaciones...');
+    const dropdown = document.getElementById('notifDropdown');
+
+    if (!dropdown) {
+        console.error('❌ Elemento notifDropdown no encontrado');
+        return;
+    }
+
+    const isVisible = dropdown.style.display === 'block';
+    console.log('📊 Dropdown visible:', isVisible);
+
+    if (isVisible) {
+        dropdown.style.display = 'none';
+        console.log('✅ Dropdown ocultado');
+    } else {
+        renderNotificaciones();
+        dropdown.style.display = 'block';
+        console.log('✅ Dropdown mostrado');
+    }
+}
+
+// Exponer funciones globalmente para que puedan ser llamadas desde HTML
+window.toggleNotificaciones = toggleNotificaciones;
+
+async function marcarNotificacionLeida(id) {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const response = await fetch(`${API_BASE}/Notificacion/${id}/marcar-leida`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const notif = await response.json();
+            await renderNotificaciones();
+
+            // Si la notificación tiene reserva, navegar a Reservas
+            if (notif.idReserva) {
+                window.location.href = '/Admin/Reservas.html';
+            }
+        }
+    } catch (error) {
+        console.error('Error al marcar notificación como leída:', error);
+    }
+}
+
+// Exponer función globalmente
+window.marcarNotificacionLeida = marcarNotificacionLeida;
+
+async function marcarTodasLeidas() {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const response = await fetch(`${API_BASE}/Notificacion/marcar-todas-leidas`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            await renderNotificaciones();
+        }
+    } catch (error) {
+        console.error('Error al marcar todas como leídas:', error);
+    }
+}
+
+// Exponer función globalmente
+window.marcarTodasLeidas = marcarTodasLeidas;
+
+// Cerrar dropdown al hacer clic fuera
+document.addEventListener('click', function(e) {
+    const notifWrap = document.querySelector('.notifications-wrap');
+    const notifDropdown = document.getElementById('notifDropdown');
+
+    if (notifWrap && !notifWrap.contains(e.target) && notifDropdown) {
+        notifDropdown.style.display = 'none';
+    }
+});
+
 // ── INICIALIZACIÓN ──────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Cargar dashboard (usará caché si está disponible)
     cargarDashboard();
 
-    // Actualizar cada 5 minutos
-    setInterval(cargarDashboard, 5 * 60 * 1000);
+    // Cargar notificaciones
+    cargarNotificaciones();
+
+    // Actualizar cada 2 minutos (pero usará caché si es válida)
+    setInterval(() => {
+        console.log('🔄 Actualización automática programada');
+        cargarDashboard(false);
+        cargarNotificaciones(); // También actualizar notificaciones
+    }, 2 * 60 * 1000);
+
+    // Detectar cuando la pestaña se vuelve visible
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+            console.log('👁️ Pestaña visible, verificando datos...');
+            // Solo recargar si la caché está vencida
+            if (!isCacheValid()) {
+                cargarDashboard(false);
+            }
+            cargarNotificaciones(); // Actualizar notificaciones al volver
+        }
+    });
 });

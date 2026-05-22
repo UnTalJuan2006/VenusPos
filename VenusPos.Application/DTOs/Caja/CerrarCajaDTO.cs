@@ -7,6 +7,7 @@ namespace VenusPos.Application.DTOs.Caja
     public class CerrarCajaDTO
     {
         public decimal MontoCierre { get; set; }
+        public decimal Diferencia { get; set; }
         public string? Observaciones { get; set; }
     }
 }

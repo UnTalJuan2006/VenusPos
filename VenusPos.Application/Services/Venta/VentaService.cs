@@ -106,6 +106,26 @@ namespace VenusPos.Application.Services.Venta
             return true;
         }
 
+        public async Task<bool> AnularVentaPorReservaAsync(int idReserva)
+        {
+            var venta = await _ventaRepository.ObtenerPorReservaAsync(idReserva);
+
+            if (venta == null)
+                return false; // No hay venta asociada, no es un error
+
+            if (venta.Estado == "Anulada")
+                return true; // Ya está anulada
+
+            await _ventaRepository.ActualizarVentaAsync(venta.Id, new ActualizarVentaDTO { Estado = "Anulada" });
+
+            return true;
+        }
+
+        public async Task<IEnumerable<ServicioVendidoDTO>> ObtenerServiciosMasVendidosAsync(int top = 10)
+        {
+            return await _ventaRepository.ObtenerServiciosMasVendidosAsync(top);
+        }
+
         private VentaDTO MapToDTO(Domain.Entities.Venta venta)
         {
             return new VentaDTO

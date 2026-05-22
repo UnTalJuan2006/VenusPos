@@ -13,5 +13,7 @@ namespace VenusPos.Application.Interfaces.Services
         Task<VentaDTO> ConfirmarVentaAsync(int id);
         Task<VentaDTO> ActualizarEstadoAsync(int id, ActualizarVentaDTO dto);
         Task<bool> AnularVentaAsync(int id);
+        Task<bool> AnularVentaPorReservaAsync(int idReserva);
+        Task<IEnumerable<ServicioVendidoDTO>> ObtenerServiciosMasVendidosAsync(int top = 10);
     }
 }

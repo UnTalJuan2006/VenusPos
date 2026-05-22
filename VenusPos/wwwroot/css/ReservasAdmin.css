@@ -264,6 +264,26 @@
     position: relative;
 }
 
+/* Timeline clickeable para crear reservas */
+.timeline-clickeable {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+    .timeline-clickeable:hover {
+        background: var(--purple-soft);
+    }
+
+/* Drop zones para drag and drop */
+.drop-zone-active {
+    border-top: 2px dashed var(--purple) !important;
+}
+
+.drop-zone-hover {
+    background: var(--purple-soft) !important;
+    border-top: 2px solid var(--purple) !important;
+}
+
 /* Contenedor de bloques con posicionamiento absoluto */
 .timeline-blocks-container {
     position: absolute;
@@ -278,22 +298,80 @@
 /* Bloque de reserva */
 .tl-block {
     border-radius: 8px;
-    padding: 8px 10px;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s, z-index 0s;
+    cursor: move;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s, z-index 0s;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    overflow: hidden;
+    justify-content: space-between;
+    overflow: visible;
     pointer-events: auto;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     z-index: 1;
+    position: relative;
 }
 
     .tl-block:hover {
         transform: scale(1.02);
         box-shadow: 0 4px 14px rgba(0,0,0,0.2);
         z-index: 10;
+    }
+
+    .tl-block:active {
+        cursor: grabbing;
+    }
+
+.tl-block-content {
+    padding: 8px 10px;
+    flex: 1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+    .tl-block-content * {
+        pointer-events: auto;
+    }
+
+/* Handle de redimensionamiento */
+.tl-resize-handle-bottom {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    cursor: ns-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    background: rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    z-index: 10;
+}
+
+    .tl-block:hover .tl-resize-handle-bottom {
+        opacity: 1;
+    }
+
+    .tl-resize-handle-bottom:hover {
+        background: rgba(0, 0, 0, 0.2);
+        opacity: 1 !important;
+    }
+
+    .tl-resize-handle-bottom svg {
+        opacity: 0.7;
+    }
+
+/* Estado durante resize */
+.tl-block.resizing {
+    cursor: ns-resize !important;
+    transition: none;
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+}
+
+    .tl-block.resizing * {
+        pointer-events: none !important;
     }
 
 .tl-block-header {
@@ -382,6 +460,10 @@
 
 [data-theme="dark"] .tl-block.completada {
     background: #059669;
+}
+
+[data-theme="dark"] .tl-block.cancelada {
+    background: #DC2626;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -977,40 +1059,527 @@
         border-color: var(--muted);
     }
 
+.btn-estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #fff;
+}
+
+.btn-confirmar {
+    background: #10B981;
+}
+
+    .btn-confirmar:hover {
+        background: #059669;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+.btn-cancelar {
+    background: #EF4444;
+}
+
+    .btn-cancelar:hover {
+        background: #DC2626;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+.btn-completar {
+    background: var(--purple);
+}
+
+    .btn-completar:hover {
+        background: var(--purple-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    }
+
+/* ══════════════════════════════════════════════════════
+   MODAL DETALLE DE RESERVA
+   ══════════════════════════════════════════════════════ */
+
+.modal-detalle {
+    max-width: 550px;
+}
+
+.detalle-reserva {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.detalle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+}
+
+.detalle-codigo {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--purple);
+    font-family: 'DM Sans', monospace;
+}
+
+.detalle-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detalle-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+}
+
+.detalle-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.6;
+}
+
+    .detalle-value svg {
+        flex-shrink: 0;
+        color: var(--purple);
+        opacity: 0.7;
+    }
+
+.detalle-precio {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--purple);
+    padding: 16px;
+    background: var(--purple-soft);
+    border-radius: 12px;
+    text-align: center;
+    border: 2px solid var(--purple);
+}
+
 /* ══════════════════════════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════════════════════════ */
 
-@media (max-width: 768px) {
-    .empleados-cards {
-        grid-template-columns: 1fr;
+/* ── TABLET (768px - 1024px) ── */
+@media (max-width: 1024px) {
+    /* Calendario más compacto */
+    .cal-wrapper {
+        padding: 14px;
     }
 
+    /* Widget de reserva */
+    .widget-reserva {
+        min-width: 280px;
+        max-width: 320px;
+    }
+
+    /* Empleados cards - 2 columnas */
+    .empleados-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    /* Vista de horarios */
+    .horarios-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Filtros */
+    .filtros-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filtros-row > div {
+        width: 100%;
+    }
+}
+
+/* ── MOBILE (hasta 768px) ── */
+@media (max-width: 768px) {
+    /* Header de reservas */
     .reservas-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 16px;
+        gap: 12px;
     }
 
+    .reservas-header h1 {
+        font-size: 24px;
+    }
+
+    .reservas-header > div:last-child {
+        width: 100%;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .reservas-header button {
+        width: 100%;
+    }
+
+    /* Filtros responsive */
+    .filtros-wrapper {
+        padding: 12px;
+    }
+
+    .filtros-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filtros-row > div {
+        width: 100%;
+    }
+
+    /* Vista de calendario */
+    .cal-wrapper {
+        padding: 12px;
+        overflow-x: auto;
+    }
+
+    .cal-header {
+        padding: 10px;
+    }
+
+    .cal-titulo {
+        font-size: 15px;
+    }
+
+    .cal-nav-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .cal-dias-semana {
+        grid-template-columns: repeat(7, minmax(36px, 1fr));
+        gap: 2px;
+        font-size: 10px;
+    }
+
+    .cal-grid {
+        grid-template-columns: repeat(7, minmax(36px, 1fr));
+        gap: 2px;
+    }
+
+    .cal-dia {
+        min-height: 36px;
+        padding: 4px;
+        font-size: 11px;
+    }
+
+    .cal-dia-num {
+        font-size: 11px;
+        width: 22px;
+        height: 22px;
+    }
+
+    .cal-dia-count {
+        font-size: 9px;
+        padding: 2px 4px;
+    }
+
+    /* Empleados cards - 1 columna en móvil */
+    .empleados-cards {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .empleado-card {
+        padding: 12px;
+    }
+
+    .empleado-avatar {
+        width: 44px;
+        height: 44px;
+    }
+
+    .empleado-name {
+        font-size: 14px;
+    }
+
+    .empleado-role {
+        font-size: 11px;
+    }
+
+    .empleado-count {
+        font-size: 18px;
+    }
+
+    /* Horarios grid */
+    .horarios-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .horario-card {
+        padding: 10px;
+    }
+
+    .horario-hora {
+        font-size: 14px;
+    }
+
+    .horario-info {
+        font-size: 10px;
+    }
+
+    /* Horario section footer */
     .horario-section-footer {
         flex-direction: column;
         align-items: flex-start;
+        padding: 12px;
+        gap: 10px;
     }
 
+    .horario-leyenda {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .leyenda-item {
+        font-size: 11px;
+    }
+
+    /* Widget de reserva responsive */
+    .widget-reserva {
+        min-width: 100%;
+        max-width: 100%;
+        position: fixed;
+        top: auto;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .widget-header {
+        padding: 14px;
+        position: sticky;
+        top: 0;
+        background: var(--surface);
+        z-index: 1;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .widget-title {
+        font-size: 16px;
+    }
+
+    .widget-body {
+        padding: 14px;
+    }
+
+    .widget-footer {
+        padding: 14px;
+        position: sticky;
+        bottom: 0;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+    }
+
+    .widget-footer button {
+        width: 100%;
+    }
+
+    /* Timeline responsive */
+    .timeline-slot {
+        padding: 10px;
+    }
+
+    .timeline-hora {
+        font-size: 11px;
+    }
+
+    .timeline-reserva-card {
+        padding: 8px;
+    }
+
+    .timeline-reserva-hora {
+        font-size: 10px;
+    }
+
+    .timeline-reserva-cliente {
+        font-size: 12px;
+    }
+
+    .timeline-reserva-info {
+        font-size: 10px;
+    }
+
+    /* Modal responsive */
     .modal {
         max-width: 100%;
-        padding: 24px;
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        padding: 0;
+    }
+
+    .modal-overlay {
+        padding: 0;
+    }
+
+    .modal-hdr {
+        padding: 16px;
+    }
+
+    .modal-ttl {
+        font-size: 18px;
+    }
+
+    .modal-body {
+        padding: 16px;
     }
 
     .form-row {
         grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .form-group label {
+        font-size: 12px;
+    }
+
+    .form-inp {
+        font-size: 14px;
+        padding: 11px 13px;
     }
 
     .modal-footer {
+        padding: 16px;
         flex-direction: column-reverse;
+        gap: 10px;
     }
 
-        .modal-footer button {
-            width: 100%;
-        }
+    .modal-footer button {
+        width: 100%;
+    }
+
+    /* Stats de reservas */
+    .reservas-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .stat-box {
+        padding: 10px;
+    }
+
+    .stat-box-value {
+        font-size: 20px;
+    }
+
+    .stat-box-label {
+        font-size: 10px;
+    }
+
+    /* Servicios seleccionados */
+    .servicios-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .servicio-option {
+        padding: 10px;
+    }
+
+    .servicio-option-name {
+        font-size: 13px;
+    }
+
+    .servicio-option-duracion,
+    .servicio-option-precio {
+        font-size: 11px;
+    }
+
+    /* Info cards */
+    .info-card {
+        padding: 12px;
+    }
+
+    .info-card h4 {
+        font-size: 12px;
+    }
+
+    .info-card p {
+        font-size: 11px;
+    }
+}
+
+/* ── EXTRA SMALL MOBILE (hasta 480px) ── */
+@media (max-width: 480px) {
+    .reservas-header h1 {
+        font-size: 20px;
+    }
+
+    .cal-grid {
+        grid-template-columns: repeat(7, minmax(32px, 1fr));
+    }
+
+    .cal-dia {
+        min-height: 32px;
+    }
+
+    .empleado-card {
+        padding: 10px;
+    }
+
+    .empleado-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .empleado-name {
+        font-size: 13px;
+    }
+
+    .empleado-count {
+        font-size: 16px;
+    }
+
+    .horarios-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .horario-card {
+        padding: 12px;
+    }
+
+    .widget-header {
+        padding: 12px;
+    }
+
+    .widget-title {
+        font-size: 15px;
+    }
+
+    .widget-body {
+        padding: 12px;
+    }
+
+    .reservas-stats {
+        grid-template-columns: 1fr;
+    }
 }

@@ -15,5 +15,6 @@ namespace VenusPos.Application.Interfaces.Repositories
         Task<Empleado> ActualizarAsync(Empleado empleado);
         Task<bool> EliminarAsync(int id);
         Task<bool> ExisteEmailAsync(string email);
+        Task<Empleado> InactivarEmpleadoAsync(Empleado empleado);
     }
 }

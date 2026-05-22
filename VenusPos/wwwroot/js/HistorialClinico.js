@@ -513,7 +513,10 @@ function renderTabReservas() {
 // CAMBIO DE TABS
 // ═══════════════════════════════════════════════════════
 
-function cambiarTab(tab) {
+function cambiarTab(tab, event) {
+    // Validar que event exista
+    if (!event || !event.target) return;
+
     // Actualizar botones
     document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
     event.target.classList.add('active');
@@ -664,7 +667,7 @@ async function guardarHistorial(event) {
 // Cerrar modal al hacer clic fuera
 document.addEventListener('click', function(e) {
     const modal = document.getElementById('modalHistorial');
-    if (e.target === modal) {
+    if (modal && e.target === modal) {
         cerrarModalHistorial();
     }
 });

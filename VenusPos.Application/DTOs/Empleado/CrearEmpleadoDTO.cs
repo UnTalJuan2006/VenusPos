@@ -14,5 +14,6 @@ namespace VenusPos.Application.DTOs.Empleado
         public string Cargo { get; set; } = string.Empty;
         public DateTime FechaNacimiento { get; set; }
         public string? Imagen { get; set; }
+        public bool Activo { get; set; } = true;
     }
 }

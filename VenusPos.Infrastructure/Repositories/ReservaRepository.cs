@@ -23,6 +23,8 @@ namespace VenusPos.Infrastructure.Repositories
                 .Include(r => r.Empleado)
                 .Include(r => r.ReservaMascotas)
                     .ThenInclude(rm => rm.Mascota)
+                .Include(r => r.ReservaServicios)
+                    .ThenInclude(rs => rs.Servicio)
                 .ToListAsync();
         }
 
@@ -33,6 +35,8 @@ namespace VenusPos.Infrastructure.Repositories
                 .Include(r => r.Empleado)
                 .Include(r => r.ReservaMascotas)
                     .ThenInclude(rm => rm.Mascota)
+                .Include(r => r.ReservaServicios)
+                    .ThenInclude(rs => rs.Servicio)
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
 
@@ -43,6 +47,8 @@ namespace VenusPos.Infrastructure.Repositories
                 .Include(r => r.Empleado)
                 .Include(r => r.ReservaMascotas)
                     .ThenInclude(rm => rm.Mascota)
+                .Include(r => r.ReservaServicios)
+                    .ThenInclude(rs => rs.Servicio)
                 .FirstOrDefaultAsync(r => r.CodigoReserva == codigo);
         }
 
@@ -53,6 +59,8 @@ namespace VenusPos.Infrastructure.Repositories
                 .Include(r => r.Empleado)
                 .Include(r => r.ReservaMascotas)
                     .ThenInclude(rm => rm.Mascota)
+                .Include(r => r.ReservaServicios)
+                    .ThenInclude(rs => rs.Servicio)
                 .Where(r => r.IdCliente == idCliente)
                 .OrderByDescending(r => r.FechaReserva)
                 .ToListAsync();
@@ -65,6 +73,8 @@ namespace VenusPos.Infrastructure.Repositories
                 .Include(r => r.Empleado)
                 .Include(r => r.ReservaMascotas)
                     .ThenInclude(rm => rm.Mascota)
+                .Include(r => r.ReservaServicios)
+                    .ThenInclude(rs => rs.Servicio)
                 .Where(r => r.IdEmpleado == idEmpleado)
                 .OrderByDescending(r => r.FechaReserva)
                 .ToListAsync();
@@ -77,6 +87,8 @@ namespace VenusPos.Infrastructure.Repositories
                 .Include(r => r.Empleado)
                 .Include(r => r.ReservaMascotas)
                     .ThenInclude(rm => rm.Mascota)
+                .Include(r => r.ReservaServicios)
+                    .ThenInclude(rs => rs.Servicio)
                 .Where(r => r.IdEmpleado == idEmpleado
                     && r.FechaReserva.Date == fecha.Date
                     && r.Estado != EnumEstado.Cancelada)
@@ -90,6 +102,8 @@ namespace VenusPos.Infrastructure.Repositories
                 .Include(r => r.Empleado)
                 .Include(r => r.ReservaMascotas)
                     .ThenInclude(rm => rm.Mascota)
+                .Include(r => r.ReservaServicios)
+                    .ThenInclude(rs => rs.Servicio)
                 .Where(r => r.FechaReserva.Date == fecha.Date)
                 .ToListAsync();
         }
@@ -101,6 +115,8 @@ namespace VenusPos.Infrastructure.Repositories
                 .Include(r => r.Empleado)
                 .Include(r => r.ReservaMascotas)
                     .ThenInclude(rm => rm.Mascota)
+                .Include(r => r.ReservaServicios)
+                    .ThenInclude(rs => rs.Servicio)
                 .Where(r => r.FechaReserva.Date == fecha.Date
                     && r.Estado != EnumEstado.Cancelada
                     && r.ReservaMascotas.Any(rm => rm.Mascota.Tamaño == tamaño))
@@ -160,8 +176,32 @@ namespace VenusPos.Infrastructure.Repositories
                 .Include(r => r.Empleado)
                 .Include(r => r.ReservaMascotas)
                     .ThenInclude(rm => rm.Mascota)
+                .Include(r => r.ReservaServicios)
+                    .ThenInclude(rs => rs.Servicio)
                 .Where(r => r.ReservaMascotas.Any(rm => rm.IdMascota == idMascota))
                 .OrderByDescending(r => r.FechaReserva)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Reserva>> ObtenerReservasSinVentaAsync()
+        {
+            // Obtener IDs de reservas que ya tienen venta
+            var reservasConVenta = await _context.Ventas
+                .Select(v => v.IdReserva)
+                .ToListAsync();
+
+            // Obtener reservas confirmadas o pendientes que NO tienen venta
+            return await _context.Reservas
+                .Include(r => r.Cliente)
+                .Include(r => r.Empleado)
+                .Include(r => r.ReservaMascotas)
+                    .ThenInclude(rm => rm.Mascota)
+                .Include(r => r.ReservaServicios)
+                    .ThenInclude(rs => rs.Servicio)
+                .Where(r => (r.Estado == EnumEstado.Confirmada || r.Estado == EnumEstado.Pendiente)
+                         && !reservasConVenta.Contains(r.Id))
+                .OrderBy(r => r.FechaReserva)
+                .ThenBy(r => r.HoraInicio)
                 .ToListAsync();
         }
     }

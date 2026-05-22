@@ -35,6 +35,9 @@ namespace VenusPos.Infrastructure.Data
         public DbSet<ConfiguracionPrecio> ConfiguracionesPrecios { get; set; }
         public DbSet<ReservaServicio> ReservaServicios { get; set; }
 
+        // NOTIFICACIONES
+        public DbSet<Notificacion> Notificaciones { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -86,6 +89,13 @@ namespace VenusPos.Infrastructure.Data
             // ================================
             modelBuilder.Entity<Reserva>()
                 .Property(r => r.Estado)
+                .HasConversion<string>();
+
+            // ================================
+            // ENUMS COMO STRING - NOTIFICACION
+            // ================================
+            modelBuilder.Entity<Notificacion>()
+                .Property(n => n.Tipo)
                 .HasConversion<string>();
 
             // ================================
@@ -272,6 +282,15 @@ namespace VenusPos.Infrastructure.Data
                 .HasOne(h => h.Reserva)
                 .WithMany(r => r.Historiales)
                 .HasForeignKey(h => h.IdReserva)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // ================================
+            // RELACIONES - NOTIFICACION
+            // ================================
+            modelBuilder.Entity<Notificacion>()
+                .HasOne(n => n.Reserva)
+                .WithMany()
+                .HasForeignKey(n => n.IdReserva)
                 .OnDelete(DeleteBehavior.SetNull);
 
             // ================================

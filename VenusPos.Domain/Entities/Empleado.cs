@@ -1,4 +1,6 @@
-﻿namespace VenusPos.Domain.Entities
+﻿using VenusPos.Domain.Enums.Reserva;
+
+namespace VenusPos.Domain.Entities
 {
     public class Empleado
     {
@@ -13,6 +15,9 @@
         public DateTime? FechaActualizacion { get; set; }
         public string? Imagen { get; set; }
         public string PasswordHash { get; set; } = string.Empty;
+        public bool Activo { get; set; } = true;
+        public DateTime InactivoDesde { get; set; }
+        public DateTime InactivoHasta { get; set; }
         public ICollection<EmpleadoServicio> EmpleadoServicios { get; set; }
         public ICollection<Reserva> Reserva { get; set; }
         public ICollection<Caja> Caja { get; set; }

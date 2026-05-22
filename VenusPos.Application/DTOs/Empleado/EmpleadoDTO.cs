@@ -12,6 +12,9 @@ namespace VenusPos.Application.DTOs.Empleado
         public string Telefono { get; set; } = string.Empty;
         public string Direccion { get; set; } = string.Empty;
         public string Cargo { get; set; } = string.Empty;
+        public bool Activo { get; set; }
+        public DateTime InactivoDesde { get; set; }
+        public DateTime InactivoHasta { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public DateTime FechaCreacion { get; set; }
         public string? Imagen { get; set; }

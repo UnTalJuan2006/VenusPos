@@ -49,5 +49,12 @@ namespace VenusPos.Infrastructure.Repositories
 
         public async Task<bool> ExisteEmailAsync(string email)
             => await _context.Empleados.AnyAsync(e => e.Email == email);
+
+        public async Task<Empleado> InactivarEmpleadoAsync(Empleado empleado)
+        {
+            _context.Empleados.Update(empleado);
+            await _context.SaveChangesAsync();
+            return empleado;
+        }
     }
 }

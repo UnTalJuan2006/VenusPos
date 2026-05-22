@@ -4,226 +4,966 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmar Reserva — VenusMascotas</title>
+    <link rel="icon" type="image/png" href="../img/logoVenus.png">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/Index.css">
     <link rel="stylesheet" href="../css/Reserva.css">
+    <style>
+        :root {
+            --purple: #8B3CF7;
+            --purple-dark: #6D28D9;
+            --text-dark: #1a1a2e;
+            --text-gray: #6b7280;
+            --border: #E5E7EB;
+            --bg: #F9F8FE;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        /* ══ HEADER DEL FLUJO ══ */
+        .flow-header {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 0 6%;
+        }
+
+        .flow-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .flow-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .flow-logo-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .flow-logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .flow-logo-name {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--text-dark);
+        }
+
+        .flow-header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .flow-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-gray);
+        }
+
+        .flow-user-ava {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--purple);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-salir {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-gray);
+            background: none;
+            border: 1.5px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s;
+        }
+
+        .btn-salir:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+
+        /* ══ BARRA DE PROGRESO ══ */
+        .flow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            max-width: 140px;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: calc(50% + 20px);
+            width: calc(100% - 40px);
+            height: 2px;
+            background: var(--border);
+        }
+
+        .flow-step.done::after {
+            background: var(--purple);
+        }
+
+        .flow-step.active::after {
+            background: linear-gradient(90deg, var(--purple), var(--border));
+        }
+
+        .flow-step-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 900;
+            background: var(--border);
+            color: var(--text-gray);
+            z-index: 1;
+            position: relative;
+            transition: all .3s;
+        }
+
+        .flow-step.done .flow-step-num {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(124,58,237,.3);
+        }
+
+        .flow-step.active .flow-step-num {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(124,58,237,.4);
+            transform: scale(1.08);
+        }
+
+        .flow-step-lbl {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-gray);
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        .flow-step.active .flow-step-lbl {
+            color: var(--purple);
+            font-weight: 800;
+        }
+
+        .flow-step.done .flow-step-lbl {
+            color: var(--purple);
+        }
+
+        /* ══ HERO PASO 5 ══ */
+        .flow-hero {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 48px 20px 32px;
+        }
+
+        .flow-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f5f3ff;
+            color: var(--purple);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+
+        .flow-hero h1 {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 900;
+            color: var(--text-dark);
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+
+        .flow-hero h1 span {
+            color: var(--purple);
+        }
+
+        .flow-hero > p {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* ══ CONTENIDO PRINCIPAL ══ */
+        .resumen-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .resumen-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+
+        .resumen-section {
+            padding: 24px 0;
+            border-bottom: 2px solid #f3f4f6;
+        }
+
+        .resumen-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .resumen-section:first-child {
+            padding-top: 0;
+        }
+
+        .resumen-section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .info-label {
+            color: var(--text-gray);
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: var(--text-dark);
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .mascota-preview, .empleado-preview {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #f9fafb;
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .preview-img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e5e7eb;
+        }
+
+        .preview-placeholder {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e9d5ff 0%, #c4b5fd 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6d28d9;
+            font-weight: 900;
+            font-size: 24px;
+        }
+
+        .preview-info h4 {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin: 0 0 4px 0;
+        }
+
+        .preview-info p {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        .servicio-item {
+            background: #faf5ff;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1.5px solid #ede9fe;
+        }
+
+        .servicio-item h4 {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin: 0 0 8px 0;
+        }
+
+        .servicio-item p {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .precio-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            font-size: 14px;
+        }
+
+        .precio-row.total {
+            padding-top: 20px;
+            margin-top: 16px;
+            border-top: 2px solid #f3f4f6;
+        }
+
+        .precio-row.total .precio-label {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--text-dark);
+        }
+
+        .precio-row.total .precio-value {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--purple);
+        }
+
+        .precio-label {
+            color: var(--text-gray);
+            font-weight: 600;
+        }
+
+        .precio-value {
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .info-box {
+            background: #fef3c7;
+            border-left: 4px solid var(--yellow);
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #92400e;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all .2s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            color: var(--text-gray);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+
+        .btn-primary {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(139,60,247,0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--purple-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ══ MODAL DE CONFIRMACIÓN ══ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-confirmacion {
+            background: #fff;
+            border-radius: 20px;
+            max-width: 540px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-header-success {
+            background: linear-gradient(135deg, var(--green) 0%, #059669 100%);
+            padding: 40px 32px;
+            text-align: center;
+            color: #fff;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .modal-header-success h2 {
+            font-size: 28px;
+            font-weight: 900;
+            margin: 0 0 8px 0;
+        }
+
+        .modal-header-success p {
+            font-size: 15px;
+            margin: 0;
+            opacity: 0.95;
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+
+        .codigo-reserva {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            border: 2px solid var(--purple);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .codigo-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            margin-bottom: 8px;
+        }
+
+        .codigo-valor {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--purple);
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .detalles-reserva {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .detalle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .detalle-item:last-child {
+            border-bottom: none;
+        }
+
+        .detalle-label {
+            font-size: 14px;
+            color: var(--text-gray);
+            font-weight: 600;
+        }
+
+        .detalle-value {
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 800;
+            text-align: right;
+        }
+
+        .email-confirmacion {
+            background: #eff6ff;
+            border-left: 3px solid #3b82f6;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .email-confirmacion p {
+            margin: 0;
+            font-size: 13px;
+            color: #1e40af;
+            line-height: 1.5;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-modal {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all .2s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-modal-primary {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(139,60,247,0.3);
+        }
+
+        .btn-modal-primary:hover {
+            background: var(--purple-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-modal-secondary {
+            background: #f3f4f6;
+            color: var(--text-dark);
+        }
+
+        .btn-modal-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        @media (max-width: 600px) {
+            .flow-step-lbl {
+                display: none;
+            }
+
+            .resumen-card {
+                padding: 24px 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="header-inner">
-            <a href="../Index.html" class="logo-wrap">
-                <div class="logo-circle">
-                    <img src="../img/logoVenus.png" alt="Logo Venus Mascotas">
+    <!-- ══ HEADER DEL FLUJO ══ -->
+    <header class="flow-header">
+        <div class="flow-header-top">
+            <a href="../AgendaCita.html" class="flow-logo">
+                <div class="flow-logo-circle">
+                    <img src="../img/logoVenus.png" alt="" onerror="this.parentElement.textContent='VP'" />
                 </div>
+                <span class="flow-logo-name">VenusMascotas</span>
             </a>
-            <nav>
-                <ul>
-                    <li><a href="../Index.html">Inicio</a></li>
-                    <li><a href="../QuienesSomos.html">Quienes Somos</a></li>
-                    <li><a href="../Servicios.html">Servicios</a></li>
-                    <li><a href="../Index.html#instalaciones">Instalaciones</a></li>
-                </ul>
-            </nav>
-            <div class="header-actions">
-                <a href="../AgendaCita.html" class="btn-header-primary">Agenda tu Cita</a>
-                <a href="../Index.html#contacto" class="btn-header-link">Contacto</a>
+            <div class="flow-header-right">
+                <div class="flow-user">
+                    <div class="flow-user-ava" id="userAva">?</div>
+                    <span id="userName">Cliente</span>
+                </div>
+                <a href="../AgendaCita.html" class="btn-salir">
+                    <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7" /></svg>
+                    Salir
+                </a>
+            </div>
+        </div>
+
+        <!-- Barra de pasos -->
+        <div class="flow-steps">
+            <div class="flow-step done">
+                <div class="flow-step-num">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div class="flow-step-lbl">Registro</div>
+            </div>
+            <div class="flow-step done">
+                <div class="flow-step-num">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div class="flow-step-lbl">Tu Mascota</div>
+            </div>
+            <div class="flow-step done">
+                <div class="flow-step-num">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div class="flow-step-lbl">Servicios</div>
+            </div>
+            <div class="flow-step done">
+                <div class="flow-step-num">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div class="flow-step-lbl">Calendario</div>
+            </div>
+            <div class="flow-step active">
+                <div class="flow-step-num">5</div>
+                <div class="flow-step-lbl">Confirmación</div>
             </div>
         </div>
     </header>
 
-    <!-- PROGRESS HEADER -->
-    <div class="progress-header">
-        <div class="progress-container">
-            <div class="progress-steps">
-                <div class="step-indicator completed">
-                    <div class="step-circle"></div>
-                    <div class="step-label">Mascota</div>
-                </div>
-                <div class="step-indicator completed">
-                    <div class="step-circle"></div>
-                    <div class="step-label">Servicio</div>
-                </div>
-                <div class="step-indicator completed">
-                    <div class="step-circle"></div>
-                    <div class="step-label">Horario</div>
-                </div>
-                <div class="step-indicator active">
-                    <div class="step-circle">4</div>
-                    <div class="step-label">Confirmación</div>
-                </div>
-            </div>
-            <div class="progress-bar-container">
-                <div class="progress-fill" style="width: 80%"></div>
-            </div>
-        </div>
+    <!-- ══ HERO PASO 5 ══ -->
+    <div class="flow-hero">
+        <div class="flow-badge">Paso 5</div>
+        <h1>Revisa y <span>confirma tu reserva</span></h1>
+        <p>Verifica que todos los detalles sean correctos antes de confirmar.</p>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div class="reserva-container">
-        <h1 class="page-title">Resumen de tu Reserva</h1>
-        <p class="page-subtitle">Revisa los detalles antes de confirmar tu cita</p>
+    <!-- ══ CONTENIDO PRINCIPAL ══ -->
+    <div class="resumen-container">
+        <div class="resumen-card">
 
-        <!-- Summary Card -->
-        <div class="card" style="max-width: 800px; margin: 0 auto 32px;">
-
-            <!-- Cliente Section -->
-            <div style="border-bottom: 2px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 24px;">
-                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
-                    📋 Información del Cliente
-                </h3>
-                <table class="summary-table">
-                    <tr>
-                        <td>Nombre</td>
-                        <td id="clienteNombre">-</td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td id="clienteEmail">-</td>
-                    </tr>
-                    <tr>
-                        <td>Teléfono</td>
-                        <td id="clienteTelefono">-</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Mascota Section -->
-            <div style="border-bottom: 2px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 24px;">
-                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
-                    🐾 Mascota
-                </h3>
-                <div style="display: flex; align-items: center; gap: 16px;">
-                    <img id="mascotaImagen" src="" alt="Mascota"
-                         style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">
-                    <div>
-                        <h4 id="mascotaNombre" style="margin: 0 0 4px 0; font-size: 18px; color: #1f2937;">-</h4>
-                        <p id="mascotaDetalles" style="margin: 0; color: #6b7280; font-size: 14px;">-</p>
+            <!-- Cliente -->
+            <div class="resumen-section">
+                <div class="resumen-section-title">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m5.196-15.804L13.536 6.86m-3.072 3.072-3.656 3.656m0-10.392L10.464 6.86m3.072 3.072l3.656 3.656"/></svg>
+                    Información del Cliente
+                </div>
+                <div class="info-grid">
+                    <div class="info-row">
+                        <span class="info-label">Nombre</span>
+                        <span class="info-value" id="clienteNombre">—</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email</span>
+                        <span class="info-value" id="clienteEmail">—</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Teléfono</span>
+                        <span class="info-value" id="clienteTelefono">—</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Fecha y Hora Section -->
-            <div style="border-bottom: 2px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 24px;">
-                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
-                    📅 Fecha y Hora
-                </h3>
-                <table class="summary-table">
-                    <tr>
-                        <td>Fecha</td>
-                        <td id="reservaFecha">-</td>
-                    </tr>
-                    <tr>
-                        <td>Horario</td>
-                        <td id="reservaHorario">-</td>
-                    </tr>
-                    <tr>
-                        <td>Duración</td>
-                        <td id="reservaDuracion">-</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Empleado Section -->
-            <div style="border-bottom: 2px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 24px;">
-                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
-                    👨‍⚕️ Profesional Asignado
-                </h3>
-                <div style="display: flex; align-items: center; gap: 16px;">
-                    <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #e9d5ff 0%, #c4b5fd 100%); display: flex; align-items: center; justify-content: center; color: #6d28d9; font-weight: 700; font-size: 24px;">
-                        <img id="empleadoImagen" src="" alt="Empleado" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none;">
-                        <span id="empleadoInicial">-</span>
-                    </div>
-                    <div>
-                        <h4 id="empleadoNombre" style="margin: 0 0 4px 0; font-size: 18px; color: #1f2937;">-</h4>
-                        <p id="empleadoCargo" style="margin: 0; color: #6b7280; font-size: 14px;">-</p>
+            <!-- Mascota -->
+            <div class="resumen-section">
+                <div class="resumen-section-title">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                    Tu Mascota
+                </div>
+                <div class="mascota-preview">
+                    <img id="mascotaImagen" src="" alt="Mascota" class="preview-img" style="display:none;">
+                    <div id="mascotaPlaceholder" class="preview-placeholder">🐾</div>
+                    <div class="preview-info">
+                        <h4 id="mascotaNombre">—</h4>
+                        <p id="mascotaDetalles">—</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Servicio Section -->
-            <div style="border-bottom: 2px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 24px;">
-                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
-                    ✨ Servicio
-                </h3>
-                <div style="background: #faf5ff; border-radius: 8px; padding: 16px;">
-                    <h4 style="margin: 0 0 12px 0; font-size: 16px; color: #1f2937;">Baño Completo Premium</h4>
-                    <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
-                            <span style="color: #10b981;">✓</span> Baño con shampoo premium
-                        </li>
-                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
-                            <span style="color: #10b981;">✓</span> Secado profesional
-                        </li>
-                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
-                            <span style="color: #10b981;">✓</span> Corte de uñas
-                        </li>
-                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
-                            <span style="color: #10b981;">✓</span> Limpieza de oídos
-                        </li>
-                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
-                            <span style="color: #10b981;">✓</span> Cepillado
-                        </li>
-                        <li style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280;">
-                            <span style="color: #10b981;">✓</span> Perfume
-                        </li>
-                    </ul>
+            <!-- Fecha y Horario -->
+            <div class="resumen-section">
+                <div class="resumen-section-title">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                    Fecha y Horario
+                </div>
+                <div class="info-grid">
+                    <div class="info-row">
+                        <span class="info-label">Fecha</span>
+                        <span class="info-value" id="reservaFecha">—</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Horario</span>
+                        <span class="info-value" id="reservaHorario">—</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Duración estimada</span>
+                        <span class="info-value" id="reservaDuracion">—</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Precio Section -->
-            <div>
-                <h3 style="font-size: 16px; font-weight: 600; color: #6b7280; margin-bottom: 16px;">
-                    💰 Precio
-                </h3>
-                <table class="summary-table">
-                    <tr>
-                        <td>Precio base</td>
-                        <td id="precioBase">$0</td>
-                    </tr>
-                    <tr>
-                        <td id="tamañoLabel">Tamaño</td>
-                        <td id="tamañoValor">+0%</td>
-                    </tr>
-                    <tr id="pelajeRow" style="display: none;">
-                        <td>Pelaje doble capa</td>
-                        <td id="pelajeValor">+30%</td>
-                    </tr>
-                    <tr>
-                        <td><strong style="font-size: 18px;">Total a Pagar</strong></td>
-                        <td><strong class="summary-total" id="precioTotal" style="font-size: 24px;">$0</strong></td>
-                    </tr>
-                </table>
-
-                <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px; border-radius: 4px; margin-top: 16px;">
-                    <p style="margin: 0; color: #92400e; font-size: 13px;">
-                        <strong>Importante:</strong> El pago se realiza al finalizar el servicio. No se requiere pago por adelantado.
-                    </p>
+            <!-- Profesional -->
+            <div class="resumen-section">
+                <div class="resumen-section-title">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    Profesional Asignado
+                </div>
+                <div class="empleado-preview">
+                    <img id="empleadoImagen" src="" alt="Empleado" class="preview-img" style="display:none;">
+                    <div id="empleadoPlaceholder" class="preview-placeholder">👨‍⚕️</div>
+                    <div class="preview-info">
+                        <h4 id="empleadoNombre">—</h4>
+                        <p id="empleadoCargo">—</p>
+                    </div>
                 </div>
             </div>
+
+            <!-- Servicios -->
+            <div class="resumen-section">
+                <div class="resumen-section-title">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                    Servicios Seleccionados
+                </div>
+                <div id="serviciosContainer"></div>
+            </div>
+
+            <!-- Precio -->
+            <div class="resumen-section">
+                <div class="resumen-section-title">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Detalle del Precio
+                </div>
+                <div>
+                    <div class="precio-row">
+                        <span class="precio-label">Precio base</span>
+                        <span class="precio-value" id="precioBase">$0</span>
+                    </div>
+                    <div class="precio-row">
+                        <span class="precio-label" id="tamañoLabel">Tamaño</span>
+                        <span class="precio-value" id="tamañoValor">+0%</span>
+                    </div>
+                    <div class="precio-row" id="pelajeRow" style="display:none;">
+                        <span class="precio-label">Pelaje doble capa</span>
+                        <span class="precio-value" id="pelajeValor">+30%</span>
+                    </div>
+                    <div class="precio-row total">
+                        <span class="precio-label">Total a Pagar</span>
+                        <span class="precio-value" id="precioTotal">$0</span>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <p><strong>💵 Pago en Efectivo:</strong> El pago se realiza al finalizar el servicio. No se requiere pago por adelantado.</p>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Buttons -->
+        <!-- Botones -->
         <div class="button-group">
             <button class="btn btn-secondary" onclick="NavigationUtils.goTo('SeleccionHorario.html')">
-                ← Volver
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M15 19l-7-7 7-7"/></svg>
+                Volver
             </button>
             <button id="btnConfirmar" class="btn btn-primary" onclick="confirmarReserva()">
                 Confirmar Reserva
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
             </button>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Modal de Confirmación Exitosa -->
+    <div id="modalConfirmacion" class="modal-overlay">
+        <div class="modal-confirmacion">
+            <div class="modal-header-success">
+                <div class="modal-icon">
+                    <svg width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="3">
+                        <path d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <h2>¡Reserva Confirmada!</h2>
+                <p>Tu cita ha sido confirmada exitosamente</p>
+            </div>
+            <div class="modal-body">
+                <div class="codigo-reserva">
+                    <div class="codigo-label">Código de Reserva</div>
+                    <div class="codigo-valor" id="codigoReserva">—</div>
+                </div>
+
+                <div class="detalles-reserva">
+                    <div class="detalle-item">
+                        <span class="detalle-label">📅 Fecha</span>
+                        <span class="detalle-value" id="modalFecha">—</span>
+                    </div>
+                    <div class="detalle-item">
+                        <span class="detalle-label">🕐 Horario</span>
+                        <span class="detalle-value" id="modalHorario">—</span>
+                    </div>
+                    <div class="detalle-item">
+                        <span class="detalle-label">👨‍⚕️ Profesional</span>
+                        <span class="detalle-value" id="modalEmpleado">—</span>
+                    </div>
+                    <div class="detalle-item">
+                        <span class="detalle-label">🐾 Mascota</span>
+                        <span class="detalle-value" id="modalMascota">—</span>
+                    </div>
+                    <div class="detalle-item">
+                        <span class="detalle-label">💵 Método de Pago</span>
+                        <span class="detalle-value" id="modalMetodoPago">—</span>
+                    </div>
+                </div>
+
+                <div class="email-confirmacion">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    <p>Hemos enviado un correo de confirmación a <strong id="modalEmail">—</strong></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn-modal btn-modal-primary" onclick="window.location.href='../Index.html'">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                        Volver al Inicio
+                    </button>
+                    <button class="btn-modal btn-modal-secondary" onclick="window.location.href='../AgendaCita.html'">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        Nueva Reserva
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/reserva-utils.js"></script>
     <script src="../js/reserva-api.js"></script>
     <script>
         let cliente, mascota, horario, empleado, calculoPrecio, serviciosSeleccionados, serviciosData;
 
-        // Initialize
+        const clienteNombre = localStorage.getItem('cliente_nombre') || 'Cliente';
+        document.getElementById('userName').textContent = clienteNombre;
+        document.getElementById('userAva').textContent = clienteNombre.split(' ').map(x => x[0]).join('').substring(0, 2).toUpperCase();
+
         document.addEventListener('DOMContentLoaded', async () => {
-            // Check requirements
             if (!NavigationUtils.requireCliente()) return;
 
             cliente = ReservaStorage.getCliente();
@@ -233,19 +973,13 @@
             calculoPrecio = ReservaStorage.getPrecio();
             serviciosSeleccionados = ReservaStorage.getServicios() || [1];
 
-            // Validate all data
             if (!mascota || !horario || !empleado || !calculoPrecio) {
                 Toast.error('Faltan datos de la reserva. Por favor completa todos los pasos.');
-                setTimeout(() => {
-                    NavigationUtils.goTo('../AgendaCita.html');
-                }, 2000);
+                setTimeout(() => NavigationUtils.goTo('../AgendaCita.html'), 2000);
                 return;
             }
 
-            // Load services data
             await loadServiciosData();
-
-            // Load summary
             loadSummary();
         });
 
@@ -268,265 +1002,150 @@
             document.getElementById('clienteTelefono').textContent = cliente.telefono || 'No especificado';
 
             // Mascota
-            document.getElementById('mascotaImagen').src = mascota.imagen || '../img/default-pet.png';
+            if (mascota.imagen) {
+                document.getElementById('mascotaImagen').src = mascota.imagen;
+                document.getElementById('mascotaImagen').style.display = 'block';
+                document.getElementById('mascotaPlaceholder').style.display = 'none';
+            }
             document.getElementById('mascotaNombre').textContent = mascota.nombre;
             document.getElementById('mascotaDetalles').textContent =
                 `${mascota.raza} • ${getTamañoLabel(mascota.tamaño)} • ${getPelajeLabel(mascota.tipoPelaje)}`;
 
             // Fecha y Hora
             document.getElementById('reservaFecha').textContent = DateUtils.formatLongDate(horario.fecha);
-            document.getElementById('reservaHorario').textContent =
-                DateUtils.formatTimeRange(horario.horaInicio, horario.horaFin);
-            document.getElementById('reservaDuracion').textContent =
-                `${calculoPrecio.duracionMinutos} minutos`;
+            document.getElementById('reservaHorario').textContent = DateUtils.formatTimeRange(horario.horaInicio, horario.horaFin);
+            document.getElementById('reservaDuracion').textContent = `${calculoPrecio.duracionMinutos} minutos`;
 
             // Empleado
             if (empleado.imagen) {
                 document.getElementById('empleadoImagen').src = empleado.imagen;
                 document.getElementById('empleadoImagen').style.display = 'block';
-                document.getElementById('empleadoInicial').style.display = 'none';
+                document.getElementById('empleadoPlaceholder').style.display = 'none';
             } else {
-                document.getElementById('empleadoInicial').textContent = empleado.nombre.charAt(0);
+                document.getElementById('empleadoPlaceholder').textContent = empleado.nombre.charAt(0);
             }
             document.getElementById('empleadoNombre').textContent = empleado.nombre;
             document.getElementById('empleadoCargo').textContent = empleado.cargo || 'Estilista Profesional';
 
-            // Servicios - Display selected services dynamically
+            // Servicios
             renderServicios();
 
             // Precio
-            document.getElementById('precioBase').textContent =
-                CurrencyUtils.format(calculoPrecio.precioBase);
-
-            document.getElementById('tamañoLabel').textContent =
-                `Tamaño (${getTamañoLabel(mascota.tamaño)})`;
+            document.getElementById('precioBase').textContent = CurrencyUtils.format(calculoPrecio.precioBase);
+            document.getElementById('tamañoLabel').textContent = `Tamaño (${getTamañoLabel(mascota.tamaño)})`;
 
             const tamañoPercent = (calculoPrecio.multiplicadorTamaño * 100).toFixed(0);
             document.getElementById('tamañoValor').textContent = `+${tamañoPercent}%`;
 
             if (calculoPrecio.multiplicadorPelaje > 0) {
-                document.getElementById('pelajeRow').style.display = 'table-row';
+                document.getElementById('pelajeRow').style.display = 'flex';
                 const pelajePercent = (calculoPrecio.multiplicadorPelaje * 100).toFixed(0);
                 document.getElementById('pelajeValor').textContent = `+${pelajePercent}%`;
             }
 
-            document.getElementById('precioTotal').textContent =
-                CurrencyUtils.format(calculoPrecio.precioFinal);
+            document.getElementById('precioTotal').textContent = CurrencyUtils.format(calculoPrecio.precioFinal);
         }
 
         function renderServicios() {
-            const servicioContent = document.querySelector('[style*="background: #faf5ff"]');
+            const container = document.getElementById('serviciosContainer');
+            if (!serviciosData || serviciosData.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-gray);font-size:13px;">No hay servicios seleccionados</p>';
+                return;
+            }
 
-            if (!serviciosData || serviciosData.length === 0) return;
-
-            let html = '';
-            serviciosData.forEach((servicio, index) => {
-                html += `
-                    <div style="${index > 0 ? 'margin-top: 16px; padding-top: 16px; border-top: 1px solid #e9d5ff;' : ''}">
-                        <h4 style="margin: 0 0 8px 0; font-size: 16px; color: #1f2937; font-weight: 700;">${servicio.nombre}</h4>
-                        ${servicio.descripcion ? `<p style="margin: 0; font-size: 13px; color: #6b7280; line-height: 1.5;">${servicio.descripcion}</p>` : ''}
-                    </div>
-                `;
-            });
-
-            servicioContent.innerHTML = html;
+            container.innerHTML = serviciosData.map(servicio => `
+                <div class="servicio-item" style="margin-bottom:12px;">
+                    <h4>${servicio.nombre}</h4>
+                    ${servicio.descripcion ? `<p>${servicio.descripcion}</p>` : ''}
+                </div>
+            `).join('');
         }
 
         async function confirmarReserva() {
             const btnConfirmar = document.getElementById('btnConfirmar');
 
             try {
-                console.log('Iniciando confirmación de reserva...');
-
-                // Obtener método de pago del storage (seleccionado en el paso anterior)
                 const metodoPago = ReservaStorage.getMetodoPago();
-                console.log('Método de pago:', metodoPago);
 
                 btnConfirmar.disabled = true;
-                btnConfirmar.innerHTML = '<span class="spinner"></span> Creando reserva...';
+                btnConfirmar.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.6s linear infinite;"></span> Creando reserva...';
 
-                // Get selected services
                 const serviciosSeleccionados = ReservaStorage.getServicios() || [1];
-                console.log('Servicios seleccionados:', serviciosSeleccionados);
 
-                // Prepare reservation data
                 const reservaData = {
                     idCliente: cliente.id,
                     idMascota: mascota.id,
                     idEmpleado: empleado.id,
-                    fechaReserva: horario.fecha, // Ya está en formato YYYY-MM-DD, no convertir
+                    fechaReserva: horario.fecha,
                     horaInicio: horario.horaInicio,
                     idsServicios: serviciosSeleccionados,
                     detalles: ''
                 };
 
-                console.log('Datos de reserva:', reservaData);
-
-                // 1. Create reservation
                 const reservaCreada = await ReservaAPI.crear(reservaData);
-                console.log('Reserva creada:', reservaCreada);
 
-                // 2. Confirm reservation (generate code and send email)
-                btnConfirmar.innerHTML = '<span class="spinner"></span> Enviando confirmación...';
-                const reservaConfirmada = await ReservaAPI.confirmar(reservaCreada.id);
-                console.log('Reserva confirmada:', reservaConfirmada);
+                // La reserva ya se crea como "Confirmada" con código en el backend
+                // No es necesario llamar al endpoint de confirmar
 
-                // 3. Si el método de pago es Efectivo, registrar la venta
                 if (metodoPago === 'Efectivo') {
-                    btnConfirmar.innerHTML = '<span class="spinner"></span> Registrando venta...';
+                    btnConfirmar.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.6s linear infinite;"></span> Registrando venta...';
                     try {
                         const ventaData = {
-                            idReserva: reservaConfirmada.id,
+                            idReserva: reservaCreada.id,
                             idCliente: cliente.id,
                             idEmpleado: empleado.id,
                             metodoPago: 'Efectivo',
                             descuento: 0
                         };
 
-                        console.log('Datos de venta:', ventaData);
-
-                        const response = await fetch('/api/Venta/desde-reserva', {
+                        await fetch('/api/Venta/desde-reserva', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(ventaData)
                         });
-
-                        if (!response.ok) {
-                            const errorData = await response.json().catch(() => ({}));
-                            console.warn('No se pudo registrar la venta:', errorData.message || 'Error desconocido');
-                            // No fallar la reserva si falla la venta, solo loguear
-                        } else {
-                            const venta = await response.json();
-                            console.log('Venta registrada exitosamente:', venta);
-                        }
                     } catch (ventaError) {
                         console.warn('Error al registrar venta:', ventaError);
-                        // No fallar la reserva si falla la venta
                     }
                 }
 
-                // 4. Store confirmed reservation
-                ReservaStorage.setConfirmada(reservaConfirmada);
-
-                // 5. Success - Mostrar confirmación en la misma página
-                mostrarConfirmacionExitosa(reservaConfirmada, metodoPago);
+                ReservaStorage.setConfirmada(reservaCreada);
+                mostrarModalConfirmacion(reservaCreada, metodoPago);
 
             } catch (error) {
                 btnConfirmar.disabled = false;
-                btnConfirmar.innerHTML = 'Confirmar Reserva';
-                console.error('Error confirming reservation:', error);
+                btnConfirmar.innerHTML = 'Confirmar Reserva <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>';
                 Toast.error('Error al confirmar la reserva: ' + error.message);
             }
         }
 
-        function mostrarConfirmacionExitosa(reserva, metodoPago) {
-            // Ocultar botones
-            document.querySelector('.button-group').style.display = 'none';
+        function mostrarModalConfirmacion(reserva, metodoPago) {
+            document.getElementById('codigoReserva').textContent = reserva.codigoReserva || 'N/A';
+            document.getElementById('modalFecha').textContent = DateUtils.formatLongDate(horario.fecha);
+            document.getElementById('modalHorario').textContent = DateUtils.formatTimeRange(horario.horaInicio, horario.horaFin);
+            document.getElementById('modalEmpleado').textContent = empleado.nombre;
+            document.getElementById('modalMascota').textContent = mascota.nombre;
+            document.getElementById('modalMetodoPago').textContent = metodoPago;
+            document.getElementById('modalEmail').textContent = cliente.email;
 
-            // Determinar icono y texto del método de pago
-            const metodoPagoIcono = metodoPago === 'Efectivo' ? '💵' :
-                                   metodoPago === 'PSE' ? '🏦' :
-                                   metodoPago === 'Tarjeta' ? '💳' : '💵';
-
-            // Crear sección de confirmación exitosa
-            const confirmacionHTML = `
-                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 16px; padding: 32px; text-align: center; color: white; margin-top: 24px; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);">
-                    <div style="width: 64px; height: 64px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
-                        <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="3">
-                            <path d="M5 13l4 4L19 7"/>
-                        </svg>
-                    </div>
-                    <h2 style="font-size: 28px; font-weight: 900; margin: 0 0 8px 0; color: white;">¡Reserva Confirmada!</h2>
-                    <p style="font-size: 16px; margin: 0 0 24px 0; opacity: 0.95;">Tu cita ha sido confirmada exitosamente</p>
-
-                    <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 8px;">Código de Reserva</div>
-                        <div style="font-size: 32px; font-weight: 900; letter-spacing: 2px; font-family: 'Courier New', monospace;">${reserva.codigoReserva || 'N/A'}</div>
-                    </div>
-
-                    <div style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: left;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                            <span style="opacity: 0.9;">📅 Fecha:</span>
-                            <strong>${DateUtils.formatLongDate(horario.fecha)}</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                            <span style="opacity: 0.9;">🕐 Horario:</span>
-                            <strong>${DateUtils.formatTimeRange(horario.horaInicio, horario.horaFin)}</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                            <span style="opacity: 0.9;">👨‍⚕️ Profesional:</span>
-                            <strong>${empleado.nombre}</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                            <span style="opacity: 0.9;">🐾 Mascota:</span>
-                            <strong>${mascota.nombre}</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="opacity: 0.9;">${metodoPagoIcono} Método de Pago:</span>
-                            <strong>${metodoPago}</strong>
-                        </div>
-                    </div>
-
-                    <p style="font-size: 13px; opacity: 0.9; margin: 0 0 20px 0;">
-                        📧 Hemos enviado un correo de confirmación a <strong>${cliente.email}</strong>
-                    </p>
-
-                    ${metodoPago === 'Efectivo' ? `
-                    <div style="background: rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; margin-bottom: 20px;">
-                        <p style="margin: 0; font-size: 13px; opacity: 0.95;">
-                            💵 <strong>Pago en Efectivo:</strong> Recuerda llevar el monto exacto al finalizar el servicio
-                        </p>
-                    </div>
-                    ` : ''}
-
-                    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                        <button onclick="window.location.href='../Index.html'" style="background: white; color: #059669; border: none; padding: 12px 24px; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.2s;">
-                            🏠 Volver al Inicio
-                        </button>
-                        <button onclick="window.location.href='../AgendaCita.html'" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 12px 24px; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.2s;">
-                            📅 Nueva Reserva
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            // Insertar confirmación después del card de resumen
-            const container = document.querySelector('.reserva-container');
-            const existingConfirmacion = document.getElementById('confirmacionExitosa');
-            if (existingConfirmacion) {
-                existingConfirmacion.remove();
-            }
-
-            const confirmacionDiv = document.createElement('div');
-            confirmacionDiv.id = 'confirmacionExitosa';
-            confirmacionDiv.innerHTML = confirmacionHTML;
-            container.appendChild(confirmacionDiv);
-
-            // Scroll suave hacia la confirmación
-            confirmacionDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            // Mostrar toast
+            document.getElementById('modalConfirmacion').classList.add('show');
             Toast.success('¡Reserva confirmada exitosamente!');
         }
 
         function getTamañoLabel(tamaño) {
-            const labels = {
-                'Pequeno': 'Pequeño',
-                'Mediano': 'Mediano',
-                'Grande': 'Grande'
-            };
+            const labels = { 'Pequeno': 'Pequeño', 'Mediano': 'Mediano', 'Grande': 'Grande' };
             return labels[tamaño] || tamaño;
         }
 
         function getPelajeLabel(pelaje) {
-            const labels = {
-                'Corto': 'Pelo Corto',
-                'Largo': 'Pelo Largo',
-                'DobleCapa': 'Doble Capa'
-            };
+            const labels = { 'Corto': 'Pelo Corto', 'SemiLargo': 'Pelo Semilargo', 'Largo': 'Pelo Largo', 'DobleCapa': 'Doble Capa' };
             return labels[pelaje] || pelaje;
         }
     </script>
 
+    <style>
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </body>
 </html>

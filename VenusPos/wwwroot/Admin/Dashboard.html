@@ -1,13 +1,13 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VenusMascotas — Dashboard</title>
+    <link rel="icon" type="image/png" href="/img/logoVenus.png">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="../css/DashboardAdmin.css" />
-   
+    <link rel="stylesheet" href="/css/DashboardAdmin.css" />
 </head>
 <body>
 
@@ -26,14 +26,14 @@
 
         <nav class="sb-nav">
             <div class="sb-group-lbl">Principal</div>
-            <a class="sb-item active" href="#" data-tip="Dashboard">
+            <a class="sb-item active" href="Dashboard.html" data-tip="Dashboard">
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
                 <span class="sb-lbl">Dashboard</span>
             </a>
             <a class="sb-item" href="Reservas.html" data-tip="Reservas">
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
                 <span class="sb-lbl">Reservas</span>
-                <span class="sb-badge">4</span>
+                <span class="sb-badge" id="badgeReservas">0</span>
             </a>
             <a class="sb-item" href="Caja.html" data-tip="Caja">
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
@@ -45,7 +45,13 @@
                 <span class="sb-lbl">Clientes</span>
             </a>
             <a class="sb-item" href="Mascotas.html" data-tip="Mascotas">
-                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 14c2.5 0 4 1.5 4 3s-1.5 3-4 3-4-1.5-4-3 1.5-3 4-3z" />
+                    <circle cx="7" cy="10" r="1.5" />
+                    <circle cx="11" cy="8" r="1.5" />
+                    <circle cx="15" cy="8" r="1.5" />
+                    <circle cx="17" cy="10" r="1.5" />
+                </svg>
                 <span class="sb-lbl">Mascotas</span>
             </a>
             <a class="sb-item" href="Empleados.html" data-tip="Empleados">
@@ -60,15 +66,15 @@
                 <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                 <span class="sb-lbl">Historial</span>
             </a>
-            <a class="sb-item" href="#" data-tip="Notificaciones">
-                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                <span class="sb-lbl">Notificaciones</span>
+            <a class="sb-item" href="Productos.html" data-tip="Productos">
+                <svg class="sb-ic" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                <span class="sb-lbl">Productos</span>
             </a>
         </nav>
 
-        <!-- Perfil + Contraer abajo -->
         <div class="sb-bottom">
-          
             <button class="sb-collapse-btn" onclick="toggleSidebar()">
                 <div class="sb-collapse-ico">
                     <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.8)" stroke-width="2.5">
@@ -92,16 +98,29 @@
                 <p id="fechaHoy"></p>
             </div>
             <div class="tb-right">
-                <!-- Caja pill -->
-                <div class="pill-open"><div class="live-dot"></div>Caja abierta</div>
-
-                <!-- Notificaciones -->
-                <button class="tb-btn" title="Notificaciones">
-                    <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                    <span class="tb-pip"></span>
+                <div class="pill-open" id="cajaStatus">
+                    <div class="live-dot"></div>Caja abierta
+                </div>
+                <button class="tb-btn" onclick="actualizarDatos()" id="refreshBtn" title="Actualizar datos">
+                    <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
                 </button>
-
-                <!-- Toggle dark/light -->
+                <div class="notifications-wrap">
+                    <button class="tb-btn" id="notifBtn" onclick="toggleNotificaciones()" title="Notificaciones">
+                        <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                        <span class="tb-pip" id="notifBadge" style="display:none"></span>
+                    </button>
+                    <div class="notif-dropdown" id="notifDropdown" style="display:none">
+                        <div class="notif-header">
+                            <h4>Notificaciones</h4>
+                            <button class="notif-mark-all" onclick="marcarTodasLeidas()">Marcar todas como leídas</button>
+                        </div>
+                        <div class="notif-list" id="notifList">
+                            <div style="padding: 20px; text-align: center; color: #6B7280;">No hay notificaciones</div>
+                        </div>
+                    </div>
+                </div>
                 <button class="tb-btn" onclick="toggleTheme()" id="themeBtn" title="Cambiar tema">
                     <svg id="iconSun" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5" />
@@ -111,8 +130,6 @@
                         <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
                 </button>
-
-                <!-- Perfil con dropdown -->
                 <div class="tb-profile-wrap">
                     <div class="tb-profile" id="tbProfile" onclick="toggleDrop()">
                         <div class="tb-ava" id="tbAva">CA</div>
@@ -146,87 +163,312 @@
         <!-- Content -->
         <div class="content">
 
-            <!-- Welcome -->
-            <div class="welcome-card">
-                <div class="wc-left">
-                    <h3>¡Bienvenido de nuevo, <span id="wName">Carlos</span>! 👋</h3>
-                    <p>Aquí está el resumen de hoy. Tienes <strong style="color:#fff">4 reservas pendientes</strong> por confirmar.</p>
+            <!-- Banner Bienvenida -->
+            <div class="welcome-banner">
+                <div class="wb-left">
+                    <h3>Bienvenido de nuevo, <span id="wName">Admin</span></h3>
+                    <p class="wb-summary">Hoy tienes <strong id="reservasHoy">0</strong> reservas. <span id="reservasPendientes">0 pendientes</span> por confirmar.</p>
                 </div>
-                <button class="btn-new" onclick="window.location.href='Reservas.html'">
-                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 4v16m8-8H4" /></svg>
-                    + Nueva Reserva
-                </button>
-            </div>
-
-            <!-- Stats 3×2 -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-ico" style="background:#EDE9FE"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#7C3AED" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg></div>
-                    <div><div class="stat-val">248</div><div class="stat-lbl">Clientes Activos</div><span class="stat-trend up">↑ +12 este mes</span></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-ico" style="background:#FEF3C7"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#D97706" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg></div>
-                    <div><div class="stat-val">12</div><div class="stat-lbl">Reservas Hoy</div><span class="stat-trend up">↑ +3 desde ayer</span></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-ico" style="background:#D1FAE5"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#059669" stroke-width="2"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg></div>
-                    <div><div class="stat-val">$1.245</div><div class="stat-lbl">Ingresos del Día</div><span class="stat-trend up">↑ +15% vs ayer</span></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-ico" style="background:#FCE7F3"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#DB2777" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg></div>
-                    <div><div class="stat-val">356</div><div class="stat-lbl">Mascotas Registradas</div><span class="stat-trend up">↑ +8 esta semana</span></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-ico" style="background:#EDE9FE"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#7C3AED" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg></div>
-                    <div><div class="stat-val">6</div><div class="stat-lbl">Empleados Activos</div><span class="stat-trend up">Todos disponibles</span></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-ico" style="background:#FEE2E2"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#DC2626" stroke-width="2"><path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
-                    <div><div class="stat-val">4</div><div class="stat-lbl">Reservas Pendientes</div><span class="stat-trend down">Requieren atención</span></div>
+                <div class="wb-shortcuts">
+                    <a href="Reservas.html" class="quick-btn">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+                        <span>Reservas</span>
+                    </a>
+                    <a href="Clientes.html" class="quick-btn">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /></svg>
+                        <span>Clientes</span>
+                    </a>
+                    <a href="Mascotas.html" class="quick-btn">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                        <span>Mascotas</span>
+                    </a>
+                    <a href="Caja.html" class="quick-btn">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                        <span>Caja</span>
+                    </a>
+                    <a href="Servicios.html" class="quick-btn">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" /></svg>
+                        <span>Servicios</span>
+                    </a>
+                    <a href="Empleados.html" class="quick-btn">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        <span>Empleados</span>
+                    </a>
                 </div>
             </div>
 
-            <!-- Charts -->
-            <div class="charts-row">
-                <div class="chart-card">
-                    <div class="chart-hdr">
-                        <div><div class="chart-ttl">Reservas por Servicio — Semana</div><div class="chart-sub">Comparativa diaria en cantidad</div></div>
-                        <span class="chart-tag">↑ +18% sem. ant.</span>
+            <!-- Métricas Principales -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="mc-icon" style="background: linear-gradient(135deg, #10B981, #34D399)">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
-                    <div class="chart-wrap"><canvas id="chartBarras"></canvas></div>
+                    <div class="mc-content">
+                        <div class="mc-label">Ingresos del Día</div>
+                        <div class="mc-value" id="ingresosDia">$0</div>
+                        <div class="mc-trend up" id="tendenciaIngresos"></div>
+                    </div>
                 </div>
-                <div class="chart-card">
-                    <div class="chart-hdr">
-                        <div><div class="chart-ttl">Servicios más Solicitados</div><div class="chart-sub">Distribución del mes · 118 servicios</div></div>
+                <div class="metric-card">
+                    <div class="mc-icon" style="background: linear-gradient(135deg, #F59E0B, #FBBF24)">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
                     </div>
-                    <div class="chart-wrap"><canvas id="chartDonut"></canvas></div>
+                    <div class="mc-content">
+                        <div class="mc-label">Reservas del Día</div>
+                        <div class="mc-value" id="reservasDia">0</div>
+                        <div class="mc-trend up" id="tendenciaReservas"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="mc-icon" style="background: linear-gradient(135deg, #7C3AED, #A78BFA)">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
+                    </div>
+                    <div class="mc-content">
+                        <div class="mc-label">Clientes Activos</div>
+                        <div class="mc-value" id="clientesActivos">0</div>
+                        <div class="mc-trend up" id="tendenciaClientes"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="mc-icon" style="background: linear-gradient(135deg, #EC4899, #F472B6)">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                    </div>
+                    <div class="mc-content">
+                        <div class="mc-label">Mascotas Registradas</div>
+                        <div class="mc-value" id="mascotasRegistradas">0</div>
+                        <div class="mc-trend up" id="tendenciaMascotas"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Bottom -->
-            <div class="bottom-row">
-                <div class="panel">
-                    <div class="panel-hdr">
-                        <div><div class="panel-ttl">Actividad Reciente</div><div class="panel-sub">Últimos movimientos del día</div></div>
-                        <a href="#" class="panel-lnk">Ver todo →</a>
+            <!-- Ingresos y Top Clientes -->
+            <div class="two-col-grid">
+
+                <!-- Panel Ingresos -->
+                <div class="panel-card">
+                    <div class="pc-header">
+                        <div>
+                            <div class="pc-title">Ingresos</div>
+                            <div class="pc-subtitle">Tendencia de facturación</div>
+                        </div>
+                        <div class="tab-group">
+                            <button class="tab-btn active" onclick="switchTab(this,'semana')">Semana</button>
+                            <button class="tab-btn" onclick="switchTab(this,'mes')">Mes</button>
+                        </div>
                     </div>
-                    <div class="act-list">
-                        <div class="act-row"><span class="act-em">📅</span><div class="act-body"><div class="act-ttl">Nueva reserva — Max Golden Retriever</div><div class="act-sub">Baño completo · Carlos</div></div><span class="act-t">10:02</span></div>
-                        <div class="act-row"><span class="act-em">✅</span><div class="act-body"><div class="act-ttl">Servicio completado — Luna Poodle</div><div class="act-sub">Corte de pelo · Sofía</div></div><span class="act-t">09:45</span></div>
-                        <div class="act-row"><span class="act-em">💰</span><div class="act-body"><div class="act-ttl">Pago recibido — $85.000</div><div class="act-sub">Spa completo · Efectivo</div></div><span class="act-t">09:30</span></div>
-                        <div class="act-row"><span class="act-em">🐾</span><div class="act-body"><div class="act-ttl">Nueva mascota registrada — Kira</div><div class="act-sub">Schnauzer · Ana Gómez</div></div><span class="act-t">09:10</span></div>
+                    <div class="pc-body">
+                        <div class="ing-hero">
+                            <div class="ing-left">
+                                <div class="ing-val">$3.67M</div>
+                                <div class="ing-trend-badge">↑ +18% vs período anterior</div>
+                            </div>
+                            <div class="ing-right">
+                                <div class="ing-count">73</div>
+                                <div class="ing-count-lbl">reservas</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartIngresos" role="img" aria-label="Gráfico de ingresos últimos 7 días">Lun 180K, Mar 210K, Mié 290K, Jue 250K, Vie 320K, Sáb 410K, Hoy 520K</canvas>
+                        </div>
+                        <div class="pay-methods-section">
+                            <div class="pm-label-row">Métodos de pago</div>
+                            <div class="pm-legend">
+                                <span class="pm-leg-item"><span class="pm-dot" style="background:#10B981"></span>Efectivo 42%</span>
+                                <span class="pm-leg-item"><span class="pm-dot" style="background:#3B82F6"></span>Tarjeta 35%</span>
+                                <span class="pm-leg-item"><span class="pm-dot" style="background:#8B5CF6"></span>Transferencia 23%</span>
+                            </div>
+                            <div class="pm-bar-combined">
+                                <div style="width:42%;background:#10B981"></div>
+                                <div style="width:35%;background:#3B82F6"></div>
+                                <div style="width:23%;background:#8B5CF6"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="panel">
-                    <div class="panel-hdr">
-                        <div><div class="panel-ttl">Próximas Citas</div><div class="panel-sub">Agenda de hoy</div></div>
-                        <a href="#" class="panel-lnk">Ver todas →</a>
+
+                <!-- Panel Rendimiento Clientes -->
+                <div class="panel-card">
+                    <div class="pc-header">
+                        <div>
+                            <div class="pc-title">Rendimiento por Clientes</div>
+                            <div class="pc-subtitle">Análisis de fidelidad y gasto</div>
+                        </div>
+                        <div class="tab-group">
+                            <button class="tab-btn active">Top Clientes</button>
+                            <button class="tab-btn">Frecuencia</button>
+                        </div>
                     </div>
-                    <div class="citas-list">
-                        <div class="cita-row"><div class="cita-hr">10:00</div><div class="cita-body"><div class="cita-nm">Max — Golden Retriever</div><div class="cita-sv">Baño completo</div></div><span class="chip c-ok">Confirmada</span></div>
-                        <div class="cita-row"><div class="cita-hr">11:30</div><div class="cita-body"><div class="cita-nm">Luna — Poodle</div><div class="cita-sv">Corte de pelo</div></div><span class="chip c-prc">En curso</span></div>
-                        <div class="cita-row"><div class="cita-hr">13:00</div><div class="cita-body"><div class="cita-nm">Thor — Bulldog</div><div class="cita-sv">Spa completo</div></div><span class="chip c-pnd">Pendiente</span></div>
-                        <div class="cita-row"><div class="cita-hr">15:00</div><div class="cita-body"><div class="cita-nm">Kira — Schnauzer</div><div class="cita-sv">Deslanado</div></div><span class="chip c-ok">Confirmada</span></div>
+                    <div class="pc-body">
+                        <div class="top-clientes-list" id="topClientesList">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actividad Semanal y Rendimiento de Servicios -->
+            <div class="two-col-grid">
+
+                <!-- Heatmap + Servicios Solicitados -->
+                <div class="panel-card">
+                    <div class="pc-header">
+                        <div>
+                            <div class="pc-title">Actividad Semanal</div>
+                            <div class="pc-subtitle">Mapa de calor de reservas por hora y día</div>
+                        </div>
+                    </div>
+                    <div class="pc-body">
+                        <div class="heatmap-container">
+                            <div class="hm-grid" id="heatmapGrid"></div>
+                            <div class="hm-legend">
+                                <span>Menos</span>
+                                <div class="hm-leg-sq" style="background:#F5F3FF"></div>
+                                <div class="hm-leg-sq" style="background:#C4B5FD"></div>
+                                <div class="hm-leg-sq" style="background:#8B5CF6"></div>
+                                <div class="hm-leg-sq" style="background:#6D28D9"></div>
+                                <div class="hm-leg-sq" style="background:#4C1D95"></div>
+                                <span>Más</span>
+                            </div>
+                        </div>
+
+                        <div class="servicios-solicitados">
+                            <div class="ss-label">Servicios más solicitados</div>
+                            <div class="services-list" id="servicesList">
+                                <!-- Se llenará dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rendimiento de Servicios -->
+                <div class="panel-card">
+                    <div class="pc-header">
+                        <div>
+                            <div class="pc-title">Rendimiento de Servicios</div>
+                            <div class="pc-subtitle">Análisis mensual de servicios</div>
+                        </div>
+                        <div class="tab-group">
+                            <button class="tab-btn active">Servicios</button>
+                            <button class="tab-btn">Tendencia</button>
+                        </div>
+                    </div>
+                    <div class="pc-body">
+                        <div class="service-ranking" id="serviceRanking">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Caja del Día y Agenda -->
+            <div class="two-col-grid">
+
+                <!-- Caja del Día -->
+                <div class="panel-card">
+                    <div class="pc-header">
+                        <div>
+                            <div class="pc-title">Caja del Día</div>
+                            <div class="pc-subtitle" id="estadoCaja">Estado: Abierta</div>
+                        </div>
+                        <a href="Caja.html" class="pc-link">Ver detalle →</a>
+                    </div>
+                    <div class="pc-body">
+
+                        <!-- Bloque oscuro de caja -->
+                        <div class="caja-dark-block">
+                            <div class="cdb-top">
+                                <div class="cdb-icon-wrap">
+                                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.7)" stroke-width="2"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                                    <span>Caja del Día</span>
+                                </div>
+                                <div class="cdb-pill-open" id="cajaEstadoPill">● Cerrada</div>
+                            </div>
+                            <div class="cdb-who" id="cajaResponsable">--</div>
+                            <div class="cdb-total" id="cajaTotalAcumulado">$0</div>
+                            <div class="cdb-sub" id="cajaSubtitulo">Sin ventas</div>
+                            <div class="cdb-methods">
+                                <div class="cdb-m"><span class="cdb-dot" style="background:#10B981"></span><span class="cdb-mlbl">Efectivo</span></div>
+                                <div class="cdb-m"><span class="cdb-dot" style="background:#EF4444"></span><span class="cdb-mlbl">Tarjeta</span></div>
+                                <div class="cdb-m"><span class="cdb-dot" style="background:#F59E0B"></span><span class="cdb-mlbl">Transfer.</span></div>
+                            </div>
+                            <div class="cdb-vals">
+                                <span style="color:#10B981" id="cajaEfectivo">$0</span>
+                                <span style="color:#EF4444" id="cajaTarjeta">$0</span>
+                                <span style="color:#F59E0B" id="cajaTransferencia">$0</span>
+                            </div>
+                        </div>
+
+                        <!-- Últimas ventas -->
+                        <div class="ultimas-ventas">
+                            <div class="uv-header">Últimas Ventas</div>
+                            <div class="uv-list" id="ultimasVentasList">
+                                <!-- Se llenará dinámicamente -->
+                            </div>
+                            <a href="Caja.html" class="caja-ver-link">Ver módulo de caja completo →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agenda del Día -->
+                <div class="panel-card">
+                    <div class="pc-header">
+                        <div>
+                            <div class="pc-title">Agenda de Hoy</div>
+                            <div class="pc-subtitle" id="agendaSubtitle">0 reservas programadas</div>
+                        </div>
+                        <a href="Reservas.html" class="pc-link">Ver todas →</a>
+                    </div>
+                    <div class="pc-body">
+                        <div class="agenda-tabs" id="agendaTabs">
+                            <span class="ag-tab confirmada active-tab" id="tabConfirmadas">0 Confirmadas</span>
+                            <span class="ag-tab pendiente" id="tabPendientes">0 Pendientes</span>
+                            <span class="ag-tab completada" id="tabCompletadas">0 Completadas</span>
+                        </div>
+                        <div class="agenda-list" id="agendaList">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rendimiento del Equipo y Actividad Reciente -->
+            <div class="two-col-grid">
+
+                <!-- Rendimiento del Equipo -->
+                <div class="panel-card">
+                    <div class="pc-header">
+                        <div>
+                            <div class="pc-title">Rendimiento del Equipo</div>
+                            <div class="pc-subtitle">Ranking de hoy por ingresos generados</div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px">
+                            <span class="today-badge">Hoy</span>
+                            <a href="Empleados.html" class="pc-link">Ver todos →</a>
+                        </div>
+                    </div>
+                    <div class="pc-body">
+                        <div class="team-grid" id="teamRanking">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actividad Reciente -->
+                <div class="panel-card">
+                    <div class="pc-header">
+                        <div>
+                            <div class="pc-title">Actividad Reciente</div>
+                            <div class="pc-subtitle">Últimas acciones del sistema</div>
+                        </div>
+                        <div class="live-badge">
+                            <div class="live-dot"></div>
+                            En vivo
+                        </div>
+                    </div>
+                    <div class="pc-body">
+                        <div class="activity-list" id="activityList">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -234,135 +476,6 @@
         </div><!-- /content -->
     </div><!-- /main -->
 
-    <script>
-        // ── Fecha ─────────────────────────────────────────────────
-        const D = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-        const M = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        const n = new Date();
-        document.getElementById('fechaHoy').textContent = `${D[n.getDay()]}, ${n.getDate()} de ${M[n.getMonth()]} de ${n.getFullYear()}`;
-
-        // ── JWT ───────────────────────────────────────────────────
-        let uName = 'Carlos Admin', uEmail = 'admin@venusmascotas.com', uRole = 'Admin', uIni = 'CA';
-        try {
-            const tok = localStorage.getItem('token');
-            if (tok) {
-                const p = JSON.parse(atob(tok.split('.')[1]));
-                uName = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || uName;
-                uEmail = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || uEmail;
-                uRole = p['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role'] || uRole;
-                uIni = uName.split(' ').map(x => x[0]).join('').substring(0, 2).toUpperCase();
-            }
-        } catch (e) { }
-
-        document.getElementById('sbAva').textContent = uIni;
-        document.getElementById('sbName').textContent = uName;
-        document.getElementById('tbAva').textContent = uIni;
-        document.getElementById('tbName').textContent = uName;
-        document.getElementById('tbRole').textContent = uRole;
-        document.getElementById('ddName').textContent = uName;
-        document.getElementById('ddEmail').textContent = uEmail;
-        document.getElementById('wName').textContent = uName.split(' ')[0];
-
-        // ── Sidebar ───────────────────────────────────────────────
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
-        }
-
-        // ── Dropdown ──────────────────────────────────────────────
-        function toggleDrop() {
-            const p = document.getElementById('tbProfile');
-            const d = document.getElementById('tbDrop');
-            const o = d.classList.toggle('open');
-            p.classList.toggle('open', o);
-        }
-        document.addEventListener('click', function (e) {
-            const w = document.querySelector('.tb-profile-wrap');
-            if (w && !w.contains(e.target)) {
-                document.getElementById('tbDrop').classList.remove('open');
-                document.getElementById('tbProfile').classList.remove('open');
-            }
-        });
-
-        // ── Tema ──────────────────────────────────────────────────
-        const TK = 'venus_theme';
-        let dark = localStorage.getItem(TK) === 'dark';
-
-        function applyTheme(d) {
-            document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
-            document.getElementById('iconSun').style.display = d ? 'none' : 'block';
-            document.getElementById('iconMoon').style.display = d ? 'block' : 'none';
-            localStorage.setItem(TK, d ? 'dark' : 'light');
-            if (barC && dotC) refreshCharts(d);
-        }
-        function toggleTheme() { dark = !dark; applyTheme(dark); }
-        applyTheme(dark);
-
-        // ── Logout ────────────────────────────────────────────────
-        function logout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('rol');
-            window.location.replace('/Admin/Login.html');
-        }
-
-        // ── Protección ────────────────────────────────────────────
-        function check() {
-            if (!localStorage.getItem('token') || localStorage.getItem('rol') !== 'admin')
-                window.location.replace('/Admin/Login.html');
-        }
-        check();
-        window.addEventListener('pageshow', check);
-
-        // ── Charts ────────────────────────────────────────────────
-        const gc = () => dark ? '#1E1840' : '#F0EBF9';
-        const tc = () => dark ? '#BDB5DA' : '#8876AE';
-        const bc = () => dark ? '#15112A' : '#ffffff';
-
-        let barC = new Chart(document.getElementById('chartBarras'), {
-            type: 'bar',
-            data: {
-                labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Hoy'],
-                datasets: [
-                    { label: 'Esta semana', data: [8, 11, 7, 13, 10, 12, 14], backgroundColor: 'rgba(124,58,237,0.8)', borderRadius: 6, borderWidth: 0 },
-                    { label: 'Semana anterior', data: [6, 9, 8, 10, 8, 10, 11], backgroundColor: 'rgba(196,181,253,0.45)', borderRadius: 6, borderWidth: 0 }
-                ]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                interaction: { mode: 'index', intersect: false },
-                plugins: { legend: { position: 'bottom', labels: { font: { family: 'DM Sans', weight: '700', size: 11 }, padding: 12, color: tc() } } },
-                scales: {
-                    x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', weight: '700', size: 11 }, color: tc() } },
-                    y: { beginAtZero: true, grid: { color: gc() }, ticks: { stepSize: 2, font: { family: 'DM Sans', size: 11 }, color: tc() } }
-                }
-            }
-        });
-
-        let dotC = new Chart(document.getElementById('chartDonut'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Baño Completo', 'Corte de Pelo', 'Spa Completo', 'Deslanado', 'Limpieza Dental'],
-                datasets: [{ data: [38, 27, 22, 18, 13], backgroundColor: ['#7C3AED', '#F59E0B', '#10B981', '#06B6D4', '#EF4444'], borderColor: bc(), borderWidth: 3, hoverOffset: 8 }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false, cutout: '65%',
-                plugins: {
-                    legend: { position: 'right', labels: { font: { family: 'DM Sans', weight: '700', size: 11 }, padding: 10, usePointStyle: true, pointStyleWidth: 7, color: tc() } },
-                    tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} (${Math.round(ctx.parsed / 118 * 100)}%)` } }
-                }
-            }
-        });
-
-        function refreshCharts(d) {
-            barC.options.scales.x.ticks.color = tc();
-            barC.options.scales.y.ticks.color = tc();
-            barC.options.scales.y.grid.color = gc();
-            barC.options.plugins.legend.labels.color = tc();
-            barC.update();
-            dotC.data.datasets[0].borderColor = bc();
-            dotC.options.plugins.legend.labels.color = tc();
-            dotC.update();
-        }
-    </script>
-
+    <script src="/js/Dashboard.js"></script>
 </body>
 </html>

@@ -16,6 +16,8 @@ namespace VenusPos.Application.Services.Reserva
         private readonly IEmpleadoRepository _empleadoRepo;
         private readonly IConfiguracionPrecioRepository _configRepo;
         private readonly IEmailService _emailService;
+        private readonly IVentaService _ventaService;
+        private readonly INotificacionService _notificacionService;
 
         public ReservaService(
             IReservaRepository reservaRepo,
@@ -23,7 +25,9 @@ namespace VenusPos.Application.Services.Reserva
             IServicioRepository servicioRepo,
             IEmpleadoRepository empleadoRepo,
             IConfiguracionPrecioRepository configRepo,
-            IEmailService emailService)
+            IEmailService emailService,
+            IVentaService ventaService,
+            INotificacionService notificacionService)
         {
             _reservaRepo = reservaRepo;
             _mascotaRepo = mascotaRepo;
@@ -31,6 +35,8 @@ namespace VenusPos.Application.Services.Reserva
             _empleadoRepo = empleadoRepo;
             _configRepo = configRepo;
             _emailService = emailService;
+            _ventaService = ventaService;
+            _notificacionService = notificacionService;
         }
 
         public async Task<IEnumerable<ReservaDTO>> ObtenerTodosAsync()
@@ -81,8 +87,8 @@ namespace VenusPos.Application.Services.Reserva
             if (dto.FechaReserva.Date < DateTime.Today)
                 throw new InvalidOperationException("La fecha de reserva no puede ser pasada");
 
-            // 4. Calcular duración según tamaño
-            var duracionMinutos = CalcularDuracionMinutos(mascota.Tamaño);
+            // 4. Calcular duración según tamaño y tipo de pelaje
+            var duracionMinutos = CalcularDuracionMinutos(mascota.Tamaño, mascota.TipoPelaje);
             var horaFin = dto.HoraInicio.AddMinutes(duracionMinutos);
 
             // 5. Validar disponibilidad
@@ -95,7 +101,10 @@ namespace VenusPos.Application.Services.Reserva
             // 7. Obtener servicios para guardar precios unitarios
             var servicios = await _servicioRepo.ObtenerPorIdsAsync(dto.IdsServicios);
 
-            // 8. Crear entidad Reserva con relaciones
+            // 8. Generar código de reserva
+            var codigoReserva = await GenerarCodigoReservaAsync(dto.FechaReserva);
+
+            // 9. Crear entidad Reserva con relaciones (directamente como Confirmada)
             var reserva = new ReservaEntity
             {
                 IdCliente = dto.IdCliente,
@@ -103,7 +112,8 @@ namespace VenusPos.Application.Services.Reserva
                 FechaReserva = dto.FechaReserva,
                 HoraInicio = dto.HoraInicio,
                 HoraFin = horaFin,
-                Estado = EnumEstado.Pendiente,
+                Estado = EnumEstado.Confirmada,
+                CodigoReserva = codigoReserva,
                 Detalles = dto.Detalles,
                 PrecioTotal = calculo.PrecioFinal,
                 DuracionMinutos = duracionMinutos,
@@ -125,7 +135,15 @@ namespace VenusPos.Application.Services.Reserva
             // 9. Guardar reserva con todas las relaciones
             var reservaCreada = await _reservaRepo.CrearAsync(reserva);
 
-            // 10. Retornar DTO
+            // 10. Generar notificación de nueva reserva
+            await _notificacionService.CrearNotificacionReservaAsync(
+                idReserva: reservaCreada.Id,
+                titulo: "Nueva Reserva",
+                mensaje: $"Nueva reserva creada: {reservaCreada.CodigoReserva}",
+                tipo: "NuevaReserva"
+            );
+
+            // 11. Retornar DTO
             return MapToDTO(reservaCreada);
         }
 
@@ -167,6 +185,82 @@ namespace VenusPos.Application.Services.Reserva
             return MapToDTO(actualizada);
         }
 
+        public async Task<ReservaDTO> ActualizarReservaAsync(int id, ActualizarReservaDTO dto)
+        {
+            // 1. Validar que la reserva existe
+            var reserva = await _reservaRepo.ObtenerPorIdAsync(id)
+                ?? throw new KeyNotFoundException("Reserva no encontrada");
+
+            // 2. Validar que la mascota existe y pertenece al cliente
+            var mascota = await _mascotaRepo.ObtenerPorIdAsync(dto.IdMascota)
+                ?? throw new KeyNotFoundException("Mascota no encontrada");
+
+            if (mascota.IdCliente != dto.IdCliente)
+                throw new InvalidOperationException("La mascota no pertenece al cliente");
+
+            // 3. Validar que el empleado existe
+            var empleado = await _empleadoRepo.ObtenerPorIdAsync(dto.IdEmpleado);
+            if (empleado is null)
+                throw new KeyNotFoundException("Empleado no encontrado");
+
+            // 4. Calcular duración según tamaño y tipo de pelaje, o usar la personalizada si se proporciona
+            var duracionMinutos = dto.DuracionPersonalizadaMinutos ?? CalcularDuracionMinutos(mascota.Tamaño, mascota.TipoPelaje);
+            var horaInicio = TimeOnly.Parse(dto.HoraInicio);
+            var horaFin = horaInicio.AddMinutes(duracionMinutos);
+
+            // 5. Validar disponibilidad (solo si cambió empleado, fecha u hora)
+            if (reserva.IdEmpleado != dto.IdEmpleado ||
+                reserva.FechaReserva.Date != dto.FechaReserva.Date ||
+                reserva.HoraInicio != horaInicio)
+            {
+                if (!await ValidarDisponibilidadAsync(dto.IdEmpleado, dto.FechaReserva, horaInicio, horaFin))
+                    throw new InvalidOperationException("El horario seleccionado no está disponible");
+            }
+
+            // 6. Calcular precio
+            var calculo = await CalcularPrecioReservaAsync(dto.IdMascota, dto.IdsServicios);
+
+            // 7. Obtener servicios para guardar precios unitarios
+            var servicios = await _servicioRepo.ObtenerPorIdsAsync(dto.IdsServicios);
+
+            // 8. Actualizar entidad Reserva
+            reserva.IdCliente = dto.IdCliente;
+            reserva.IdEmpleado = dto.IdEmpleado;
+            reserva.FechaReserva = dto.FechaReserva;
+            reserva.HoraInicio = horaInicio;
+            reserva.HoraFin = horaFin;
+            reserva.Detalles = dto.Detalles;
+            reserva.PrecioTotal = calculo.PrecioFinal;
+            reserva.DuracionMinutos = duracionMinutos;
+            reserva.FechaActualizacion = DateTime.UtcNow;
+
+            // 9. Actualizar mascotas (limpiar y agregar nueva)
+            reserva.ReservaMascotas.Clear();
+            reserva.ReservaMascotas.Add(new Domain.Entities.ReservaMascota
+            {
+                IdReserva = reserva.Id,
+                IdMascota = dto.IdMascota
+            });
+
+            // 10. Actualizar servicios (limpiar y agregar nuevos)
+            reserva.ReservaServicios.Clear();
+            foreach (var s in servicios)
+            {
+                reserva.ReservaServicios.Add(new Domain.Entities.ReservaServicio
+                {
+                    IdReserva = reserva.Id,
+                    IdServicio = s.Id,
+                    PrecioUnitario = s.Precio
+                });
+            }
+
+            // 11. Guardar cambios
+            var actualizada = await _reservaRepo.ActualizarAsync(reserva);
+
+            // 12. Retornar DTO
+            return MapToDTO(actualizada);
+        }
+
         public async Task<bool> CancelarReservaAsync(int id)
         {
             var reserva = await _reservaRepo.ObtenerPorIdAsync(id);
@@ -176,10 +270,23 @@ namespace VenusPos.Application.Services.Reserva
             if (reserva.Estado == EnumEstado.Completada)
                 throw new InvalidOperationException("No se puede cancelar una reserva completada");
 
+            // 1. Anular venta asociada si existe
+            await _ventaService.AnularVentaPorReservaAsync(id);
+
+            // 2. Actualizar estado de la reserva
             reserva.Estado = EnumEstado.Cancelada;
             reserva.FechaActualizacion = DateTime.UtcNow;
 
             await _reservaRepo.ActualizarAsync(reserva);
+
+            // 3. Generar notificación
+            await _notificacionService.CrearNotificacionReservaAsync(
+                idReserva: id,
+                titulo: "Reserva Cancelada",
+                mensaje: $"La reserva {reserva.CodigoReserva} ha sido cancelada",
+                tipo: "ReservaCancelada"
+            );
+
             return true;
         }
 
@@ -201,11 +308,9 @@ namespace VenusPos.Application.Services.Reserva
             decimal precioServicioBase = servicioBase?.Precio ?? 0m;
             decimal precioServiciosAdicionales = serviciosAdicionales.Sum(s => s.Precio);
 
-            // 4. Obtener multiplicador de tamaño
-            decimal multTamaño = await ObtenerMultiplicadorTamañoAsync(mascota.Tamaño);
-
-            // 5. Obtener multiplicador de pelaje según el tipo
-            decimal multPelaje = await ObtenerMultiplicadorPelajeAsync(mascota.TipoPelaje);
+            // 4. Obtener multiplicadores según nueva lógica
+            decimal multTamaño = await ObtenerMultiplicadorTamañoAsync(mascota.Tamaño, mascota.TipoPelaje);
+            decimal multPelaje = await ObtenerMultiplicadorPelajeAsync(mascota.Tamaño, mascota.TipoPelaje);
 
             // 6. Calcular recargo SOLO sobre el servicio base
             // El recargo es la suma de ambos porcentajes aplicada sobre el servicio base
@@ -215,8 +320,8 @@ namespace VenusPos.Application.Services.Reserva
             // Precio final = (Servicio Base + Recargo) + Servicios Adicionales
             decimal precioFinal = (precioServicioBase + recargoServicioBase) + precioServiciosAdicionales;
 
-            // 8. Calcular duración
-            int duracionMinutos = CalcularDuracionMinutos(mascota.Tamaño);
+            // 8. Calcular duración según tamaño y tipo de pelaje
+            int duracionMinutos = CalcularDuracionMinutos(mascota.Tamaño, mascota.TipoPelaje);
 
             // 9. Generar detalle de cálculo mejorado
             decimal precioBase = precioServicioBase + precioServiciosAdicionales;
@@ -309,40 +414,106 @@ namespace VenusPos.Application.Services.Reserva
         // MÉTODOS PRIVADOS AUXILIARES
         // ==============================
 
-        private int CalcularDuracionMinutos(EnumTamaño tamaño)
+        private int CalcularDuracionMinutos(EnumTamaño tamaño, EnumTipoPelaje tipoPelaje)
         {
-            return tamaño switch
+            // Lógica de duración ACTUALIZADA:
+            // Perro pequeño:
+            //   - Pelo corto: 60 min (1 hora)
+            //   - Pelo semi-largo: 90 min (1.5 horas)
+            //   - Pelo largo: 120 min (2 horas)
+            //   - Doble capa: 120 min (2 horas)
+            // Perro mediano:
+            //   - Pelo corto: 120 min (2 horas)
+            //   - Pelo semi-largo: 150 min (2.5 horas)
+            //   - Pelo largo: 150 min (2.5 horas)
+            //   - Doble capa: 180 min (3 horas)
+            // Perro grande:
+            //   - Pelo corto: 180 min (3 horas)
+            //   - Pelo semi-largo: 210 min (3.5 horas)
+            //   - Pelo largo: 210 min (3.5 horas)
+            //   - Doble capa: 240 min (4 horas)
+
+            return (tamaño, tipoPelaje) switch
             {
-                EnumTamaño.Pequeno => 60,   // 1 hora
-                EnumTamaño.Mediano => 120,  // 2 horas
-                EnumTamaño.Grande => 180,   // 3 horas
+                // Perros pequeños
+                (EnumTamaño.Pequeno, EnumTipoPelaje.Corto) => 60,
+                (EnumTamaño.Pequeno, EnumTipoPelaje.SemiLargo) => 90,
+                (EnumTamaño.Pequeno, EnumTipoPelaje.Largo) => 120,
+                (EnumTamaño.Pequeno, EnumTipoPelaje.DobleCapa) => 160,   // 2:40 horas
+
+                // Perros medianos
+                (EnumTamaño.Mediano, EnumTipoPelaje.Corto) => 120,
+                (EnumTamaño.Mediano, EnumTipoPelaje.SemiLargo) => 150,   // 2.5 horas
+                (EnumTamaño.Mediano, EnumTipoPelaje.Largo) => 150,       // 2.5 horas
+                (EnumTamaño.Mediano, EnumTipoPelaje.DobleCapa) => 180,   // 3 horas
+
+                // Perros grandes
+                (EnumTamaño.Grande, EnumTipoPelaje.Corto) => 180,        // 3 horas
+                (EnumTamaño.Grande, EnumTipoPelaje.SemiLargo) => 210,    // 3.5 horas
+                (EnumTamaño.Grande, EnumTipoPelaje.Largo) => 210,        // 3.5 horas
+                (EnumTamaño.Grande, EnumTipoPelaje.DobleCapa) => 240,    // 4 horas
+
+                // Default: pelo corto según tamaño
+                (EnumTamaño.Pequeno, _) => 60,
+                (EnumTamaño.Mediano, _) => 120,
+                (EnumTamaño.Grande, _) => 180,
                 _ => 60
             };
         }
 
-        private async Task<decimal> ObtenerMultiplicadorTamañoAsync(EnumTamaño tamaño)
+        private async Task<decimal> ObtenerMultiplicadorTamañoAsync(EnumTamaño tamaño, EnumTipoPelaje tipoPelaje)
         {
-            string clave = tamaño switch
+            // Lógica actualizada:
+            // - Pequeño pelo corto/largo/semi largo: -10% (descuento)
+            // - Pequeño doble capa: 0%
+            // - Mediano: 20% (todos los tipos de pelaje)
+            // - Grande: 50% (todos los tipos de pelaje)
+
+            string clave = (tamaño, tipoPelaje) switch
             {
-                EnumTamaño.Pequeno => "MULT_TAMANO_PEQUENO",
-                EnumTamaño.Mediano => "MULT_TAMANO_MEDIANO",
-                EnumTamaño.Grande => "MULT_TAMANO_GRANDE",
-                _ => "MULT_TAMANO_PEQUENO"
+                (EnumTamaño.Pequeno, EnumTipoPelaje.Corto) => "MULT_TAMANO_PEQUENO_CORTO",
+                (EnumTamaño.Pequeno, EnumTipoPelaje.SemiLargo) => "MULT_TAMANO_PEQUENO_SEMI_LARGO",
+                (EnumTamaño.Pequeno, EnumTipoPelaje.Largo) => "MULT_TAMANO_PEQUENO_LARGO",
+                (EnumTamaño.Pequeno, EnumTipoPelaje.DobleCapa) => "MULT_TAMANO_PEQUENO_DOBLE_CAPA",
+                (EnumTamaño.Mediano, _) => "MULT_TAMANO_MEDIANO",
+                (EnumTamaño.Grande, _) => "MULT_TAMANO_GRANDE",
+                _ => "MULT_TAMANO_PEQUENO_DOBLE_CAPA"
             };
 
             var config = await _configRepo.ObtenerPorClaveAsync(clave);
             return config?.Valor ?? 0m;
         }
 
-        private async Task<decimal> ObtenerMultiplicadorPelajeAsync(EnumTipoPelaje tipoPelaje)
+        private async Task<decimal> ObtenerMultiplicadorPelajeAsync(EnumTamaño tamaño, EnumTipoPelaje tipoPelaje)
         {
-            string clave = tipoPelaje switch
+            // Lógica actualizada de pelaje:
+            // - Pequeño: 0% (el descuento ya está en el tamaño)
+            // - Mediano pelo corto/semi-largo: 0%
+            // - Mediano pelo largo: 20%
+            // - Mediano doble capa: 40%
+            // - Grande pelo corto: 0%
+            // - Grande pelo semi-largo: 0%
+            // - Grande pelo largo: 40%
+            // - Grande doble capa: 50%
+
+            string clave = (tamaño, tipoPelaje) switch
             {
-                EnumTipoPelaje.Corto => "MULT_PELAJE_CORTO",
-                EnumTipoPelaje.SemiLargo => "MULT_PELAJE_SEMI_LARGO",
-                EnumTipoPelaje.Largo => "MULT_PELAJE_LARGO",
-                EnumTipoPelaje.DobleCapa => "MULT_PELAJE_DOBLE_CAPA",
-                _ => "MULT_PELAJE_CORTO"
+                // Pequeños: 0% (descuento ya aplicado en tamaño)
+                (EnumTamaño.Pequeno, _) => "MULT_PELAJE_PEQUENO",
+
+                // Medianos: nueva lógica
+                (EnumTamaño.Mediano, EnumTipoPelaje.Corto) => "MULT_PELAJE_MEDIANO_CORTO",
+                (EnumTamaño.Mediano, EnumTipoPelaje.SemiLargo) => "MULT_PELAJE_MEDIANO_SEMI_LARGO",
+                (EnumTamaño.Mediano, EnumTipoPelaje.Largo) => "MULT_PELAJE_MEDIANO_LARGO",
+                (EnumTamaño.Mediano, EnumTipoPelaje.DobleCapa) => "MULT_PELAJE_MEDIANO_DOBLE_CAPA",
+
+                // Grandes: nueva lógica
+                (EnumTamaño.Grande, EnumTipoPelaje.Corto) => "MULT_PELAJE_GRANDE_CORTO",
+                (EnumTamaño.Grande, EnumTipoPelaje.SemiLargo) => "MULT_PELAJE_GRANDE_SEMI_LARGO",
+                (EnumTamaño.Grande, EnumTipoPelaje.Largo) => "MULT_PELAJE_GRANDE_LARGO",
+                (EnumTamaño.Grande, EnumTipoPelaje.DobleCapa) => "MULT_PELAJE_GRANDE_DOBLE_CAPA",
+
+                _ => "MULT_PELAJE_PEQUENO"
             };
 
             var config = await _configRepo.ObtenerPorClaveAsync(clave);
@@ -352,6 +523,22 @@ namespace VenusPos.Application.Services.Reserva
         private async Task<bool> ValidarDisponibilidadAsync(
             int idEmpleado, DateTime fecha, TimeOnly horaInicio, TimeOnly horaFin, EnumTamaño? tamañoMascota = null)
         {
+            // Verificar que el empleado esté activo y no suspendido en esta fecha
+            var empleado = await _empleadoRepo.ObtenerPorIdAsync(idEmpleado);
+            if (empleado == null || !empleado.Activo)
+                return false;
+
+            // Verificar si el empleado está suspendido temporalmente en esta fecha
+            if (empleado.InactivoDesde != default && empleado.InactivoHasta != default)
+            {
+                var fechaReserva = fecha.Date;
+                var inactivoDesde = empleado.InactivoDesde.Date;
+                var inactivoHasta = empleado.InactivoHasta.Date;
+
+                if (fechaReserva >= inactivoDesde && fechaReserva <= inactivoHasta)
+                    return false; // Empleado suspendido en esta fecha
+            }
+
             // No permitir domingos
             if (fecha.DayOfWeek == DayOfWeek.Sunday)
                 return false;
@@ -438,6 +625,17 @@ namespace VenusPos.Application.Services.Reserva
         {
             var mascota = r.ReservaMascotas?.FirstOrDefault()?.Mascota;
 
+            // Mapear servicios desde ReservaServicios
+            var serviciosDTO = r.ReservaServicios?
+                .Where(rs => rs.Servicio != null)
+                .Select(rs => new ServicioReservaDTO
+                {
+                    IdServicio = rs.IdServicio,
+                    NombreServicio = rs.Servicio.Nombre,
+                    PrecioUnitario = rs.PrecioUnitario
+                })
+                .ToList() ?? new List<ServicioReservaDTO>();
+
             return new ReservaDTO
             {
                 Id = r.Id,
@@ -458,10 +656,16 @@ namespace VenusPos.Application.Services.Reserva
                 Estado = r.Estado.ToString(),
                 CodigoReserva = r.CodigoReserva,
                 PrecioTotal = r.PrecioTotal,
-                Servicios = new List<ServicioReservaDTO>(), // Se puede extender después
+                Servicios = serviciosDTO,
                 Detalles = r.Detalles,
                 FechaCreacion = r.FechaCreacion
             };
+        }
+
+        public async Task<IEnumerable<ReservaDTO>> ObtenerReservasSinVentaAsync()
+        {
+            var reservas = await _reservaRepo.ObtenerReservasSinVentaAsync();
+            return reservas.Select(MapToDTO);
         }
     }
 }

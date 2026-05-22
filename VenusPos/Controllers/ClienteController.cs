@@ -23,7 +23,7 @@ namespace VenusPos.Controllers
 
         //Get/api/cliente
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> ObtenerTodos()
             => Ok(await _service.ObtenerTodosAsync());
         

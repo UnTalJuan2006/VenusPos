@@ -104,6 +104,26 @@ namespace VenusPos.Controllers
             }
         }
 
+        // PUT /api/Reserva/{id}
+        [HttpPut("{id:int}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ActualizarReserva(int id, [FromBody] ActualizarReservaDTO dto)
+        {
+            try
+            {
+                var actualizada = await _service.ActualizarReservaAsync(id, dto);
+                return Ok(actualizada);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         // DELETE /api/Reserva/{id}
         [HttpDelete("{id:int}")]
         [AllowAnonymous]
@@ -159,11 +179,17 @@ namespace VenusPos.Controllers
             }
 
         }
-      //GET /api/Reserva/mascota/{idMascota}
+        //GET /api/Reserva/mascota/{idMascota}
 
         [HttpGet("mascota/{idMascota:int}")]
         [AllowAnonymous]
         public async Task<IActionResult> ObtenerPorMascota(int idMascota)
             => Ok(await _service.ObtenerPorMascotaAsync(idMascota));
+
+        // GET /api/Reserva/sin-venta
+        [HttpGet("sin-venta")]
+        [Authorize]
+        public async Task<IActionResult> ObtenerSinVenta()
+            => Ok(await _service.ObtenerReservasSinVentaAsync());
     }
 }

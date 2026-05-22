@@ -12,15 +12,21 @@ namespace VenusPos.Controllers
     {
         private readonly IMascotaService _service;
         private readonly IWebHostEnvironment _env;
+        private readonly IAzureBlobStorageService _azureStorage;
 
-        public MascotaController(IMascotaService service, IWebHostEnvironment env)
+        public MascotaController(
+            IMascotaService service,
+            IWebHostEnvironment env,
+            IAzureBlobStorageService azureStorage)
         {
             _service = service;
             _env = env;
+            _azureStorage = azureStorage;
         }
 
         // GET /api/Mascota
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> ObtenerTodos()
             => Ok(await _service.ObtenerTodosAsync());
 
@@ -83,7 +89,7 @@ namespace VenusPos.Controllers
             return await _service.EliminarAsync(id) ? NoContent() : NotFound();
         }
 
-        // POST /api/Mascota/upload-imagen
+        // POST /api/Mascota/upload-imagen - Subir imagen a Azure Blob Storage
         [HttpPost("upload-imagen")]
         [AllowAnonymous]
         public async Task<IActionResult> UploadImagen(IFormFile imagen)
@@ -101,19 +107,36 @@ namespace VenusPos.Controllers
             if (imagen.Length > maxBytes)
                 return BadRequest(new { message = "El archivo supera el tamaño maximo de 3 MB." });
 
-            var carpeta = Path.Combine(_env.WebRootPath, "img", "mascotas");
-            if (!Directory.Exists(carpeta))
-                Directory.CreateDirectory(carpeta);
-
-            var nombreArchivo = $"{Guid.NewGuid()}{extension}";
-            var rutaCompleta = Path.Combine(carpeta, nombreArchivo);
-
-            using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+            try
             {
-                await imagen.CopyToAsync(stream);
-            }
+                // Generar nombre único para el archivo
+                var nombreArchivo = $"{Guid.NewGuid()}{extension}";
 
-            return Ok(new { url = $"/img/mascotas/{nombreArchivo}" });
+                // Determinar el Content-Type según la extensión
+                var contentType = extension switch
+                {
+                    ".jpg" or ".jpeg" => "image/jpeg",
+                    ".png" => "image/png",
+                    ".webp" => "image/webp",
+                    ".gif" => "image/gif",
+                    _ => "application/octet-stream"
+                };
+
+                // Subir a Azure Blob Storage
+                using var stream = imagen.OpenReadStream();
+                var urlAzure = await _azureStorage.SubirArchivoAsync(
+                    stream,
+                    nombreArchivo,
+                    contentType,
+                    "mascotas"
+                );
+
+                return Ok(new { url = urlAzure });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Error al subir imagen: {ex.Message}" });
+            }
         }
     }
 }

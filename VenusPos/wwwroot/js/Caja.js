@@ -3,6 +3,16 @@ let cajaActual = null;
 let empleadoActual = null;
 let ventasPendientes = [];
 let ventasConfirmadas = [];
+let todasCajas = [];
+let todasVentas = [];
+let empleados = [];
+
+// Paginación
+const PER_PAGE = 10;
+let pagActualCajas = 1;
+let pagActualVentas = 1;
+let cajasFiltradas = [];
+let ventasFiltradas = [];
 
 // ══════════════════════════════════════════════════════
 // INICIALIZACIÓN
@@ -96,19 +106,71 @@ function toast(msg, tipo) {
 
 async function cargarDatos() {
     try {
-        // Cargar caja abierta
-        const resCaja = await fetch(API + '/api/Caja/abierta', { headers: authHeaders() });
+        // Cargar todos los datos en paralelo para mejorar el rendimiento
+        const [empleadosRes, cajaRes, ventasPendRes, historialRes, todasVentasRes] = await Promise.all([
+            fetch(API + '/api/Empleado', { headers: authHeaders() }).catch(() => null),
+            fetch(API + '/api/Caja/abierta', { headers: authHeaders() }).catch(() => null),
+            fetch(API + '/api/Venta/pendientes', { headers: authHeaders() }).catch(() => null),
+            fetch(API + '/api/Caja/historial', { headers: authHeaders() }).catch(() => null),
+            fetch(API + '/api/Venta', { headers: authHeaders() }).catch(() => null)
+        ]);
 
-        if (resCaja.ok) {
-            cajaActual = await resCaja.json();
-            mostrarCajaAbierta();
-        } else {
-            mostrarCajaCerrada();
+        // Procesar empleados
+        if (empleadosRes && empleadosRes.ok) {
+            empleados = await empleadosRes.json();
+            const optionsHTML = empleados.map(e =>
+                `<option value="${e.id}">${e.nombre}</option>`
+            ).join('');
+            const selectCaja = document.getElementById('filtroCajaEmpleado');
+            if (selectCaja) {
+                selectCaja.innerHTML = '<option value="">Todos los empleados</option>' + optionsHTML;
+            }
         }
 
-        // Cargar ventas siempre (incluso si no hay caja abierta)
-        // Esto permite ver reservas pendientes de pago
-        await cargarVentas();
+        // Procesar caja abierta
+        if (cajaRes && cajaRes.ok) {
+            cajaActual = await cajaRes.json();
+            mostrarCajaAbierta();
+
+            // Cargar ventas confirmadas de la caja actual
+            const ventasConfRes = await fetch(API + '/api/Venta/caja/' + cajaActual.id, { headers: authHeaders() });
+            if (ventasConfRes.ok) {
+                const ventas = await ventasConfRes.json();
+                ventasConfirmadas = ventas.filter(v => v.estado === 'Confirmada');
+                renderVentasConfirmadas();
+            }
+        } else {
+            mostrarCajaCerrada();
+            ventasConfirmadas = [];
+            renderVentasConfirmadas();
+        }
+
+        // Procesar ventas pendientes
+        if (ventasPendRes && ventasPendRes.ok) {
+            ventasPendientes = await ventasPendRes.json();
+            renderVentasPendientes();
+        }
+
+        // Procesar historial de cajas
+        if (historialRes && historialRes.ok) {
+            todasCajas = await historialRes.json();
+            cajasFiltradas = todasCajas.slice();
+            pagActualCajas = 1;
+            renderHistorialCajas(cajasFiltradas);
+            renderPaginacionCajas();
+            actualizarKPIsCajas();
+        }
+
+        // Procesar todas las ventas
+        if (todasVentasRes && todasVentasRes.ok) {
+            todasVentas = await todasVentasRes.json();
+            ventasFiltradas = todasVentas.slice();
+            pagActualVentas = 1;
+            renderTodasVentas(ventasFiltradas);
+            renderPaginacionVentas();
+            actualizarKPIsVentas();
+        }
+
     } catch (err) {
         console.error('Error al cargar datos:', err);
         toast('Error al cargar los datos de caja', 'error');
@@ -129,6 +191,14 @@ function mostrarCajaAbierta() {
     document.getElementById('btnAbrirCaja').style.display = 'none';
     document.getElementById('btnCerrarCaja').style.display = 'inline-flex';
 
+    // Habilitar botón Registrar Venta
+    const btnRegistrarVenta = document.querySelector('button[onclick="abrirModalRegistrarVenta()"]');
+    if (btnRegistrarVenta) {
+        btnRegistrarVenta.disabled = false;
+        btnRegistrarVenta.style.opacity = '1';
+        btnRegistrarVenta.style.cursor = 'pointer';
+    }
+
     // Actualizar KPIs
     actualizarKPIs();
 }
@@ -146,6 +216,15 @@ function mostrarCajaCerrada() {
     // Mostrar/Ocultar botones
     document.getElementById('btnAbrirCaja').style.display = 'inline-flex';
     document.getElementById('btnCerrarCaja').style.display = 'none';
+
+    // Deshabilitar botón Registrar Venta
+    const btnRegistrarVenta = document.querySelector('button[onclick="abrirModalRegistrarVenta()"]');
+    if (btnRegistrarVenta) {
+        btnRegistrarVenta.disabled = true;
+        btnRegistrarVenta.style.opacity = '0.5';
+        btnRegistrarVenta.style.cursor = 'not-allowed';
+        btnRegistrarVenta.title = 'Debe abrir una caja primero';
+    }
 
     // Limpiar KPIs
     document.getElementById('totalVentas').textContent = '$0';
@@ -171,33 +250,7 @@ function actualizarKPIs() {
 // VENTAS
 // ══════════════════════════════════════════════════════
 
-async function cargarVentas() {
-    try {
-        // Cargar TODAS las ventas pendientes (incluso sin caja asignada)
-        const resPendientes = await fetch(API + '/api/Venta/pendientes', { headers: authHeaders() });
-
-        if (resPendientes.ok) {
-            ventasPendientes = await resPendientes.json();
-            renderVentasPendientes();
-        }
-
-        // Cargar ventas confirmadas solo si hay caja abierta
-        if (cajaActual) {
-            const resConfirmadas = await fetch(API + '/api/Venta/caja/' + cajaActual.id, { headers: authHeaders() });
-
-            if (resConfirmadas.ok) {
-                const ventas = await resConfirmadas.json();
-                ventasConfirmadas = ventas.filter(v => v.estado === 'Confirmada');
-                renderVentasConfirmadas();
-            }
-        } else {
-            ventasConfirmadas = [];
-            renderVentasConfirmadas();
-        }
-    } catch (err) {
-        console.error('Error al cargar ventas:', err);
-    }
-}
+// Esta función ya no es necesaria, se integró en cargarDatos() para mejor rendimiento
 
 function renderVentasPendientes() {
     const section = document.getElementById('ventasPendientesSection');
@@ -218,6 +271,11 @@ function renderVentasPendientes() {
             ? v.detalles.map(d => d.nombreServicio).join(', ')
             : 'Sin servicios';
 
+        // Deshabilitar botón si no hay caja abierta
+        const btnDisabled = !cajaActual ? 'disabled' : '';
+        const btnStyle = !cajaActual ? 'opacity:0.5; cursor:not-allowed;' : '';
+        const btnTitle = !cajaActual ? 'title="Debe abrir una caja primero"' : '';
+
         return `<div class="venta-item">
             <div class="venta-info">
                 <div class="venta-icon">
@@ -231,7 +289,7 @@ function renderVentasPendientes() {
                 </div>
             </div>
             <div class="venta-monto">$${v.total.toLocaleString('es-CO')}</div>
-            <button class="btn-confirmar" onclick="confirmarVenta(${v.id})">
+            <button class="btn-confirmar" onclick="confirmarVenta(${v.id})" ${btnDisabled} style="${btnStyle}" ${btnTitle}>
                 <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path d="M5 13l4 4L19 7" />
                 </svg>
@@ -271,6 +329,12 @@ function renderVentasConfirmadas() {
 }
 
 async function confirmarVenta(id) {
+    // Validar que haya caja abierta
+    if (!cajaActual) {
+        toast('No se puede confirmar la venta sin una caja abierta', 'error');
+        return;
+    }
+
     if (!confirm('¿Confirmar el pago en efectivo de esta venta?')) return;
 
     try {
@@ -388,8 +452,13 @@ async function cerrarCaja(event) {
 
     if (!cajaActual) return;
 
+    const montoCierre = parseFloat(document.getElementById('montoCierre').value);
+    const montoEsperado = (cajaActual.montoApertura || 0) + (cajaActual.totalEfectivo || 0);
+    const diferencia = montoCierre - montoEsperado;
+
     const datos = {
-        montoCierre: parseFloat(document.getElementById('montoCierre').value),
+        montoCierre: montoCierre,
+        diferencia: diferencia,
         observaciones: document.getElementById('observacionesCierre').value
     };
 
@@ -412,6 +481,415 @@ async function cerrarCaja(event) {
     } catch (err) {
         console.error('Error al cerrar caja:', err);
         toast('Error al cerrar la caja', 'error');
+    }
+}
+
+// ══════════════════════════════════════════════════════
+// HISTORIAL DE CAJAS
+// ══════════════════════════════════════════════════════
+
+// Esta función ya no es necesaria, se integró en cargarDatos() para mejor rendimiento
+
+function actualizarKPIsCajas() {
+    // Total de cajas registradas
+    document.getElementById('statTotalCajas').textContent = todasCajas.length;
+}
+
+function renderHistorialCajas(cajas) {
+    cajasFiltradas = cajas;
+    const tbody = document.getElementById('cajasTableBody');
+    const count = document.getElementById('countCajas');
+
+    count.textContent = cajas.length;
+
+    if (cajas.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:40px;color:var(--muted)">No hay cajas registradas</td></tr>';
+        return;
+    }
+
+    // Paginación
+    const paginaActualCajas = cajasFiltradas.slice((pagActualCajas - 1) * PER_PAGE, pagActualCajas * PER_PAGE);
+
+    tbody.innerHTML = paginaActualCajas.map(c => {
+        const estadoClass = c.estado === 'Abierta' ? 'confirmada' : 'completada';
+        const fechaApertura = formatFecha(c.fechaApertura) + ' ' + formatHora(c.fechaApertura);
+        const fechaCierre = c.fechaCierre ? formatFecha(c.fechaCierre) + ' ' + formatHora(c.fechaCierre) : '-';
+        const montoCierre = c.montoCierre ? '$' + c.montoCierre.toLocaleString('es-CO') : '-';
+
+        const faltante = c.faltante && c.faltante > 0 ? `<span style="color:#EF4444">$${c.faltante.toLocaleString('es-CO')}</span>` : '-';
+        const sobrante = c.sobrante && c.sobrante > 0 ? `<span style="color:#10B981">$${c.sobrante.toLocaleString('es-CO')}</span>` : '-';
+        const observaciones = c.observaciones ? `<span style="font-size:12px;color:var(--muted)">${c.observaciones}</span>` : '-';
+
+        return `<tr>
+            <td>${c.id}</td>
+            <td>${c.nombreEmpleado || 'Sin empleado'}</td>
+            <td>${fechaApertura}</td>
+            <td>${fechaCierre}</td>
+            <td>$${(c.montoApertura || 0).toLocaleString('es-CO')}</td>
+            <td>$${(c.totalEfectivo || 0).toLocaleString('es-CO')}</td>
+            <td>$${(c.totalTarjeta || 0).toLocaleString('es-CO')}</td>
+            <td>$${(c.totalTransferencia || 0).toLocaleString('es-CO')}</td>
+            <td>${montoCierre}</td>
+            <td>${faltante}</td>
+            <td>${sobrante}</td>
+            <td>${observaciones}</td>
+            <td><span class="estado-venta ${estadoClass}">${c.estado}</span></td>
+        </tr>`;
+    }).join('');
+
+    renderPaginacionCajas();
+}
+
+function totalPagsCajas() {
+    return Math.max(1, Math.ceil(cajasFiltradas.length / PER_PAGE));
+}
+
+function renderPaginacionCajas() {
+    const total = totalPagsCajas();
+    const pag = document.getElementById('paginationCajas');
+    const info = document.getElementById('pagInfoCajas');
+    const btns = document.getElementById('pagBtnsCajas');
+
+    if (cajasFiltradas.length <= PER_PAGE) {
+        pag.style.display = 'none';
+        return;
+    }
+
+    pag.style.display = 'flex';
+    const desde = (pagActualCajas - 1) * PER_PAGE + 1;
+    const hasta = Math.min(pagActualCajas * PER_PAGE, cajasFiltradas.length);
+    info.textContent = 'Mostrando ' + desde + ' - ' + hasta + ' de ' + cajasFiltradas.length + ' cajas';
+
+    let html = '<button class="pag-btn" onclick="irPagCajas(' + (pagActualCajas - 1) + ')" ' + (pagActualCajas === 1 ? 'disabled' : '') + '>&lsaquo;</button>';
+
+    for (let i = 1; i <= total; i++) {
+        if (total > 7 && i > 2 && i < total - 1 && Math.abs(i - pagActualCajas) > 1) {
+            if (i === 3 || i === total - 2) html += '<button class="pag-btn" disabled>&hellip;</button>';
+            continue;
+        }
+        html += '<button class="pag-btn ' + (i === pagActualCajas ? 'active' : '') + '" onclick="irPagCajas(' + i + ')">' + i + '</button>';
+    }
+
+    html += '<button class="pag-btn" onclick="irPagCajas(' + (pagActualCajas + 1) + ')" ' + (pagActualCajas === total ? 'disabled' : '') + '>&rsaquo;</button>';
+    btns.innerHTML = html;
+}
+
+function irPagCajas(n) {
+    pagActualCajas = Math.max(1, Math.min(n, totalPagsCajas()));
+    renderHistorialCajas(cajasFiltradas);
+}
+
+// ══════════════════════════════════════════════════════
+// TODAS LAS VENTAS
+// ══════════════════════════════════════════════════════
+
+// Esta función ya no es necesaria, se integró en cargarDatos() para mejor rendimiento
+
+function actualizarKPIsVentas() {
+    // Total de ventas registradas
+    document.getElementById('statTotalVentas').textContent = todasVentas.length;
+}
+
+function renderTodasVentas(ventas) {
+    ventasFiltradas = ventas;
+    const tbody = document.getElementById('todasVentasTableBody');
+    const count = document.getElementById('countTodasVentas');
+
+    count.textContent = ventas.length;
+
+    if (ventas.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted)">No hay ventas registradas</td></tr>';
+        return;
+    }
+
+    // Paginación
+    const paginaActualVentas = ventasFiltradas.slice((pagActualVentas - 1) * PER_PAGE, pagActualVentas * PER_PAGE);
+
+    tbody.innerHTML = paginaActualVentas.map(v => {
+        const servicios = v.detalles && v.detalles.length > 0
+            ? v.detalles.map(d => d.nombreServicio).join(', ')
+            : 'Sin servicios';
+
+        const metodoPagoClass = v.metodoPago.toLowerCase();
+        const estadoClass = v.estado === 'Confirmada' ? 'confirmada' : v.estado === 'Pendiente' ? 'pendiente' : 'cancelada';
+        const fechaVenta = formatFecha(v.fechaVenta) + ' ' + formatHora(v.fechaVenta);
+
+        return `<tr>
+            <td>${v.id}</td>
+            <td><span class="badge-secondary">${v.codigoReserva || '#' + v.idReserva}</span></td>
+            <td>${fechaVenta}</td>
+            <td>${v.nombreEmpleado || 'Sin empleado'}</td>
+            <td>${servicios}</td>
+            <td><span class="metodo-pago ${metodoPagoClass}">${v.metodoPago}</span></td>
+            <td><strong>$${v.total.toLocaleString('es-CO')}</strong></td>
+            <td><span class="estado-venta ${estadoClass}">${v.estado}</span></td>
+        </tr>`;
+    }).join('');
+
+    renderPaginacionVentas();
+}
+
+function totalPagsVentas() {
+    return Math.max(1, Math.ceil(ventasFiltradas.length / PER_PAGE));
+}
+
+function renderPaginacionVentas() {
+    const total = totalPagsVentas();
+    const pag = document.getElementById('paginationVentas');
+    const info = document.getElementById('pagInfoVentas');
+    const btns = document.getElementById('pagBtnsVentas');
+
+    if (ventasFiltradas.length <= PER_PAGE) {
+        pag.style.display = 'none';
+        return;
+    }
+
+    pag.style.display = 'flex';
+    const desde = (pagActualVentas - 1) * PER_PAGE + 1;
+    const hasta = Math.min(pagActualVentas * PER_PAGE, ventasFiltradas.length);
+    info.textContent = 'Mostrando ' + desde + ' - ' + hasta + ' de ' + ventasFiltradas.length + ' ventas';
+
+    let html = '<button class="pag-btn" onclick="irPagVentas(' + (pagActualVentas - 1) + ')" ' + (pagActualVentas === 1 ? 'disabled' : '') + '>&lsaquo;</button>';
+
+    for (let i = 1; i <= total; i++) {
+        if (total > 7 && i > 2 && i < total - 1 && Math.abs(i - pagActualVentas) > 1) {
+            if (i === 3 || i === total - 2) html += '<button class="pag-btn" disabled>&hellip;</button>';
+            continue;
+        }
+        html += '<button class="pag-btn ' + (i === pagActualVentas ? 'active' : '') + '" onclick="irPagVentas(' + i + ')">' + i + '</button>';
+    }
+
+    html += '<button class="pag-btn" onclick="irPagVentas(' + (pagActualVentas + 1) + ')" ' + (pagActualVentas === total ? 'disabled' : '') + '>&rsaquo;</button>';
+    btns.innerHTML = html;
+}
+
+function irPagVentas(n) {
+    pagActualVentas = Math.max(1, Math.min(n, totalPagsVentas()));
+    renderTodasVentas(ventasFiltradas);
+}
+
+// ══════════════════════════════════════════════════════
+// EMPLEADOS
+// ══════════════════════════════════════════════════════
+
+// Esta función ya no es necesaria, se integró en cargarDatos() para mejor rendimiento
+
+// ══════════════════════════════════════════════════════
+// FILTROS - CAJAS
+// ══════════════════════════════════════════════════════
+
+function aplicarFiltrosCajas() {
+    const idEmpleado = document.getElementById('filtroCajaEmpleado').value;
+
+    let cajasFiltradas_temp = [...todasCajas];
+
+    // Filtrar por empleado
+    if (idEmpleado) {
+        cajasFiltradas_temp = cajasFiltradas_temp.filter(c => c.idEmpleado === parseInt(idEmpleado));
+    }
+
+    pagActualCajas = 1;
+    renderHistorialCajas(cajasFiltradas_temp);
+    toast(`${cajasFiltradas_temp.length} caja(s) encontrada(s)`, 'success');
+}
+
+function limpiarFiltrosCajas() {
+    document.getElementById('filtroCajaEmpleado').value = '';
+
+    pagActualCajas = 1;
+    renderHistorialCajas(todasCajas);
+    toast('Filtros limpiados', 'success');
+}
+
+// ══════════════════════════════════════════════════════
+// FILTROS - VENTAS
+// ══════════════════════════════════════════════════════
+
+function aplicarFiltrosVentas() {
+    const fechaDesde = document.getElementById('filtroVentaFechaDesde').value;
+    const fechaHasta = document.getElementById('filtroVentaFechaHasta').value;
+    const metodoPago = document.getElementById('filtroVentaMetodoPago').value;
+
+    let ventasFiltradas_temp = [...todasVentas];
+
+    // Filtrar por fecha desde
+    if (fechaDesde) {
+        const desde = new Date(fechaDesde + 'T00:00:00');
+        ventasFiltradas_temp = ventasFiltradas_temp.filter(v => {
+            const fechaVenta = new Date(v.fechaVenta);
+            return fechaVenta >= desde;
+        });
+    }
+
+    // Filtrar por fecha hasta
+    if (fechaHasta) {
+        const hasta = new Date(fechaHasta + 'T23:59:59');
+        ventasFiltradas_temp = ventasFiltradas_temp.filter(v => {
+            const fechaVenta = new Date(v.fechaVenta);
+            return fechaVenta <= hasta;
+        });
+    }
+
+    // Filtrar por método de pago
+    if (metodoPago) {
+        ventasFiltradas_temp = ventasFiltradas_temp.filter(v => v.metodoPago === metodoPago);
+    }
+
+    pagActualVentas = 1;
+    renderTodasVentas(ventasFiltradas_temp);
+
+    if (fechaDesde || fechaHasta || metodoPago) {
+        toast(`${ventasFiltradas_temp.length} venta(s) encontrada(s)`, 'success');
+    }
+}
+
+function limpiarFiltrosVentas() {
+    document.getElementById('filtroVentaFechaDesde').value = '';
+    document.getElementById('filtroVentaFechaHasta').value = '';
+    document.getElementById('filtroVentaMetodoPago').value = '';
+
+    pagActualVentas = 1;
+    renderTodasVentas(todasVentas);
+    toast('Filtros limpiados', 'success');
+}
+
+// ══════════════════════════════════════════════════════
+// REGISTRAR VENTA DESDE RESERVA
+// ══════════════════════════════════════════════════════
+
+let reservasSinVenta = [];
+let reservaSeleccionada = null;
+
+async function abrirModalRegistrarVenta() {
+    // Validar que haya caja abierta
+    if (!cajaActual) {
+        toast('Debe abrir una caja antes de registrar ventas', 'error');
+        return;
+    }
+
+    document.getElementById('modalRegistrarVenta').style.display = 'flex';
+    await cargarReservasSinVenta();
+}
+
+async function cargarReservasSinVenta() {
+    try {
+        const select = document.getElementById('selectReservaVenta');
+        select.innerHTML = '<option value="">Cargando reservas...</option>';
+
+        // Usar el nuevo endpoint optimizado que devuelve solo reservas sin venta
+        const res = await fetch(API + '/api/Reserva/sin-venta', { headers: authHeaders() });
+        if (!res.ok) throw new Error('Error al cargar reservas');
+
+        reservasSinVenta = await res.json();
+
+        // Actualizar select
+        if (reservasSinVenta.length === 0) {
+            select.innerHTML = '<option value="">No hay reservas disponibles para registrar venta</option>';
+            return;
+        }
+
+        select.innerHTML = '<option value="">Seleccionar reserva...</option>';
+        reservasSinVenta.forEach(r => {
+            const fecha = new Date(r.fechaReserva).toLocaleDateString('es-CO');
+            const option = document.createElement('option');
+            option.value = r.id;
+            option.textContent = `${r.codigoReserva || 'RES-' + r.id} - ${r.nombreCliente} (${r.nombreMascota}) - ${fecha}`;
+            select.appendChild(option);
+        });
+
+    } catch (err) {
+        console.error('Error al cargar reservas:', err);
+        toast('Error al cargar reservas sin venta', 'error');
+    }
+}
+
+function cargarDetallesReserva() {
+    const idReserva = parseInt(document.getElementById('selectReservaVenta').value);
+    const detallesDiv = document.getElementById('detallesReservaVenta');
+
+    if (!idReserva) {
+        detallesDiv.style.display = 'none';
+        reservaSeleccionada = null;
+        return;
+    }
+
+    reservaSeleccionada = reservasSinVenta.find(r => r.id === idReserva);
+
+    if (!reservaSeleccionada) {
+        detallesDiv.style.display = 'none';
+        return;
+    }
+
+    // Mostrar detalles
+    document.getElementById('detalleCliente').textContent = reservaSeleccionada.nombreCliente;
+    document.getElementById('detalleMascota').textContent =
+        `${reservaSeleccionada.nombreMascota} (${reservaSeleccionada.razaMascota || 'N/A'})`;
+
+    const fecha = new Date(reservaSeleccionada.fechaReserva);
+    document.getElementById('detalleFecha').textContent =
+        fecha.toLocaleDateString('es-CO') + ' ' + reservaSeleccionada.horaInicio;
+
+    const servicios = reservaSeleccionada.servicios?.map(s => s.nombreServicio).join(', ') || 'N/A';
+    document.getElementById('detalleServicios').textContent = servicios;
+
+    document.getElementById('detalleTotal').textContent =
+        '$' + (reservaSeleccionada.precioTotal || 0).toLocaleString('es-CO');
+
+    detallesDiv.style.display = 'block';
+}
+
+async function registrarVentaDesdeReserva(event) {
+    event.preventDefault();
+
+    if (!reservaSeleccionada) {
+        toast('Debe seleccionar una reserva', 'error');
+        return;
+    }
+
+    const metodoPago = document.getElementById('metodoPagoVenta').value;
+    const descuento = parseFloat(document.getElementById('descuentoVenta').value) || 0;
+
+    const btn = event.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Registrando...';
+
+    try {
+        const payload = {
+            idReserva: reservaSeleccionada.id,
+            idCliente: reservaSeleccionada.idCliente,
+            idEmpleado: reservaSeleccionada.idEmpleado,
+            metodoPago: metodoPago,
+            descuento: descuento
+        };
+
+        const res = await fetch(API + '/api/Venta', {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+            const error = await res.json().catch(() => ({ message: 'Error al registrar venta' }));
+            throw new Error(error.message || 'Error al registrar venta');
+        }
+
+        toast('✓ Venta registrada correctamente como Pendiente', 'success');
+        cerrarModal(null, 'modalRegistrarVenta');
+
+        // Limpiar formulario
+        document.getElementById('formRegistrarVenta').reset();
+        document.getElementById('detallesReservaVenta').style.display = 'none';
+        reservaSeleccionada = null;
+
+        // Recargar datos
+        await cargarDatos();
+
+    } catch (err) {
+        console.error('Error:', err);
+        toast(err.message, 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Registrar Venta';
     }
 }
 

@@ -18,5 +18,6 @@ namespace VenusPos.Application.Interfaces.Repositories
         Task<Reserva> CrearAsync(Reserva reserva);
         Task<Reserva> ActualizarAsync(Reserva reserva);
         Task<bool> EliminarAsync(int id);
+        Task<IEnumerable<Reserva>> ObtenerReservasSinVentaAsync();
     }
 }

@@ -17,6 +17,7 @@ using VenusPos.Infrastructure.Data;
 using VenusPos.Infrastructure.Repositories;
 using VenusPos.Infrastructure.Services;
 using VenusPos.Application.Services.Caja;
+using VenusPos.Application.Services.Notificacion;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,8 +84,15 @@ builder.Services.AddScoped<IHistorialService, HistorialService>();
 builder.Services.AddScoped<IVentaRepository, VentaRepository>();
 builder.Services.AddScoped<IVentaService, VentaService>();
 
+// Notificaciones
+builder.Services.AddScoped<INotificacionRepository, NotificacionRepository>();
+builder.Services.AddScoped<INotificacionService, NotificacionService>();
+
 // Email
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+// Azure Blob Storage
+builder.Services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
 
 // ── Controladores y OpenAPI ────────────────────────────────────────────────
 builder.Services.AddControllers();
